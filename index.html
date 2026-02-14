@@ -3,62 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cotizador Electricidad</title>
+<title>Cotizador Electricista</title>
 <style>
-body {
-font-family: Arial, sans-serif;
-background: #f4f6f9;
-padding: 20px;
-}
-h1 {
-text-align: center;
-}
-.card {
-background: white;
-padding: 15px;
-border-radius: 10px;
-margin-bottom: 15px;
-box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-button {
-background: #0077ff;
-color: white;
-border: none;
-padding: 10px;
-border-radius: 5px;
-width: 100%;
-margin-top: 10px;
-}
-.total {
-font-size: 22px;
-font-weight: bold;
-text-align: center;
-margin-top: 15px;
-}
-input {
-width: 100%;
-padding: 8px;
-margin-top: 5px;
-}
-select {
-width: 100%;
-padding: 8px;
-}
+body { font-family: Arial; background:#f4f6f9; padding:20px; }
+h1 { text-align:center; }
+.card { background:white; padding:15px; border-radius:10px; margin-bottom:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+input, select { width:100%; padding:8px; margin-top:5px; }
+button { background:#0077ff; color:white; border:none; padding:10px; border-radius:5px; margin-top:10px; width:100%; }
+.total { font-size:22px; font-weight:bold; text-align:center; margin-top:20px; }
+.row { display:flex; gap:10px; }
+.row div { flex:1; }
 </style>
 </head>
 <body>
 
-<h1>⚡ Cotizador Electricista</h1>
+<h1>⚡ Cotizador Profesional Electricidad</h1>
 
-<div class="card">
-<label>Trabajo</label>
-<select id="trabajo">
-<option value="15000">Instalación toma corriente - $15.000</option>
-<option value="25000">Instalación luminaria - $25.000</option>
-<option value="80000">Armado tablero básico - $80.000</option>
-<option value="50000">Instalación térmica y disyuntor - $50.000</option>
-</select>
-</div>
+<div id="trabajosContainer"></div>
+
+<button onclick="agregarTrabajo()">+ Agregar Trabajo</button>
 
 <div class="card">
 <label>Materiales ($)</label>
@@ -71,28 +34,89 @@ padding: 8px;
 </div>
 
 <div class="card">
-<label>Margen de Ganancia (%)</label>
+<label>Margen (%)</label>
 <input type="number" id="margen" value="0">
 </div>
 
-<button onclick="calcular()">Calcular Total</button>
-
-<div class="total" id="resultado">
-Total: $0
+<div class="card">
+<label>
+<input type="checkbox" id="iva"> Aplicar IVA 21%
+</label>
 </div>
 
+<div class="total" id="resultado">Total: $0</div>
+
 <script>
-function calcular() {
-let trabajo = parseFloat(document.getElementById("trabajo").value);
+
+const listaTrabajos = [
+{ nombre:"Instalación toma corriente", precio:15000 },
+{ nombre:"Instalación luminaria", precio:25000 },
+{ nombre:"Armado tablero básico", precio:80000 },
+{ nombre:"Instalación térmica y disyuntor", precio:50000 },
+{ nombre:"Cableado por punto", precio:18000 },
+{ nombre:"Instalación ventilador techo", precio:30000 },
+{ nombre:"Instalación reflector exterior", precio:35000 }
+];
+
+function agregarTrabajo(){
+let container = document.getElementById("trabajosContainer");
+
+let div = document.createElement("div");
+div.className = "card";
+
+let selectHTML = `<select class="trabajo">`;
+listaTrabajos.forEach((t,i)=>{
+selectHTML += `<option value="${t.precio}">${t.nombre} - $${t.precio.toLocaleString()}</option>`;
+});
+selectHTML += `</select>`;
+
+div.innerHTML = `
+<div class="row">
+<div>
+<label>Trabajo</label>
+${selectHTML}
+</div>
+<div>
+<label>Cantidad</label>
+<input type="number" class="cantidad" value="1">
+</div>
+</div>
+`;
+
+container.appendChild(div);
+calcular();
+}
+
+function calcular(){
+let total = 0;
+
+document.querySelectorAll(".card").forEach(card=>{
+let select = card.querySelector(".trabajo");
+let cantidad = card.querySelector(".cantidad");
+
+if(select && cantidad){
+total += parseFloat(select.value) * parseFloat(cantidad.value || 0);
+}
+});
+
 let materiales = parseFloat(document.getElementById("materiales").value) || 0;
 let adicionales = parseFloat(document.getElementById("adicionales").value) || 0;
 let margen = parseFloat(document.getElementById("margen").value) || 0;
+let iva = document.getElementById("iva").checked;
 
-let subtotal = trabajo + materiales + adicionales;
-let total = subtotal + (subtotal * margen / 100);
+let subtotal = total + materiales + adicionales;
+let conMargen = subtotal + (subtotal * margen / 100);
 
-document.getElementById("resultado").innerText = "Total: $" + total.toLocaleString();
+if(iva){
+conMargen = conMargen * 1.21;
 }
+
+document.getElementById("resultado").innerText = "Total: $" + conMargen.toLocaleString();
+}
+
+document.addEventListener("input", calcular);
+agregarTrabajo();
+
 </script>
 
 </body>
