@@ -42,8 +42,10 @@ async function obtenerTrabajosAAIERIC() {
   }
 }
 
-await obtenerTrabajosAAIERIC();
 
+obtenerTrabajosAAIERIC().then(() => {
+  console.log("Primera actualización completa");
+});
 cron.schedule("0 0 * * *", () => {
   obtenerTrabajosAAIERIC();
 });
