@@ -1,139 +1,731 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cotizador Electricista</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cotizador Electricidad</title>
 <style>
-body { font-family: Arial; background:#f4f6f9; padding:20px; }
-h1 { text-align:center; }
-.card { background:white; padding:15px; border-radius:10px; margin-bottom:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
-input, select { width:100%; padding:8px; margin-top:5px; }
-button { background:#0077ff; color:white; border:none; padding:10px; border-radius:5px; margin-top:10px; width:100%; }
-.total { font-size:22px; font-weight:bold; text-align:center; margin-top:20px; }
-.row { display:flex; gap:10px; }
-.row div { flex:1; }
+  :root{
+    --bg:#0b1220;
+    --card:#0f1a33;
+    --card2:#101f3d;
+    --text:#e8eefc;
+    --muted:#a9b6d3;
+    --line:rgba(255,255,255,.10);
+    --accent:#4da3ff;
+    --accent2:#00d4ff;
+    --danger:#ff4d5a;
+    --ok:#2cff88;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --radius:14px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: radial-gradient(1200px 700px at 20% -10%, rgba(77,163,255,.20), transparent 55%),
+                radial-gradient(900px 600px at 90% 0%, rgba(0,212,255,.16), transparent 55%),
+                var(--bg);
+    color:var(--text);
+    padding:18px;
+  }
+  .wrap{max-width:980px;margin:0 auto}
+  .topbar{
+    display:flex; gap:12px; align-items:center; justify-content:space-between;
+    margin: 6px 0 14px;
+  }
+  .title{
+    display:flex; flex-direction:column; gap:4px;
+  }
+  h1{font-size:20px;margin:0}
+  .subtitle{font-size:12px;color:var(--muted)}
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background: rgba(255,255,255,.06);
+    border:1px solid var(--line);
+    padding:8px 10px;
+    border-radius:999px;
+    font-size:12px;
+    color:var(--muted);
+  }
+  .grid{display:grid; gap:12px}
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    border:1px solid var(--line);
+    border-radius: var(--radius);
+    padding:14px;
+    box-shadow: var(--shadow);
+  }
+  .card h2{font-size:14px;margin:0 0 10px}
+  .row{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap}
+  label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
+  input, select, textarea{
+    width:100%;
+    padding:10px 10px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,.04);
+    color: var(--text);
+    outline:none;
+  }
+  input::placeholder, textarea::placeholder{color:rgba(232,238,252,.45)}
+  .col{flex:1; min-width:160px}
+  .col-sm{width:140px; min-width:140px}
+  .col-xs{width:110px; min-width:110px}
+  .btn{
+    border:none; cursor:pointer;
+    padding:10px 12px;
+    border-radius: 12px;
+    font-weight:650;
+    color: #061021;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    box-shadow: 0 10px 22px rgba(77,163,255,.18);
+  }
+  .btn:active{transform:translateY(1px)}
+  .btn.secondary{
+    background: rgba(255,255,255,.06);
+    color: var(--text);
+    border:1px solid var(--line);
+    box-shadow:none;
+  }
+  .btn.danger{
+    background: rgba(255,77,90,.15);
+    color: #ffd9dc;
+    border:1px solid rgba(255,77,90,.35);
+    box-shadow:none;
+  }
+  .btn.ok{
+    background: rgba(44,255,136,.12);
+    color:#c9ffe2;
+    border:1px solid rgba(44,255,136,.35);
+    box-shadow:none;
+  }
+  .mini{
+    font-size:12px; padding:9px 10px; border-radius: 10px;
+  }
+  .divider{height:1px;background:var(--line);margin:12px 0}
+  .work-item{
+    background: rgba(255,255,255,.03);
+    border:1px solid var(--line);
+    border-radius: 14px;
+    padding:12px;
+    margin-bottom:10px;
+  }
+  .work-head{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    margin-bottom:10px;
+  }
+  .badge{
+    font-size:11px;
+    padding:6px 8px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.05);
+    color: var(--muted);
+  }
+  .totals{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:8px;
+  }
+  .totals .line{
+    display:flex; justify-content:space-between; gap:12px;
+    font-size:13px;
+    color: var(--muted);
+  }
+  .totals .line b{color:var(--text)}
+  .grand{
+    margin-top:8px;
+    font-size:22px;
+    font-weight:850;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .grand span:last-child{
+    color: var(--ok);
+  }
+  .switch{
+    display:flex; align-items:center; gap:10px; user-select:none;
+    padding:10px 12px;
+    border-radius: 12px;
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.03);
+  }
+  .switch input{width:auto; transform:scale(1.15)}
+  .actions{display:flex; gap:10px; flex-wrap:wrap}
+  .hint{font-size:12px; color:var(--muted); line-height:1.35}
+  .muted{color:var(--muted)}
+  .small{font-size:12px}
+  .right{margin-left:auto}
+  @media (max-width:520px){
+    .topbar{flex-direction:column; align-items:flex-start}
+    .pill{width:100%}
+  }
 </style>
 </head>
+
 <body>
+<div class="wrap">
 
-<h1>⚡ Cotizador Profesional Electricidad</h1>
+  <div class="topbar">
+    <div class="title">
+      <h1>⚡ Cotizador Profesional Electricidad</h1>
+      <div class="subtitle">Modo oscuro • WhatsApp • PDF • Cantidades • Guardado automático</div>
+    </div>
+    <div class="pill" id="statusPill">Listo</div>
+  </div>
 
-<div id="trabajosContainer"></div>
+  <!-- DATOS DEL CLIENTE / TRABAJO -->
+  <div class="card">
+    <h2>Datos del presupuesto</h2>
+    <div class="row">
+      <div class="col">
+        <label>Cliente (opcional)</label>
+        <input id="cliente" placeholder="Ej: Juan Pérez" />
+      </div>
+      <div class="col">
+        <label>Dirección / Obra (opcional)</label>
+        <input id="obra" placeholder="Ej: Pilar, B° ..." />
+      </div>
+      <div class="col-sm">
+        <label>Fecha</label>
+        <input id="fecha" />
+      </div>
+    </div>
+    <div class="hint" style="margin-top:10px">
+      Tip: estos datos salen en el texto para WhatsApp y en el PDF.
+    </div>
+  </div>
 
-<button onclick="agregarTrabajo()">+ Agregar Trabajo</button>
+  <!-- BUSCADOR + CATEGORÍAS -->
+  <div class="card">
+    <h2>Buscar trabajos</h2>
+    <div class="row">
+      <div class="col">
+        <label>Buscar</label>
+        <input id="search" placeholder="Escribí: tablero, disyuntor, cámara, etc." />
+      </div>
+      <div class="col-sm">
+        <label>Categoría</label>
+        <select id="categoria"></select>
+      </div>
+      <div class="col-sm">
+        <button class="btn" onclick="agregarTrabajoDesdeFiltro()">+ Agregar</button>
+      </div>
+    </div>
+    <div class="hint" style="margin-top:10px">
+      Elegís categoría + buscás por nombre y agregás. Luego ponés cantidad.
+    </div>
+  </div>
 
-<div class="card">
-<label>Materiales ($)</label>
-<input type="number" id="materiales" value="0">
+  <!-- TRABAJOS AGREGADOS -->
+  <div class="card">
+    <div class="row" style="align-items:center">
+      <h2 style="margin:0">Trabajos agregados</h2>
+      <span class="badge right" id="countBadge">0 ítems</span>
+    </div>
+
+    <div id="trabajosContainer" style="margin-top:12px"></div>
+
+    <div class="actions">
+      <button class="btn secondary" onclick="agregarTrabajoVacio()">+ Agregar otro</button>
+      <button class="btn danger" onclick="limpiarTodo()">Vaciar todo</button>
+    </div>
+
+    <div class="hint" style="margin-top:10px">
+      Podés quitar cualquier trabajo con “Eliminar”.
+    </div>
+  </div>
+
+  <!-- COSTOS EXTRA -->
+  <div class="card">
+    <h2>Extras</h2>
+    <div class="row">
+      <div class="col">
+        <label>Materiales ($)</label>
+        <input type="number" id="materiales" value="0" min="0" />
+      </div>
+      <div class="col">
+        <label>Adicionales ($)</label>
+        <input type="number" id="adicionales" value="0" min="0" />
+      </div>
+      <div class="col-xs">
+        <label>Margen (%)</label>
+        <input type="number" id="margen" value="0" min="0" />
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:10px">
+      <div class="col">
+        <div class="switch">
+          <input type="checkbox" id="iva" />
+          <div>
+            <div style="font-weight:700">Aplicar IVA 21%</div>
+            <div class="small muted">Por defecto queda como lo configures</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="switch">
+          <input type="checkbox" id="guardarDefaults" checked />
+          <div>
+            <div style="font-weight:700">Guardar valores por defecto</div>
+            <div class="small muted">Margen / IVA / materiales / adicionales</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="totals" id="totalesBox"></div>
+
+    <div class="grand">
+      <span>TOTAL</span>
+      <span id="resultado">$0</span>
+    </div>
+  </div>
+
+  <!-- ACCIONES -->
+  <div class="card">
+    <h2>Acciones</h2>
+    <div class="actions">
+      <button class="btn ok" onclick="copiarWhatsApp()">📲 Copiar para WhatsApp</button>
+      <button class="btn" onclick="abrirPDF()">🧾 Descargar PDF</button>
+    </div>
+    <div class="hint" style="margin-top:10px">
+      “Descargar PDF” abre una vista lista para imprimir/guardar como PDF (funciona en celular).
+    </div>
+  </div>
+
+  <!-- EDITAR LISTA DE TRABAJOS -->
+  <div class="card">
+    <h2>Lista de trabajos (editable)</h2>
+    <div class="hint">
+      Por ahora la lista viene cargada. Si querés, después la llenamos completa con tus valores AAIERIC.
+      Podés editar esta lista más adelante (yo te lo hago con copia/pega).
+    </div>
+  </div>
+
 </div>
-
-<div class="card">
-<label>Adicionales ($)</label>
-<input type="number" id="adicionales" value="0">
-</div>
-
-<div class="card">
-<label>Margen (%)</label>
-<input type="number" id="margen" value="0">
-</div>
-
-<div class="card">
-<label>
-<input type="checkbox" id="iva"> Aplicar IVA 21%
-</label>
-</div>
-
-<div class="total" id="resultado">Total: $0</div>
 
 <script>
+  // =========================
+  // 1) LISTA DE TRABAJOS
+  // =========================
+  // IMPORTANTE: Como estamos SOLO con celular (sin backend),
+  // la lista es local (editable). Después la hacemos automática.
+  const TRABAJOS = [
+    // --- Puntos / iluminación ---
+    { cat:"Puntos e iluminación", nombre:"Instalación toma corriente", precio:15000 },
+    { cat:"Puntos e iluminación", nombre:"Instalación luminaria", precio:25000 },
+    { cat:"Puntos e iluminación", nombre:"Instalación reflector exterior", precio:35000 },
+    { cat:"Puntos e iluminación", nombre:"Instalación ventilador de techo", precio:30000 },
+    { cat:"Puntos e iluminación", nombre:"Cableado por punto", precio:18000 },
 
-const listaTrabajos = [
-{ nombre:"Instalación toma corriente", precio:15000 },
-{ nombre:"Instalación luminaria", precio:25000 },
-{ nombre:"Armado tablero monofásico", precio:80000 },
-{ nombre:"Armado tablero trifásico", precio:150000 },
-{ nombre:"Instalación térmica", precio:20000 },
-{ nombre:"Instalación disyuntor", precio:30000 },
-{ nombre:"Cableado por punto", precio:18000 },
-{ nombre:"Instalación ventilador techo", precio:30000 },
-{ nombre:"Instalación reflector exterior", precio:35000 },
-{ nombre:"Instalación puesta a tierra", precio:90000 },
-{ nombre:"Instalación portero eléctrico", precio:60000 },
-{ nombre:"Instalación cámara de seguridad", precio:45000 },
-{ nombre:"Instalación DVR", precio:85000 },
-{ nombre:"Revisión eléctrica completa", precio:70000 },
-{ nombre:"Detección de fallas eléctricas", precio:40000 },
-{ nombre:"Instalación automático bomba", precio:55000 },
-{ nombre:"Instalación tablero industrial", precio:250000 }
-];
+    // --- Tableros ---
+    { cat:"Tableros", nombre:"Armado tablero monofásico", precio:80000 },
+    { cat:"Tableros", nombre:"Armado tablero trifásico", precio:150000 },
+    { cat:"Tableros", nombre:"Tablero industrial (base)", precio:250000 },
 
-function agregarTrabajo(){
-let container = document.getElementById("trabajosContainer");
+    // --- Protecciones ---
+    { cat:"Protecciones", nombre:"Instalación térmica", precio:20000 },
+    { cat:"Protecciones", nombre:"Instalación disyuntor", precio:30000 },
 
-let div = document.createElement("div");
-div.className = "card trabajo-item";
+    // --- Puesta a tierra ---
+    { cat:"Puesta a tierra", nombre:"Instalación puesta a tierra", precio:90000 },
 
-let selectHTML = `<select class="trabajo">`;
-listaTrabajos.forEach((t)=>{
-selectHTML += `<option value="${t.precio}">${t.nombre} - $${t.precio.toLocaleString()}</option>`;
-});
-selectHTML += `</select>`;
+    // --- Seguridad ---
+    { cat:"Seguridad", nombre:"Instalación cámara de seguridad (por cámara)", precio:45000 },
+    { cat:"Seguridad", nombre:"Instalación DVR / NVR", precio:85000 },
 
-div.innerHTML = `
-<div class="row">
-<div>
-<label>Trabajo</label>
-${selectHTML}
-</div>
-<div>
-<label>Cantidad</label>
-<input type="number" class="cantidad" value="1" min="1">
-</div>
-</div>
-<button onclick="eliminarTrabajo(this)" style="background:#ff4d4d;">Eliminar</button>
-`;
+    // --- Diagnóstico ---
+    { cat:"Diagnóstico", nombre:"Revisión eléctrica completa", precio:70000 },
+    { cat:"Diagnóstico", nombre:"Detección de fallas eléctricas", precio:40000 },
 
-container.appendChild(div);
-calcular();
-}
+    // --- Varios ---
+    { cat:"Varios", nombre:"Instalación portero eléctrico", precio:60000 },
+    { cat:"Varios", nombre:"Instalación automático bomba", precio:55000 }
+  ];
 
-function eliminarTrabajo(btn){
-btn.parentElement.remove();
-calcular();
-}
+  // =========================
+  // 2) ESTADO / DEFAULTS
+  // =========================
+  const $ = (id) => document.getElementById(id);
 
-function calcular(){
-let total = 0;
+  function setPill(msg){
+    const el = $("statusPill");
+    el.textContent = msg;
+  }
 
-document.querySelectorAll(".trabajo-item").forEach(card=>{
-let select = card.querySelector(".trabajo");
-let cantidad = card.querySelector(".cantidad");
+  function hoyISO(){
+    const d = new Date();
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth()+1).padStart(2,"0");
+    const dd = String(d.getDate()).padStart(2,"0");
+    return `${yyyy}-${mm}-${dd}`;
+  }
 
-if(select && cantidad){
-total += parseFloat(select.value) * parseFloat(cantidad.value || 0);
-}
-});
+  function money(n){
+    return (Number(n)||0).toLocaleString("es-AR");
+  }
 
-let materiales = parseFloat(document.getElementById("materiales").value) || 0;
-let adicionales = parseFloat(document.getElementById("adicionales").value) || 0;
-let margen = parseFloat(document.getElementById("margen").value) || 0;
-let iva = document.getElementById("iva").checked;
+  function loadDefaults(){
+    $("fecha").value = hoyISO();
+    const saved = JSON.parse(localStorage.getItem("cotizador_defaults") || "{}");
+    if (saved && typeof saved === "object"){
+      if (saved.materiales != null) $("materiales").value = saved.materiales;
+      if (saved.adicionales != null) $("adicionales").value = saved.adicionales;
+      if (saved.margen != null) $("margen").value = saved.margen;
+      if (saved.iva != null) $("iva").checked = !!saved.iva;
+      if (saved.cliente != null) $("cliente").value = saved.cliente;
+      if (saved.obra != null) $("obra").value = saved.obra;
+    }
+  }
 
-let subtotal = total + materiales + adicionales;
-let conMargen = subtotal + (subtotal * margen / 100);
+  function saveDefaults(){
+    if (!$("guardarDefaults").checked) return;
+    const saved = {
+      materiales: $("materiales").value,
+      adicionales: $("adicionales").value,
+      margen: $("margen").value,
+      iva: $("iva").checked,
+      cliente: $("cliente").value,
+      obra: $("obra").value
+    };
+    localStorage.setItem("cotizador_defaults", JSON.stringify(saved));
+  }
 
-if(iva){
-conMargen = conMargen * 1.21;
-}
+  // =========================
+  // 3) FILTROS / CATEGORÍAS
+  // =========================
+  function categorias(){
+    const set = new Set(TRABAJOS.map(t=>t.cat));
+    return ["Todas", ...Array.from(set).sort()];
+  }
 
-document.getElementById("resultado").innerText = "Total: $" + conMargen.toLocaleString();
-}
+  function renderCategorias(){
+    const sel = $("categoria");
+    sel.innerHTML = "";
+    categorias().forEach(c=>{
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      sel.appendChild(opt);
+    });
+  }
 
-document.addEventListener("input", calcular);
-agregarTrabajo();
+  function trabajosFiltrados(){
+    const q = ($("search").value || "").toLowerCase().trim();
+    const cat = $("categoria").value;
+    return TRABAJOS.filter(t=>{
+      const okCat = (cat === "Todas") || (t.cat === cat);
+      const okQ = !q || t.nombre.toLowerCase().includes(q);
+      return okCat && okQ;
+    });
+  }
+
+  // =========================
+  // 4) ITEMS AGREGADOS
+  // =========================
+  function workCardTemplate(item){
+    const div = document.createElement("div");
+    div.className = "work-item";
+
+    const options = TRABAJOS.map(t =>
+      `<option value="${t.precio}" data-cat="${t.cat}" ${t.nombre===item.nombre ? "selected":""}>
+        ${t.cat} • ${t.nombre} - $${money(t.precio)}
+      </option>`
+    ).join("");
+
+    div.innerHTML = `
+      <div class="work-head">
+        <div class="badge">${item.cat || "Sin categoría"}</div>
+        <button class="btn danger mini" type="button">Eliminar</button>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label>Trabajo</label>
+          <select class="trabajoSel">${options}</select>
+        </div>
+        <div class="col-xs">
+          <label>Cantidad</label>
+          <input class="cantidad" type="number" min="1" value="${item.cant || 1}" />
+        </div>
+        <div class="col-xs">
+          <label>Precio unitario ($)</label>
+          <input class="precio" type="number" min="0" value="${item.precio || 0}" />
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <div class="col">
+          <div class="hint">Podés ajustar el precio unitario si querés (ej: caso especial).</div>
+        </div>
+        <div class="col-sm">
+          <div class="badge" style="text-align:center; width:100%">
+            Subtotal: $<span class="subline">0</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Eventos internos
+    const delBtn = div.querySelector("button.btn.danger");
+    delBtn.addEventListener("click", () => {
+      div.remove();
+      actualizar();
+    });
+
+    const sel = div.querySelector(".trabajoSel");
+    const precioInput = div.querySelector(".precio");
+    const badge = div.querySelector(".work-head .badge");
+
+    sel.addEventListener("change", () => {
+      const selectedOpt = sel.options[sel.selectedIndex];
+      const cat = selectedOpt.getAttribute("data-cat") || "Sin categoría";
+      badge.textContent = cat;
+      precioInput.value = Number(sel.value) || 0;
+      actualizar();
+    });
+
+    div.querySelector(".cantidad").addEventListener("input", actualizar);
+    div.querySelector(".precio").addEventListener("input", actualizar);
+
+    return div;
+  }
+
+  function agregarTrabajoVacio(){
+    const first = TRABAJOS[0];
+    const item = { cat:first.cat, nombre:first.nombre, precio:first.precio, cant:1 };
+    $("trabajosContainer").appendChild(workCardTemplate(item));
+    actualizar();
+  }
+
+  function agregarTrabajoDesdeFiltro(){
+    const list = trabajosFiltrados();
+    if (list.length === 0){
+      setPill("No hay resultados");
+      return;
+    }
+    const first = list[0];
+    const item = { cat:first.cat, nombre:first.nombre, precio:first.precio, cant:1 };
+    $("trabajosContainer").appendChild(workCardTemplate(item));
+    actualizar();
+  }
+
+  function limpiarTodo(){
+    if (!confirm("¿Vaciar todos los trabajos agregados?")) return;
+    $("trabajosContainer").innerHTML = "";
+    actualizar();
+  }
+
+  function leerItems(){
+    const cards = Array.from(document.querySelectorAll(".work-item"));
+    return cards.map(c=>{
+      const sel = c.querySelector(".trabajoSel");
+      const selectedOpt = sel.options[sel.selectedIndex];
+      const cat = selectedOpt.getAttribute("data-cat") || "Sin categoría";
+      const nombreTxt = selectedOpt.textContent.split(" - $")[0].replace(/^.*•\s*/,"").trim();
+      const cant = Number(c.querySelector(".cantidad").value) || 0;
+      const precio = Number(c.querySelector(".precio").value) || 0;
+      return { cat, nombre:nombreTxt, cant, precio };
+    });
+  }
+
+  // =========================
+  // 5) TOTALES + WHATSAPP + PDF
+  // =========================
+  function actualizar(){
+    saveDefaults();
+
+    const items = leerItems();
+    $("countBadge").textContent = `${items.length} ítems`;
+
+    let manoObra = 0;
+    const subtotals = [];
+
+    document.querySelectorAll(".work-item").forEach((c, idx)=>{
+      const cant = Number(c.querySelector(".cantidad").value) || 0;
+      const precio = Number(c.querySelector(".precio").value) || 0;
+      const sub = cant * precio;
+      c.querySelector(".subline").textContent = money(sub);
+      manoObra += sub;
+      subtotals.push(sub);
+    });
+
+    const materiales = Number($("materiales").value) || 0;
+    const adicionales = Number($("adicionales").value) || 0;
+    const margenPct = Number($("margen").value) || 0;
+    const iva = $("iva").checked;
+
+    const base = manoObra + materiales + adicionales;
+    const ganancia = base * (margenPct/100);
+    const subtotal = base + ganancia;
+    const ivaMonto = iva ? subtotal * 0.21 : 0;
+    const total = subtotal + ivaMonto;
+
+    $("resultado").textContent = `$${money(total)}`;
+
+    // Totales detallados
+    const box = $("totalesBox");
+    box.innerHTML = `
+      <div class="line"><span>Mano de obra</span><b>$${money(manoObra)}</b></div>
+      <div class="line"><span>Materiales</span><b>$${money(materiales)}</b></div>
+      <div class="line"><span>Adicionales</span><b>$${money(adicionales)}</b></div>
+      <div class="line"><span>Margen (${margenPct}%)</span><b>$${money(ganancia)}</b></div>
+      <div class="line"><span>IVA (21%)</span><b>$${money(ivaMonto)}</b></div>
+    `;
+
+    setPill("Actualizado ✓");
+  }
+
+  function armarTextoPresupuesto(){
+    const cliente = ($("cliente").value || "").trim();
+    const obra = ($("obra").value || "").trim();
+    const fecha = ($("fecha").value || "").trim();
+
+    const items = leerItems();
+    let manoObra = 0;
+
+    const lineas = items.map(it=>{
+      const sub = (Number(it.cant)||0) * (Number(it.precio)||0);
+      manoObra += sub;
+      return `• ${it.nombre}  x${it.cant}  —  $${money(sub)}`;
+    });
+
+    const materiales = Number($("materiales").value) || 0;
+    const adicionales = Number($("adicionales").value) || 0;
+    const margenPct = Number($("margen").value) || 0;
+    const iva = $("iva").checked;
+
+    const base = manoObra + materiales + adicionales;
+    const ganancia = base * (margenPct/100);
+    const subtotal = base + ganancia;
+    const ivaMonto = iva ? subtotal * 0.21 : 0;
+    const total = subtotal + ivaMonto;
+
+    const header = [
+      `⚡ *Presupuesto Electricidad*`,
+      fecha ? `📅 Fecha: ${fecha}` : null,
+      cliente ? `👤 Cliente: ${cliente}` : null,
+      obra ? `📍 Obra: ${obra}` : null,
+      ``,
+      `🧰 *Detalle de trabajos*`
+    ].filter(Boolean).join("\n");
+
+    const footer = [
+      ``,
+      `📌 Mano de obra: $${money(manoObra)}`,
+      `📦 Materiales: $${money(materiales)}`,
+      `➕ Adicionales: $${money(adicionales)}`,
+      `💼 Margen (${margenPct}%): $${money(ganancia)}`,
+      iva ? `🧾 IVA (21%): $${money(ivaMonto)}` : `🧾 IVA: (no aplicado)`,
+      ``,
+      `✅ *TOTAL: $${money(total)}*`
+    ].join("\n");
+
+    return `${header}\n${lineas.join("\n")}\n${footer}`;
+  }
+
+  async function copiarWhatsApp(){
+    const txt = armarTextoPresupuesto();
+    try{
+      await navigator.clipboard.writeText(txt);
+      setPill("Copiado para WhatsApp ✓");
+      alert("Listo ✅\nSe copió el presupuesto.\nPegalo en WhatsApp.");
+    }catch(e){
+      // fallback para algunos teléfonos
+      const ta = document.createElement("textarea");
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      setPill("Copiado (modo compat) ✓");
+      alert("Listo ✅\nSe copió el presupuesto.\nPegalo en WhatsApp.");
+    }
+  }
+
+  function abrirPDF(){
+    const txt = armarTextoPresupuesto();
+    const lines = txt.split("\n").map(l => `<div>${escapeHtml(l)}</div>`).join("");
+    const total = $("resultado").textContent;
+
+    const html = `
+      <!doctype html>
+      <html lang="es">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Presupuesto</title>
+        <style>
+          body{font-family: Arial, sans-serif; padding:24px; color:#111}
+          .box{border:1px solid #ddd; padding:18px; border-radius:12px}
+          .top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px}
+          h1{font-size:18px;margin:0}
+          .muted{color:#555; font-size:12px}
+          .total{font-size:20px; font-weight:800; margin-top:10px}
+          .lines{margin-top:14px; font-size:13px; line-height:1.45}
+          .btn{margin-top:14px; padding:10px 12px; border:1px solid #ddd; background:#f6f6f6; border-radius:10px}
+          @media print { .btn{display:none} body{padding:0} .box{border:none} }
+        </style>
+      </head>
+      <body>
+        <div class="box">
+          <div class="top">
+            <div>
+              <h1>Presupuesto Electricidad</h1>
+              <div class="muted">Generado desde Cotizador</div>
+            </div>
+            <div class="total">${total}</div>
+          </div>
+          <div class="lines">${lines}</div>
+          <button class="btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const w = window.open("", "_blank");
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+    setPill("PDF listo ✓");
+  }
+
+  function escapeHtml(str){
+    return str
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  // =========================
+  // 6) INIT
+  // =========================
+  renderCategorias();
+  loadDefaults();
+  agregarTrabajoVacio();
+  actualizar();
+
+  document.addEventListener("input", () => {
+    actualizar();
+  });
+
+  $("search").addEventListener("input", () => {
+    setPill(`${trabajosFiltrados().length} resultado(s)`);
+  });
+
+  $("categoria").addEventListener("change", () => {
+    setPill(`${trabajosFiltrados().length} resultado(s)`);
+  });
 
 </script>
-
 </body>
 </html>
