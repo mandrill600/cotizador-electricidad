@@ -3,61 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cotizador Electricidad Vitt PRO 1.0</title>
-
-<meta name="theme-color" content="#0b1220">
-<link rel="manifest" href="/manifest.json">
+<title>Cotizador Electricidad Vitt PRO 2.0</title>
 
 <style>
 :root{
 --bg:#0b1220;
---card:#111c34;
---text:#e8eefc;
---muted:#94a3b8;
+--card:#16213a;
 --accent:#4da3ff;
---accent2:#00d4ff;
 --ok:#00e676;
 --danger:#ff5252;
---radius:14px;
+--text:#ffffff;
+--muted:#94a3b8;
 }
 
 body{
 margin:0;
 padding:20px;
-background:linear-gradient(180deg,#0b1220,#101a2f);
+background:linear-gradient(180deg,#0b1220,#111a2e);
+font-family:Arial;
 color:var(--text);
-font-family:Arial, sans-serif;
 }
 
-.container{
-max-width:1000px;
-margin:auto;
+.container{max-width:1000px;margin:auto;}
+
+h1{margin:0;font-size:20px;}
+.subtitle{font-size:12px;color:var(--muted);margin-bottom:15px;}
+
+.section-menu{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-bottom:15px;
 }
 
-h1{
-margin:0;
-font-size:20px;
+.section-btn{
+padding:8px 12px;
+border-radius:8px;
+background:#1b2945;
+cursor:pointer;
+font-size:13px;
 }
 
-.subtitle{
-font-size:12px;
-color:var(--muted);
-margin-bottom:20px;
+.section-btn.active{
+background:var(--accent);
+color:black;
+font-weight:bold;
 }
 
 .card{
 background:var(--card);
 padding:15px;
-border-radius:var(--radius);
+border-radius:12px;
 margin-bottom:15px;
 }
 
-label{
-font-size:12px;
-color:var(--muted);
-display:block;
-margin-bottom:4px;
-}
+label{font-size:12px;color:var(--muted);}
 
 input,select{
 width:100%;
@@ -66,48 +66,30 @@ border-radius:8px;
 border:none;
 background:#1b2945;
 color:white;
+margin-top:4px;
 }
 
 button{
-padding:10px;
-border-radius:10px;
+padding:8px 10px;
+border-radius:8px;
 border:none;
 cursor:pointer;
 font-weight:bold;
 }
 
-.btn{
-background:linear-gradient(135deg,var(--accent),var(--accent2));
-color:black;
-}
-
-.btn-danger{
-background:var(--danger);
-color:white;
-}
-
-.btn-ok{
-background:var(--ok);
-color:black;
-}
-
-.row{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.col{
-flex:1;
-min-width:150px;
-}
+.btn{background:var(--accent);color:black;}
+.btn-ok{background:var(--ok);color:black;}
+.btn-danger{background:var(--danger);color:white;}
 
 .work-item{
-background:#16233f;
+background:#1b2945;
 padding:10px;
-border-radius:10px;
-margin-bottom:10px;
+border-radius:8px;
+margin-bottom:8px;
 }
+
+.row{display:flex;gap:8px;flex-wrap:wrap;}
+.col{flex:1;min-width:140px;}
 
 .total{
 font-size:22px;
@@ -116,33 +98,31 @@ text-align:right;
 margin-top:10px;
 color:var(--ok);
 }
-
-.small{
-font-size:12px;
-color:var(--muted);
-}
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-<h1>⚡ Cotizador Electricidad Vitt PRO 1.0</h1>
+<h1>⚡ Cotizador Electricidad Vitt PRO 2.0</h1>
 <div class="subtitle">Soluciones Eléctricas</div>
 
+<div class="section-menu" id="sectionMenu"></div>
+
 <div class="card">
-<div class="row">
+<label>Servicio</label>
+<select id="servicios"></select>
+<div class="row" style="margin-top:10px;">
 <div class="col">
-<label>Buscar trabajo</label>
-<input id="search">
+<label>Cantidad</label>
+<input type="number" id="cantidad" value="1" min="1">
 </div>
 <div class="col">
-<label>Categoría</label>
-<select id="categoria"></select>
+<label>Precio ($ editable)</label>
+<input type="number" id="precio">
 </div>
 <div class="col">
-<button class="btn" onclick="agregarTrabajo()">Agregar</button>
+<button class="btn" onclick="agregar()">Agregar</button>
 </div>
 </div>
 </div>
@@ -150,7 +130,7 @@ color:var(--muted);
 <div class="card">
 <h3>Trabajos agregados</h3>
 <div id="lista"></div>
-<button class="btn-danger" onclick="limpiar()">Vaciar todo</button>
+<button class="btn-danger" onclick="limpiar()">Vaciar</button>
 </div>
 
 <div class="card">
@@ -165,7 +145,7 @@ color:var(--muted);
 <input type="number" id="adicionales" value="0">
 </div>
 <div class="col">
-<label>Margen (%)</label>
+<label>Margen %</label>
 <input type="number" id="margen" value="0">
 </div>
 <div class="col">
@@ -173,69 +153,94 @@ color:var(--muted);
 <input type="checkbox" id="iva">
 </div>
 </div>
-<div class="total">
-Total: $ <span id="total">0</span>
-</div>
+<div class="total">Total: $ <span id="total">0</span></div>
 </div>
 
 <div class="card">
-<button class="btn-ok" onclick="copiar()">Copiar para WhatsApp</button>
-<button class="btn" onclick="pdf()">PDF PRO</button>
+<button class="btn-ok" onclick="copiar()">Copiar WhatsApp</button>
+<button class="btn" onclick="window.print()">PDF</button>
 </div>
 
 </div>
 
 <script>
 
-const TRABAJOS = [
-{cat:"Básicos",nombre:"Visita técnica",precio:45324},
-{cat:"Básicos",nombre:"Boca completa",precio:90490},
-{cat:"Básicos",nombre:"Hora de trabajo",precio:45324},
+const DATA={
+"Inspección":[
+{n:"Visita técnica",p:45324},
+{n:"Urgencia",p:108660}
+],
+"Iluminación":[
+{n:"Aplique",p:24798},
+{n:"Spot LED",p:24798},
+{n:"Ventilador techo",p:90490}
+],
+"Cableado":[
+{n:"Boca completa",p:90490},
+{n:"Cableado por metro",p:12442}
+],
+"Tableros":[
+{n:"TP Monofásico + PAT",p:267314},
+{n:"TP Trifásico + PAT",p:361993}
+],
+"Instalaciones":[
+{n:"Pilar completo",p:746466},
+{n:"Gabinete medidor",p:189986}
+],
+"Seguridad":[
+{n:"Instalación cámara IP interior",p:48000},
+{n:"Instalación cámara exterior altura",p:62000},
+{n:"Instalación DVR/NVR",p:85000},
+{n:"Configuración monitoreo celular",p:35000},
+{n:"Sistema alarma básica instalada",p:180000},
+{n:"Sensor adicional alarma",p:18000},
+{n:"Central alarma instalada",p:95000}
+]
+};
 
-{cat:"Tableros",nombre:"TP Monofásico + PAT",precio:267314},
-{cat:"Tableros",nombre:"TP Trifásico + PAT",precio:361993},
-
-{cat:"Certificados",nombre:"Certificado T1 Monofásico",precio:347490},
-{cat:"Certificados",nombre:"Certificado T1 Trifásico",precio:521235},
-
-{cat:"Jornales",nombre:"Jornal Oficial Electricista (8hs)",precio:67523},
-{cat:"Jornales",nombre:"Jornal Ayudante (8hs)",precio:57151}
-];
-
+let currentSection=Object.keys(DATA)[0];
 let items=[];
 
-const categoriaSelect=document.getElementById("categoria");
-const searchInput=document.getElementById("search");
+const sectionMenu=document.getElementById("sectionMenu");
+const servicios=document.getElementById("servicios");
 
-function cargarCategorias(){
-let cats=["Todas"];
-TRABAJOS.forEach(t=>{
-if(!cats.includes(t.cat)) cats.push(t.cat);
+function cargarSecciones(){
+sectionMenu.innerHTML="";
+Object.keys(DATA).forEach(sec=>{
+let btn=document.createElement("div");
+btn.textContent=sec;
+btn.className="section-btn"+(sec===currentSection?" active":"");
+btn.onclick=()=>{
+currentSection=sec;
+cargarSecciones();
+cargarServicios();
+};
+sectionMenu.appendChild(btn);
 });
-categoriaSelect.innerHTML="";
-cats.forEach(c=>{
+}
+
+function cargarServicios(){
+servicios.innerHTML="";
+DATA[currentSection].forEach((s,i)=>{
 let opt=document.createElement("option");
-opt.textContent=c;
-opt.value=c;
-categoriaSelect.appendChild(opt);
+opt.value=i;
+opt.textContent=s.n;
+servicios.appendChild(opt);
 });
+precio.value=DATA[currentSection][0].p;
 }
 
-function trabajosFiltrados(){
-let q=searchInput.value.toLowerCase();
-let cat=categoriaSelect.value;
-return TRABAJOS.filter(t=>{
-let okCat=(cat==="Todas"||t.cat===cat);
-let okQ=t.nombre.toLowerCase().includes(q);
-return okCat&&okQ;
-});
-}
+servicios.onchange=()=>{
+let i=servicios.value;
+precio.value=DATA[currentSection][i].p;
+};
 
-function agregarTrabajo(){
-let lista=trabajosFiltrados();
-if(lista.length===0)return;
-let t=lista[0];
-items.push({nombre:t.nombre,precio:t.precio,cant:1});
+function agregar(){
+let i=servicios.value;
+let nombre=DATA[currentSection][i].n;
+let precioVal=parseFloat(precio.value)||0;
+let cant=parseInt(cantidad.value)||1;
+items.push({nombre,precio:precioVal,cant});
 render();
 }
 
@@ -257,8 +262,7 @@ let w=document.createElement("div");
 w.className="work-item";
 w.innerHTML=`
 <b>${it.nombre}</b><br>
-$${it.precio} x 
-<input type="number" value="${it.cant}" min="1" onchange="cambiar(${i},this.value)">
+$${it.precio} x ${it.cant}
 <button class="btn-danger" onclick="eliminar(${i})">Eliminar</button>
 `;
 div.appendChild(w);
@@ -266,46 +270,32 @@ div.appendChild(w);
 calcular();
 }
 
-function cambiar(i,val){
-items[i].cant=parseInt(val)||1;
-calcular();
-}
-
 function calcular(){
 let subtotal=0;
-items.forEach(it=>{
-subtotal+=it.precio*it.cant;
-});
-let materiales=parseFloat(materiales.value)||0;
-let adicionales=parseFloat(adicionales.value)||0;
-let margen=parseFloat(margen.value)||0;
-let ivaChk=iva.checked;
-
-let total=subtotal+materiales+adicionales;
-total+=total*(margen/100);
-if(ivaChk) total*=1.21;
-
-document.getElementById("total").textContent=total.toLocaleString();
+items.forEach(it=>subtotal+=it.precio*it.cant);
+let mat=parseFloat(materiales.value)||0;
+let add=parseFloat(adicionales.value)||0;
+let mar=parseFloat(margen.value)||0;
+let total=subtotal+mat+add;
+total+=total*(mar/100);
+if(iva.checked) total*=1.21;
+totalEl.textContent=total.toLocaleString();
 }
 
 function copiar(){
-let texto="⚡ Cotizador Electricidad Vitt PRO 1.0\nSoluciones Eléctricas\n\n";
+let texto="⚡ Cotizador Electricidad Vitt PRO 2.0\nSoluciones Eléctricas\n\n";
 items.forEach(it=>{
 texto+=`${it.nombre} x${it.cant} - $${(it.precio*it.cant).toLocaleString()}\n`;
 });
-texto+=`\nTOTAL: $${total.textContent}`;
+texto+=`\nTOTAL: $${totalEl.textContent}`;
 navigator.clipboard.writeText(texto);
 alert("Copiado");
 }
 
-function pdf(){
-window.print();
-}
+const totalEl=document.getElementById("total");
 
-searchInput.addEventListener("input",render);
-categoriaSelect.addEventListener("change",render);
-
-cargarCategorias();
+cargarSecciones();
+cargarServicios();
 render();
 
 </script>
