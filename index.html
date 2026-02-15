@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cotizador Electricidad Vitt PRO 2.0</title>
+<title>Cotizador Electricidad Vitt PRO 3.0</title>
 
 <style>
 :root{
@@ -18,56 +18,43 @@
 
 body{
 margin:0;
-padding:20px;
-background:linear-gradient(180deg,#0b1220,#111a2e);
 font-family:Arial;
+background:linear-gradient(180deg,#0b1220,#111a2e);
 color:var(--text);
 }
 
-.container{max-width:1000px;margin:auto;}
+.screen{
+padding:20px;
+max-width:900px;
+margin:auto;
+}
 
-h1{margin:0;font-size:20px;}
-.subtitle{font-size:12px;color:var(--muted);margin-bottom:15px;}
+h1{margin:0 0 5px 0;font-size:20px;}
+.subtitle{font-size:12px;color:var(--muted);margin-bottom:20px;}
 
-.section-menu{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-bottom:15px;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:10px;
 }
 
 .section-btn{
-padding:8px 12px;
-border-radius:8px;
 background:#1b2945;
+padding:20px;
+border-radius:12px;
+text-align:center;
 cursor:pointer;
-font-size:13px;
-}
-
-.section-btn.active{
-background:var(--accent);
-color:black;
 font-weight:bold;
 }
 
 .card{
-background:var(--card);
+background:#1b2945;
 padding:15px;
 border-radius:12px;
-margin-bottom:15px;
+margin-bottom:10px;
 }
 
-label{font-size:12px;color:var(--muted);}
-
-input,select{
-width:100%;
-padding:8px;
-border-radius:8px;
-border:none;
-background:#1b2945;
-color:white;
-margin-top:4px;
-}
+.row{display:flex;gap:8px;flex-wrap:wrap;}
 
 button{
 padding:8px 10px;
@@ -81,113 +68,100 @@ font-weight:bold;
 .btn-ok{background:var(--ok);color:black;}
 .btn-danger{background:var(--danger);color:white;}
 
-.work-item{
-background:#1b2945;
-padding:10px;
-border-radius:8px;
-margin-bottom:8px;
+input{
+width:70px;
+padding:6px;
+border-radius:6px;
+border:none;
+background:#0b1220;
+color:white;
+text-align:center;
 }
 
-.row{display:flex;gap:8px;flex-wrap:wrap;}
-.col{flex:1;min-width:140px;}
+.floating{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:var(--ok);
+color:black;
+padding:12px 20px;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
+}
 
 .total{
 font-size:22px;
 font-weight:bold;
 text-align:right;
-margin-top:10px;
 color:var(--ok);
+margin-top:10px;
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
-<h1>⚡ Cotizador Electricidad Vitt PRO 2.0</h1>
+<div id="home" class="screen">
+<h1>⚡ Cotizador Electricidad Vitt PRO 3.0</h1>
 <div class="subtitle">Soluciones Eléctricas</div>
 
-<div class="section-menu" id="sectionMenu"></div>
-
-<div class="card">
-<label>Servicio</label>
-<select id="servicios"></select>
-<div class="row" style="margin-top:10px;">
-<div class="col">
-<label>Cantidad</label>
-<input type="number" id="cantidad" value="1" min="1">
-</div>
-<div class="col">
-<label>Precio ($ editable)</label>
-<input type="number" id="precio">
-</div>
-<div class="col">
-<button class="btn" onclick="agregar()">Agregar</button>
-</div>
-</div>
+<div class="grid" id="sections"></div>
 </div>
 
-<div class="card">
-<h3>Trabajos agregados</h3>
-<div id="lista"></div>
-<button class="btn-danger" onclick="limpiar()">Vaciar</button>
+<div id="servicesScreen" class="screen" style="display:none;">
+<button class="btn" onclick="volver()">← Volver</button>
+<h2 id="sectionTitle"></h2>
+<div id="servicesList"></div>
 </div>
 
+<div id="budgetScreen" class="screen" style="display:none;">
+<button class="btn" onclick="volverHome()">← Volver</button>
+<h2>Presupuesto</h2>
+<div id="budgetList"></div>
+
 <div class="card">
-<h3>Extras</h3>
-<div class="row">
-<div class="col">
-<label>Materiales</label>
-<input type="number" id="materiales" value="0">
-</div>
-<div class="col">
-<label>Adicionales</label>
-<input type="number" id="adicionales" value="0">
-</div>
-<div class="col">
-<label>Margen %</label>
-<input type="number" id="margen" value="0">
-</div>
-<div class="col">
-<label>IVA 21%</label>
-<input type="checkbox" id="iva">
-</div>
-</div>
+Materiales: <input type="number" id="materiales" value="0">
+Adicionales: <input type="number" id="adicionales" value="0">
+Margen %: <input type="number" id="margen" value="0">
+IVA <input type="checkbox" id="iva">
 <div class="total">Total: $ <span id="total">0</span></div>
 </div>
 
-<div class="card">
 <button class="btn-ok" onclick="copiar()">Copiar WhatsApp</button>
 <button class="btn" onclick="window.print()">PDF</button>
 </div>
 
+<div id="floatingBtn" class="floating" onclick="verPresupuesto()" style="display:none;">
+Ver presupuesto (0)
 </div>
 
 <script>
 
 const DATA={
-"Inspección":[
+"🔎 Inspección":[
 {n:"Visita técnica",p:45324},
 {n:"Urgencia",p:108660}
 ],
-"Iluminación":[
+"💡 Iluminación":[
 {n:"Aplique",p:24798},
 {n:"Spot LED",p:24798},
 {n:"Ventilador techo",p:90490}
 ],
-"Cableado":[
+"🔌 Cableado":[
 {n:"Boca completa",p:90490},
 {n:"Cableado por metro",p:12442}
 ],
-"Tableros":[
+"⚡ Tableros":[
 {n:"TP Monofásico + PAT",p:267314},
 {n:"TP Trifásico + PAT",p:361993}
 ],
-"Instalaciones":[
+"🏗 Instalaciones":[
 {n:"Pilar completo",p:746466},
 {n:"Gabinete medidor",p:189986}
 ],
-"Seguridad":[
+"📷 Seguridad":[
 {n:"Instalación cámara IP interior",p:48000},
 {n:"Instalación cámara exterior altura",p:62000},
 {n:"Instalación DVR/NVR",p:85000},
@@ -198,105 +172,121 @@ const DATA={
 ]
 };
 
-let currentSection=Object.keys(DATA)[0];
+let currentSection=null;
 let items=[];
 
-const sectionMenu=document.getElementById("sectionMenu");
-const servicios=document.getElementById("servicios");
+const sectionsDiv=document.getElementById("sections");
+const floatingBtn=document.getElementById("floatingBtn");
 
-function cargarSecciones(){
-sectionMenu.innerHTML="";
+function renderSections(){
 Object.keys(DATA).forEach(sec=>{
 let btn=document.createElement("div");
+btn.className="section-btn";
 btn.textContent=sec;
-btn.className="section-btn"+(sec===currentSection?" active":"");
-btn.onclick=()=>{
+btn.onclick=()=>abrirSeccion(sec);
+sectionsDiv.appendChild(btn);
+});
+}
+
+function abrirSeccion(sec){
 currentSection=sec;
-cargarSecciones();
-cargarServicios();
-};
-sectionMenu.appendChild(btn);
-});
+home.style.display="none";
+servicesScreen.style.display="block";
+sectionTitle.textContent=sec;
+renderServices();
 }
 
-function cargarServicios(){
-servicios.innerHTML="";
-DATA[currentSection].forEach((s,i)=>{
-let opt=document.createElement("option");
-opt.value=i;
-opt.textContent=s.n;
-servicios.appendChild(opt);
-});
-precio.value=DATA[currentSection][0].p;
-}
-
-servicios.onchange=()=>{
-let i=servicios.value;
-precio.value=DATA[currentSection][i].p;
-};
-
-function agregar(){
-let i=servicios.value;
-let nombre=DATA[currentSection][i].n;
-let precioVal=parseFloat(precio.value)||0;
-let cant=parseInt(cantidad.value)||1;
-items.push({nombre,precio:precioVal,cant});
-render();
-}
-
-function eliminar(i){
-items.splice(i,1);
-render();
-}
-
-function limpiar(){
-items=[];
-render();
-}
-
-function render(){
-let div=document.getElementById("lista");
-div.innerHTML="";
-items.forEach((it,i)=>{
-let w=document.createElement("div");
-w.className="work-item";
-w.innerHTML=`
-<b>${it.nombre}</b><br>
-$${it.precio} x ${it.cant}
-<button class="btn-danger" onclick="eliminar(${i})">Eliminar</button>
+function renderServices(){
+servicesList.innerHTML="";
+DATA[currentSection].forEach((s)=>{
+let card=document.createElement("div");
+card.className="card";
+card.innerHTML=`
+<b>${s.n}</b><br>
+Precio: <input type="number" value="${s.p}" id="price_${s.n}">
+<br><br>
+Cantidad:
+<button onclick="add('${s.n}')">Agregar</button>
 `;
-div.appendChild(w);
+servicesList.appendChild(card);
+});
+}
+
+function add(nombre){
+let price=document.getElementById("price_"+nombre).value;
+items.push({n:nombre,p:parseFloat(price),c:1});
+updateFloating();
+}
+
+function updateFloating(){
+if(items.length>0){
+floatingBtn.style.display="block";
+floatingBtn.textContent=`Ver presupuesto (${items.length})`;
+}else{
+floatingBtn.style.display="none";
+}
+}
+
+function volver(){
+servicesScreen.style.display="none";
+home.style.display="block";
+}
+
+function verPresupuesto(){
+servicesScreen.style.display="none";
+home.style.display="none";
+budgetScreen.style.display="block";
+renderBudget();
+}
+
+function volverHome(){
+budgetScreen.style.display="none";
+home.style.display="block";
+}
+
+function renderBudget(){
+budgetList.innerHTML="";
+items.forEach((it,i)=>{
+let div=document.createElement("div");
+div.className="card";
+div.innerHTML=`
+${it.n} - $${it.p}
+<button class="btn-danger" onclick="remove(${i})">Eliminar</button>
+`;
+budgetList.appendChild(div);
 });
 calcular();
 }
 
+function remove(i){
+items.splice(i,1);
+renderBudget();
+updateFloating();
+}
+
 function calcular(){
-let subtotal=0;
-items.forEach(it=>subtotal+=it.precio*it.cant);
+let total=0;
+items.forEach(it=>total+=it.p);
 let mat=parseFloat(materiales.value)||0;
 let add=parseFloat(adicionales.value)||0;
 let mar=parseFloat(margen.value)||0;
-let total=subtotal+mat+add;
+total+=mat+add;
 total+=total*(mar/100);
 if(iva.checked) total*=1.21;
-totalEl.textContent=total.toLocaleString();
+document.getElementById("total").textContent=total.toLocaleString();
 }
 
 function copiar(){
-let texto="⚡ Cotizador Electricidad Vitt PRO 2.0\nSoluciones Eléctricas\n\n";
+let texto="⚡ Cotizador Electricidad Vitt PRO 3.0\nSoluciones Eléctricas\n\n";
 items.forEach(it=>{
-texto+=`${it.nombre} x${it.cant} - $${(it.precio*it.cant).toLocaleString()}\n`;
+texto+=`${it.n} - $${it.p.toLocaleString()}\n`;
 });
-texto+=`\nTOTAL: $${totalEl.textContent}`;
+texto+=`\nTOTAL: $${total.textContent}`;
 navigator.clipboard.writeText(texto);
 alert("Copiado");
 }
 
-const totalEl=document.getElementById("total");
-
-cargarSecciones();
-cargarServicios();
-render();
+renderSections();
 
 </script>
 
