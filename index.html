@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cotizador Electricidad Vitt PRO 3.2</title>
+<title>Cotizador Electricidad Vitt PRO 3.3</title>
 
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0b1220">
@@ -14,7 +14,7 @@
 --danger:#ff5252;--text:#ffffff;--muted:#94a3b8;
 }
 body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(180deg,#0b1220,#111a2e);color:var(--text);}
-.screen{padding:20px;max-width:980px;margin:auto;}
+.screen{padding:20px;max-width:1000px;margin:auto;}
 h1{margin:0 0 5px;font-size:20px;}
 .subtitle{font-size:12px;color:var(--muted);margin-bottom:20px;}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
@@ -33,7 +33,7 @@ button{padding:6px 12px;border-radius:8px;border:none;cursor:pointer;font-weight
 <body>
 
 <div id="home" class="screen">
-<h1>⚡ Cotizador Electricidad Vitt PRO 3.2</h1>
+<h1>⚡ Cotizador Electricidad Vitt PRO 3.3</h1>
 <div class="subtitle">Soluciones Eléctricas</div>
 <div class="grid" id="sections"></div>
 </div>
@@ -67,7 +67,8 @@ Ver presupuesto (0)
 
 <script>
 const DATA={
-"🔎 Inspección":[
+
+"🔎 Inspección y visitas":[
 {n:"Visita técnica",p:45000},
 {n:"Visita diagnóstico",p:60000},
 {n:"Urgencia 24 hs",p:110000},
@@ -78,12 +79,19 @@ const DATA={
 "💡 Iluminación":[
 {n:"Aplique simple",p:20000},
 {n:"Aplique doble",p:28000},
+{n:"Plafón LED",p:32000},
 {n:"Spot LED embutido",p:25000},
 {n:"Spot LED sobrepuesto",p:27000},
-{n:"Plafón LED",p:32000},
 {n:"Reflector exterior",p:42000},
 {n:"Iluminación exterior decorativa",p:55000},
 {n:"Cambio de luminaria existente",p:18000}
+],
+
+"🌀 Ventiladores":[
+{n:"Instalación ventilador de techo",p:95000},
+{n:"Instalación ventilador con luz",p:110000},
+{n:"Reemplazo ventilador existente",p:75000},
+{n:"Balanceo / ajuste ventilador",p:42000}
 ],
 
 "🔌 Tomas, llaves y bocas":[
@@ -93,13 +101,15 @@ const DATA={
 {n:"Tomacorriente doble",p:36000},
 {n:"Llave simple",p:26000},
 {n:"Llave doble",p:34000},
-{n:"Llave combinada",p:38000}
+{n:"Llave combinada",p:38000},
+{n:"Cambio de toma / llave existente",p:22000}
 ],
 
 "🧵 Cableado":[
 {n:"Cableado por metro",p:12500},
 {n:"Canalización por metro",p:14500},
-{n:"Reemplazo de cableado existente",p:35000}
+{n:"Reemplazo de cableado existente",p:35000},
+{n:"Tendido cable exterior",p:28000}
 ],
 
 "⚡ Tableros eléctricos":[
@@ -108,13 +118,15 @@ const DATA={
 {n:"Subtablero",p:180000},
 {n:"Cambio de térmica",p:38000},
 {n:"Cambio de disyuntor",p:52000},
+{n:"Instalación protector de tensión",p:65000},
 {n:"Reordenamiento de tablero",p:95000},
 {n:"Puesta a tierra (PAT)",p:180000},
 {n:"Medición de puesta a tierra",p:65000}
 ],
 
-"🏗 Instalaciones":[
+"🏗 Instalaciones y montajes":[
 {n:"Instalación eléctrica vivienda",p:380000},
+{n:"Instalación eléctrica local",p:520000},
 {n:"Pilar monofásico completo",p:740000},
 {n:"Pilar trifásico completo",p:980000},
 {n:"Gabinete medidor",p:190000},
@@ -138,7 +150,6 @@ const DATA={
 
 let items=[],currentSection=null;
 const floatingBtn=document.getElementById("floatingBtn");
-
 const round100=n=>Math.round(n/100)*100;
 
 function renderSections(){
@@ -211,7 +222,7 @@ document.getElementById("total").textContent=round100(t).toLocaleString();
 }
 
 function copiar(){
-let txt="⚡ Cotizador Electricidad Vitt PRO 3.2\nSoluciones Eléctricas\n\n";
+let txt="⚡ Cotizador Electricidad Vitt PRO 3.3\nSoluciones Eléctricas\n\n";
 items.forEach(it=>txt+=`${it.n} x${it.q} - $${round100(it.p*it.q).toLocaleString()}\n`);
 txt+=`\nTOTAL: $${total.textContent}`;
 navigator.clipboard.writeText(txt);
