@@ -3,126 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador Electricidad Vitt PRO 3.2</title>
 
-<title>Cotizador Electricidad Vitt PRO 3.1</title>
-
-<!-- PWA -->
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0b1220">
 
 <style>
 :root{
---bg:#0b1220;
---card:#16213a;
---accent:#4da3ff;
---ok:#00e676;
---danger:#ff5252;
---text:#ffffff;
---muted:#94a3b8;
+--bg:#0b1220;--card:#16213a;--accent:#4da3ff;--ok:#00e676;
+--danger:#ff5252;--text:#ffffff;--muted:#94a3b8;
 }
-
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:linear-gradient(180deg,#0b1220,#111a2e);
-color:var(--text);
-}
-
-.screen{
-padding:20px;
-max-width:900px;
-margin:auto;
-}
-
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(180deg,#0b1220,#111a2e);color:var(--text);}
+.screen{padding:20px;max-width:980px;margin:auto;}
 h1{margin:0 0 5px;font-size:20px;}
 .subtitle{font-size:12px;color:var(--muted);margin-bottom:20px;}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-gap:10px;
-}
-
-.section-btn{
-background:#1b2945;
-padding:20px;
-border-radius:12px;
-text-align:center;
-cursor:pointer;
-font-weight:bold;
-}
-
-.card{
-background:#1b2945;
-padding:15px;
-border-radius:12px;
-margin-bottom:10px;
-}
-
-input{
-width:80px;
-padding:6px;
-border-radius:6px;
-border:none;
-background:#0b1220;
-color:white;
-text-align:center;
-}
-
-button{
-padding:6px 12px;
-border-radius:8px;
-border:none;
-cursor:pointer;
-font-weight:bold;
-}
-
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
+.section-btn{background:#1b2945;padding:20px;border-radius:12px;text-align:center;cursor:pointer;font-weight:bold;}
+.card{background:#1b2945;padding:15px;border-radius:12px;margin-bottom:10px;}
+input{width:90px;padding:6px;border-radius:6px;border:none;background:#0b1220;color:white;text-align:center;}
+button{padding:6px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:bold;}
 .btn{background:var(--accent);color:black;}
 .btn-ok{background:var(--ok);color:black;}
 .btn-danger{background:var(--danger);color:white;}
-
-.floating{
-position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-background:var(--ok);
-color:black;
-padding:12px 20px;
-border-radius:30px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.total{
-font-size:22px;
-font-weight:bold;
-text-align:right;
-color:var(--ok);
-margin-top:10px;
-}
-
-.small{font-size:12px;color:var(--muted);}
+.floating{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ok);color:black;padding:12px 20px;border-radius:30px;font-weight:bold;cursor:pointer;}
+.total{font-size:22px;font-weight:bold;text-align:right;color:var(--ok);margin-top:10px;}
 </style>
 </head>
 
 <body>
 
-<!-- HOME -->
 <div id="home" class="screen">
-<h1>⚡ Cotizador Electricidad Vitt PRO 3.1</h1>
+<h1>⚡ Cotizador Electricidad Vitt PRO 3.2</h1>
 <div class="subtitle">Soluciones Eléctricas</div>
 <div class="grid" id="sections"></div>
 </div>
 
-<!-- SERVICIOS -->
 <div id="servicesScreen" class="screen" style="display:none;">
 <button class="btn" onclick="volver()">← Volver</button>
 <h2 id="sectionTitle"></h2>
 <div id="servicesList"></div>
 </div>
 
-<!-- PRESUPUESTO -->
 <div id="budgetScreen" class="screen" style="display:none;">
 <button class="btn" onclick="volverHome()">← Volver</button>
 <h2>Presupuesto</h2>
@@ -140,7 +61,6 @@ IVA <input type="checkbox" id="iva">
 <button class="btn" onclick="window.print()">PDF</button>
 </div>
 
-<!-- BOTÓN FLOTANTE -->
 <div id="floatingBtn" class="floating" onclick="verPresupuesto()" style="display:none;">
 Ver presupuesto (0)
 </div>
@@ -148,50 +68,85 @@ Ver presupuesto (0)
 <script>
 const DATA={
 "🔎 Inspección":[
-{n:"Visita técnica",p:45300},
-{n:"Urgencia",p:108700}
+{n:"Visita técnica",p:45000},
+{n:"Visita diagnóstico",p:60000},
+{n:"Urgencia 24 hs",p:110000},
+{n:"Relevamiento para obra",p:85000},
+{n:"Informe técnico",p:120000}
 ],
+
 "💡 Iluminación":[
 {n:"Aplique simple",p:20000},
-{n:"Spot LED",p:25000},
-{n:"Ventilador techo",p:90500}
+{n:"Aplique doble",p:28000},
+{n:"Spot LED embutido",p:25000},
+{n:"Spot LED sobrepuesto",p:27000},
+{n:"Plafón LED",p:32000},
+{n:"Reflector exterior",p:42000},
+{n:"Iluminación exterior decorativa",p:55000},
+{n:"Cambio de luminaria existente",p:18000}
 ],
-"🔌 Cableado":[
-{n:"Boca completa",p:90500},
-{n:"Cableado por metro",p:12400}
+
+"🔌 Tomas, llaves y bocas":[
+{n:"Boca simple",p:42000},
+{n:"Boca doble",p:52000},
+{n:"Tomacorriente simple",p:28000},
+{n:"Tomacorriente doble",p:36000},
+{n:"Llave simple",p:26000},
+{n:"Llave doble",p:34000},
+{n:"Llave combinada",p:38000}
 ],
-"⚡ Tableros":[
-{n:"TP Monofásico + PAT",p:267300},
-{n:"TP Trifásico + PAT",p:362000}
+
+"🧵 Cableado":[
+{n:"Cableado por metro",p:12500},
+{n:"Canalización por metro",p:14500},
+{n:"Reemplazo de cableado existente",p:35000}
 ],
+
+"⚡ Tableros eléctricos":[
+{n:"Tablero principal monofásico",p:260000},
+{n:"Tablero principal trifásico",p:360000},
+{n:"Subtablero",p:180000},
+{n:"Cambio de térmica",p:38000},
+{n:"Cambio de disyuntor",p:52000},
+{n:"Reordenamiento de tablero",p:95000},
+{n:"Puesta a tierra (PAT)",p:180000},
+{n:"Medición de puesta a tierra",p:65000}
+],
+
 "🏗 Instalaciones":[
-{n:"Pilar completo",p:746500},
-{n:"Gabinete medidor",p:190000}
+{n:"Instalación eléctrica vivienda",p:380000},
+{n:"Pilar monofásico completo",p:740000},
+{n:"Pilar trifásico completo",p:980000},
+{n:"Gabinete medidor",p:190000},
+{n:"Montaje de cañerías",p:95000},
+{n:"Montaje de bandejas",p:140000}
 ],
+
 "📷 Seguridad":[
-{n:"Instalación cámara IP interior",p:48000},
-{n:"Instalación cámara exterior altura",p:62000},
-{n:"Instalación DVR/NVR",p:85000},
-{n:"Configuración monitoreo celular",p:35000},
-{n:"Sistema alarma básica instalada",p:180000},
-{n:"Sensor adicional alarma",p:18000},
-{n:"Central alarma instalada",p:95000}
+{n:"Cámara IP interior",p:48000},
+{n:"Cámara IP exterior",p:65000},
+{n:"Cámara analógica",p:42000},
+{n:"Instalación DVR / NVR",p:90000},
+{n:"Configuración monitoreo remoto",p:38000},
+{n:"Sistema de alarma básica",p:180000},
+{n:"Sensor magnético",p:18000},
+{n:"Sensor de movimiento",p:22000},
+{n:"Sirena exterior",p:28000},
+{n:"Mantenimiento sistema",p:65000}
 ]
 };
 
-let items=[];
-let currentSection=null;
+let items=[],currentSection=null;
+const floatingBtn=document.getElementById("floatingBtn");
 
-function round100(n){return Math.round(n/100)*100;}
+const round100=n=>Math.round(n/100)*100;
 
 function renderSections(){
 const s=document.getElementById("sections");
 Object.keys(DATA).forEach(sec=>{
 let b=document.createElement("div");
-b.className="section-btn";
-b.textContent=sec;
-b.onclick=()=>abrirSeccion(sec);
-s.appendChild(b);
+b.className="section-btn";b.textContent=sec;
+b.onclick=()=>abrirSeccion(sec);s.appendChild(b);
 });
 }
 
@@ -219,30 +174,13 @@ function agregar(n){
 let p=parseFloat(document.getElementById("p_"+n).value)||0;
 let q=parseInt(document.getElementById("q_"+n).value)||1;
 items.push({n,p,q});
-actualizarFloating();
-}
-
-function actualizarFloating(){
-floatingBtn.style.display=items.length?"block":"none";
+floatingBtn.style.display="block";
 floatingBtn.textContent=`Ver presupuesto (${items.length})`;
 }
 
-function volver(){
-servicesScreen.style.display="none";
-home.style.display="block";
-}
-
-function verPresupuesto(){
-servicesScreen.style.display="none";
-home.style.display="none";
-budgetScreen.style.display="block";
-renderBudget();
-}
-
-function volverHome(){
-budgetScreen.style.display="none";
-home.style.display="block";
-}
+function volver(){servicesScreen.style.display="none";home.style.display="block";}
+function verPresupuesto(){servicesScreen.style.display="none";home.style.display="none";budgetScreen.style.display="block";renderBudget();}
+function volverHome(){budgetScreen.style.display="none";home.style.display="block";}
 
 function renderBudget(){
 budgetList.innerHTML="";
@@ -255,7 +193,7 @@ d.innerHTML=`
 Precio <input type="number" value="${it.p}" onchange="items[${i}].p=this.value;renderBudget()">
 Cantidad <input type="number" value="${it.q}" onchange="items[${i}].q=this.value;renderBudget()">
 <br>Subtotal: $${sub.toLocaleString()}
-<button class="btn-danger" onclick="items.splice(${i},1);renderBudget();actualizarFloating()">Eliminar</button>
+<button class="btn-danger" onclick="items.splice(${i},1);renderBudget()">Eliminar</button>
 `;
 budgetList.appendChild(d);
 });
@@ -273,10 +211,8 @@ document.getElementById("total").textContent=round100(t).toLocaleString();
 }
 
 function copiar(){
-let txt="⚡ Cotizador Electricidad Vitt PRO 3.1\nSoluciones Eléctricas\n\n";
-items.forEach(it=>{
-txt+=`${it.n} x${it.q} - $${round100(it.p*it.q).toLocaleString()}\n`;
-});
+let txt="⚡ Cotizador Electricidad Vitt PRO 3.2\nSoluciones Eléctricas\n\n";
+items.forEach(it=>txt+=`${it.n} x${it.q} - $${round100(it.p*it.q).toLocaleString()}\n`);
 txt+=`\nTOTAL: $${total.textContent}`;
 navigator.clipboard.writeText(txt);
 alert("Copiado");
@@ -284,6 +220,5 @@ alert("Copiado");
 
 renderSections();
 </script>
-
 </body>
 </html>
