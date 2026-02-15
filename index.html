@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cotizador Electricidad</title>
+<title>Cotizador Electricidad Vitt PRO 1.0</title>
+
+<meta name="theme-color" content="#0b1220" />
+<link rel="manifest" href="/manifest.json" />
+
 <style>
   :root{
     --bg:#0b1220;
@@ -34,9 +38,7 @@
     display:flex; gap:12px; align-items:center; justify-content:space-between;
     margin: 6px 0 14px;
   }
-  .title{
-    display:flex; flex-direction:column; gap:4px;
-  }
+  .title{display:flex; flex-direction:column; gap:4px;}
   h1{font-size:20px;margin:0}
   .subtitle{font-size:12px;color:var(--muted)}
   .pill{
@@ -48,18 +50,18 @@
     font-size:12px;
     color:var(--muted);
   }
-  .grid{display:grid; gap:12px}
   .card{
     background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
     border:1px solid var(--line);
     border-radius: var(--radius);
     padding:14px;
     box-shadow: var(--shadow);
+    margin-bottom:12px;
   }
   .card h2{font-size:14px;margin:0 0 10px}
   .row{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap}
   label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
-  input, select, textarea{
+  input, select{
     width:100%;
     padding:10px 10px;
     border-radius: 12px;
@@ -68,15 +70,15 @@
     color: var(--text);
     outline:none;
   }
-  input::placeholder, textarea::placeholder{color:rgba(232,238,252,.45)}
+  input::placeholder{color:rgba(232,238,252,.45)}
   .col{flex:1; min-width:160px}
-  .col-sm{width:140px; min-width:140px}
-  .col-xs{width:110px; min-width:110px}
+  .col-sm{width:170px; min-width:170px}
+  .col-xs{width:120px; min-width:120px}
   .btn{
     border:none; cursor:pointer;
     padding:10px 12px;
     border-radius: 12px;
-    font-weight:650;
+    font-weight:700;
     color: #061021;
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     box-shadow: 0 10px 22px rgba(77,163,255,.18);
@@ -100,9 +102,7 @@
     border:1px solid rgba(44,255,136,.35);
     box-shadow:none;
   }
-  .mini{
-    font-size:12px; padding:9px 10px; border-radius: 10px;
-  }
+  .mini{font-size:12px; padding:9px 10px; border-radius: 10px;}
   .divider{height:1px;background:var(--line);margin:12px 0}
   .work-item{
     background: rgba(255,255,255,.03);
@@ -142,9 +142,7 @@
     justify-content:space-between;
     align-items:center;
   }
-  .grand span:last-child{
-    color: var(--ok);
-  }
+  .grand span:last-child{color: var(--ok);}
   .switch{
     display:flex; align-items:center; gap:10px; user-select:none;
     padding:10px 12px;
@@ -155,12 +153,12 @@
   .switch input{width:auto; transform:scale(1.15)}
   .actions{display:flex; gap:10px; flex-wrap:wrap}
   .hint{font-size:12px; color:var(--muted); line-height:1.35}
-  .muted{color:var(--muted)}
   .small{font-size:12px}
   .right{margin-left:auto}
   @media (max-width:520px){
     .topbar{flex-direction:column; align-items:flex-start}
     .pill{width:100%}
+    .col-sm,.col-xs{width:100%; min-width:unset}
   }
 </style>
 </head>
@@ -170,13 +168,12 @@
 
   <div class="topbar">
     <div class="title">
-      <h1>⚡ Cotizador Profesional Electricidad</h1>
-      <div class="subtitle">Modo oscuro • WhatsApp • PDF • Cantidades • Guardado automático</div>
+      <h1>⚡ Cotizador Electricidad Vitt PRO 1.0</h1>
+      <div class="subtitle">Soluciones Eléctricas • WhatsApp • PDF • Offline • Instalación tipo App</div>
     </div>
     <div class="pill" id="statusPill">Listo</div>
   </div>
 
-  <!-- DATOS DEL CLIENTE / TRABAJO -->
   <div class="card">
     <h2>Datos del presupuesto</h2>
     <div class="row">
@@ -194,17 +191,16 @@
       </div>
     </div>
     <div class="hint" style="margin-top:10px">
-      Tip: estos datos salen en el texto para WhatsApp y en el PDF.
+      Estos datos salen en el WhatsApp y en el PDF.
     </div>
   </div>
 
-  <!-- BUSCADOR + CATEGORÍAS -->
   <div class="card">
-    <h2>Buscar trabajos</h2>
+    <h2>Buscar trabajos (AAIERIC Enero 2026)</h2>
     <div class="row">
       <div class="col">
         <label>Buscar</label>
-        <input id="search" placeholder="Escribí: tablero, disyuntor, cámara, etc." />
+        <input id="search" placeholder="Escribí: visita, boca, cableado, jornales, certificados..." />
       </div>
       <div class="col-sm">
         <label>Categoría</label>
@@ -215,11 +211,10 @@
       </div>
     </div>
     <div class="hint" style="margin-top:10px">
-      Elegís categoría + buscás por nombre y agregás. Luego ponés cantidad.
+      Elegís categoría + buscás por nombre y agregás. Después ponés cantidad y listo.
     </div>
   </div>
 
-  <!-- TRABAJOS AGREGADOS -->
   <div class="card">
     <div class="row" style="align-items:center">
       <h2 style="margin:0">Trabajos agregados</h2>
@@ -232,13 +227,8 @@
       <button class="btn secondary" onclick="agregarTrabajoVacio()">+ Agregar otro</button>
       <button class="btn danger" onclick="limpiarTodo()">Vaciar todo</button>
     </div>
-
-    <div class="hint" style="margin-top:10px">
-      Podés quitar cualquier trabajo con “Eliminar”.
-    </div>
   </div>
 
-  <!-- COSTOS EXTRA -->
   <div class="card">
     <h2>Extras</h2>
     <div class="row">
@@ -261,8 +251,8 @@
         <div class="switch">
           <input type="checkbox" id="iva" />
           <div>
-            <div style="font-weight:700">Aplicar IVA 21%</div>
-            <div class="small muted">Por defecto queda como lo configures</div>
+            <div style="font-weight:800">Aplicar IVA 21%</div>
+            <div class="small" style="color:var(--muted)">Queda como lo configures</div>
           </div>
         </div>
       </div>
@@ -271,8 +261,8 @@
         <div class="switch">
           <input type="checkbox" id="guardarDefaults" checked />
           <div>
-            <div style="font-weight:700">Guardar valores por defecto</div>
-            <div class="small muted">Margen / IVA / materiales / adicionales</div>
+            <div style="font-weight:800">Guardar valores por defecto</div>
+            <div class="small" style="color:var(--muted)">Margen / IVA / materiales / adicionales</div>
           </div>
         </div>
       </div>
@@ -288,75 +278,29 @@
     </div>
   </div>
 
-  <!-- ACCIONES -->
   <div class="card">
     <h2>Acciones</h2>
     <div class="actions">
       <button class="btn ok" onclick="copiarWhatsApp()">📲 Copiar para WhatsApp</button>
-      <button class="btn" onclick="abrirPDF()">🧾 Descargar PDF</button>
+      <button class="btn" onclick="abrirPDF()">🧾 PDF (estilo PRO)</button>
     </div>
     <div class="hint" style="margin-top:10px">
-      “Descargar PDF” abre una vista lista para imprimir/guardar como PDF (funciona en celular).
-    </div>
-  </div>
-
-  <!-- EDITAR LISTA DE TRABAJOS -->
-  <div class="card">
-    <h2>Lista de trabajos (editable)</h2>
-    <div class="hint">
-      Por ahora la lista viene cargada. Si querés, después la llenamos completa con tus valores AAIERIC.
-      Podés editar esta lista más adelante (yo te lo hago con copia/pega).
+      El PDF abre una vista premium lista para imprimir/guardar como PDF.
     </div>
   </div>
 
 </div>
 
 <script>
-  // =========================
-  // 1) LISTA DE TRABAJOS
-  // =========================
-  // IMPORTANTE: Como estamos SOLO con celular (sin backend),
-  // la lista es local (editable). Después la hacemos automática.
-  const TRABAJOS = [
+  // ========= PWA (Service Worker) =========
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js").catch(()=>{});
+  }
 
-{ cat:"Básicos AAIERIC", nombre:"Visita técnica", precio:45324 },
-{ cat:"Básicos AAIERIC", nombre:"Urgencia mínima", precio:108660 },
-{ cat:"Básicos AAIERIC", nombre:"Boca completa", precio:90490 },
-{ cat:"Básicos AAIERIC", nombre:"Hora de trabajo (mínimo)", precio:45324 },
-{ cat:"Básicos AAIERIC", nombre:"Service instalación (mínimo)", precio:90490 },
-
-{ cat:"Canalización", nombre:"Amurado ladrillo común", precio:52061 },
-{ cat:"Canalización", nombre:"Amurado ladrillo hueco", precio:50824 },
-{ cat:"Canalización", nombre:"Amurado a la vista", precio:41611 },
-{ cat:"Canalización", nombre:"Pase de viga / columna", precio:48318 },
-
-{ cat:"Tableros", nombre:"TP Monofásico + PAT", precio:267314 },
-{ cat:"Tableros", nombre:"TP Trifásico + PAT", precio:361993 },
-{ cat:"Tableros", nombre:"ID módulo bipolar adicional", precio:65723 },
-{ cat:"Tableros", nombre:"ID tetrapolar", precio:113148 },
-{ cat:"Tableros", nombre:"ITM tripolar", precio:95456 },
-
-{ cat:"Artefactos", nombre:"Aplique simple", precio:24798 },
-{ cat:"Artefactos", nombre:"Spot LED", precio:24798 },
-{ cat:"Artefactos", nombre:"Colgante liviano 3 luces", precio:49598 },
-{ cat:"Artefactos", nombre:"Colgante liviano 5 luces", precio:65704 },
-{ cat:"Artefactos", nombre:"Colgante pesado", precio:86774 },
-{ cat:"Artefactos", nombre:"Ventilador techo", precio:90490 },
-{ cat:"Artefactos", nombre:"Ventilador techo con luminaria", precio:113148 }
-
-];
-  
-  ];
-
-  // =========================
-  // 2) ESTADO / DEFAULTS
-  // =========================
+  // ========= Helpers =========
   const $ = (id) => document.getElementById(id);
 
-  function setPill(msg){
-    const el = $("statusPill");
-    el.textContent = msg;
-  }
+  function setPill(msg){ $("statusPill").textContent = msg; }
 
   function hoyISO(){
     const d = new Date();
@@ -366,10 +310,66 @@
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  function money(n){
-    return (Number(n)||0).toLocaleString("es-AR");
-  }
+  function money(n){ return (Number(n)||0).toLocaleString("es-AR"); }
 
+  // ========= AAIERIC Enero 2026 (extraído del PDF) =========
+  const TRABAJOS = [
+    { cat:"Amurado de cañeria a la vista", nombre:"Metal, PVC, Cablecanal (14x30)", precio:41611 },
+    { cat:"Amurado de cañeria en mampostería", nombre:"Ladrillo común (por boca)", precio:52061 },
+    { cat:"Amurado de cañeria en mampostería", nombre:"Ladrillo común (por metro)", precio:12442 },
+    { cat:"Amurado de cañeria en mampostería", nombre:"Ladrillo hueco (por boca)", precio:50824 },
+    { cat:"Amurado de cañeria en mampostería", nombre:"Ladrillo hueco (por metro)", precio:12199 },
+
+    { cat:"Automatismos", nombre:"Contactores", precio:113148 },
+    { cat:"Automatismos", nombre:"Sensores (se debe agregar costo cableado)", precio:99540 },
+
+    { cat:"Básicos", nombre:"Visita técnica", precio:45324 },
+    { cat:"Básicos", nombre:"Urgencia (mínimo)", precio:108660 },
+    { cat:"Básicos", nombre:"Boca completa (unidad básica)", precio:90490 },
+    { cat:"Básicos", nombre:"Service - Instalación (mínimo)", precio:90490 },
+    { cat:"Básicos", nombre:"Hora de trabajo (mínimo)", precio:45324 },
+    { cat:"Básicos", nombre:"Hora de trabajo (promedio)", precio:45324 },
+
+    { cat:"Cable subterráneo", nombre:"Cable subterráneo (Tierra) - por 1m", precio:45282 },
+    { cat:"Cable subterráneo", nombre:"Cable subterráneo (Piso) - por 1m", precio:48318 },
+    { cat:"Cable subterráneo", nombre:"Adicional por caja de paso (Tierra)", precio:49728 },
+    { cat:"Cable subterráneo", nombre:"Adicional por caja de paso (Piso)", precio:53101 },
+
+    { cat:"Canalización de cañería en losa", nombre:"En losa con caño metálico", precio:45811 },
+    { cat:"Canalización de cañería en losa", nombre:"En loseta con caño metálico", precio:48101 },
+
+    { cat:"Cableado en obra nueva - Opción 1", nombre:"Canalización realizada por el profesional", precio:22265 },
+
+    { cat:"Cableado en obra nueva - Opción 2", nombre:"Canalización realizada por otro profesional", precio:31002 },
+    { cat:"Cableado en obra nueva - Opción 2", nombre:"Recableado con artefactos (1)", precio:46490 },
+    { cat:"Cableado en obra nueva - Opción 2", nombre:"Recableado sin artefactos (1)", precio:31002 },
+
+    { cat:"Documentación", nombre:"Proyecto eléctrico (mínimo) - referencia", precio:460817 },
+    { cat:"Documentación", nombre:"Proyecto eléctrico (mínimo por m2) - referencia", precio:13270 },
+    { cat:"Documentación", nombre:"Plano eléctrico (mínimo por m2) - referencia", precio:12251 },
+    { cat:"Documentación", nombre:"Plano eléctrico - costo por boca", precio:10601 },
+    { cat:"Documentación", nombre:"Plano eléctrico - tableros", precio:27071 },
+    { cat:"Documentación", nombre:"Plano eléctrico - acometida", precio:27071 },
+    { cat:"Documentación", nombre:"Plano eléctrico - mínimo 30 bocas", precio:549840 },
+    { cat:"Documentación", nombre:"Lista de materiales (mínimo para 30m2)", precio:54233 },
+
+    { cat:"Certificados", nombre:"Certificado T1 - Residencial/Comercial Monofásico", precio:347490 },
+    { cat:"Certificados", nombre:"Certificado T1 - Residencial Trifásico", precio:521235 },
+    { cat:"Certificados", nombre:"Certificado T1 - Comercial Trifásico", precio:521235 },
+    { cat:"Certificados", nombre:"Certificado T2 (según potencia instalada)", precio:27215 },
+    { cat:"Certificados", nombre:"Certificado T3 (según potencia instalada)", precio:27215 },
+    { cat:"Certificados", nombre:"Protocolo puesta a tierra (residencial/comercial)", precio:555984 },
+    { cat:"Certificados", nombre:"Protocolo puesta a tierra (industrial)", precio:555984 },
+
+    { cat:"Jornales", nombre:"Jornal Oficial Especializado (8hs)", precio:79239 },
+    { cat:"Jornales", nombre:"Jornal Oficial Electricista (8hs)", precio:67523 },
+    { cat:"Jornales", nombre:"Jornal Medio Oficial Electricista (8hs)", precio:62285 },
+    { cat:"Jornales", nombre:"Jornal Ayudante (8hs)", precio:57151 },
+
+    { cat:"Pase de viga y/o columna", nombre:"A razón de 1 boca en viga/columna", precio:48318 }
+  ];
+
+  // ========= Defaults =========
   function loadDefaults(){
     $("fecha").value = hoyISO();
     const saved = JSON.parse(localStorage.getItem("cotizador_defaults") || "{}");
@@ -396,12 +396,10 @@
     localStorage.setItem("cotizador_defaults", JSON.stringify(saved));
   }
 
-  // =========================
-  // 3) FILTROS / CATEGORÍAS
-  // =========================
+  // ========= Categorías / filtros =========
   function categorias(){
     const set = new Set(TRABAJOS.map(t=>t.cat));
-    return ["Todas", ...Array.from(set).sort()];
+    return ["Todas", ...Array.from(set).sort((a,b)=>a.localeCompare(b, "es"))];
   }
 
   function renderCategorias(){
@@ -425,9 +423,7 @@
     });
   }
 
-  // =========================
-  // 4) ITEMS AGREGADOS
-  // =========================
+  // ========= Items agregados =========
   function workCardTemplate(item){
     const div = document.createElement("div");
     div.className = "work-item";
@@ -461,7 +457,7 @@
 
       <div class="row" style="margin-top:10px">
         <div class="col">
-          <div class="hint">Podés ajustar el precio unitario si querés (ej: caso especial).</div>
+          <div class="hint">Podés ajustar el precio unitario si querés (caso especial).</div>
         </div>
         <div class="col-sm">
           <div class="badge" style="text-align:center; width:100%">
@@ -471,7 +467,6 @@
       </div>
     `;
 
-    // Eventos internos
     const delBtn = div.querySelector("button.btn.danger");
     delBtn.addEventListener("click", () => {
       div.remove();
@@ -534,25 +529,17 @@
     });
   }
 
-  // =========================
-  // 5) TOTALES + WHATSAPP + PDF
-  // =========================
-  function actualizar(){
-    saveDefaults();
-
+  // ========= Totales =========
+  function calcularTotales(){
     const items = leerItems();
-    $("countBadge").textContent = `${items.length} ítems`;
-
     let manoObra = 0;
-    const subtotals = [];
 
-    document.querySelectorAll(".work-item").forEach((c, idx)=>{
+    document.querySelectorAll(".work-item").forEach((c)=>{
       const cant = Number(c.querySelector(".cantidad").value) || 0;
       const precio = Number(c.querySelector(".precio").value) || 0;
       const sub = cant * precio;
       c.querySelector(".subline").textContent = money(sub);
       manoObra += sub;
-      subtotals.push(sub);
     });
 
     const materiales = Number($("materiales").value) || 0;
@@ -566,11 +553,17 @@
     const ivaMonto = iva ? subtotal * 0.21 : 0;
     const total = subtotal + ivaMonto;
 
+    return { items, manoObra, materiales, adicionales, margenPct, ganancia, iva, ivaMonto, total };
+  }
+
+  function actualizar(){
+    saveDefaults();
+
+    const { items, manoObra, materiales, adicionales, margenPct, ganancia, ivaMonto, total } = calcularTotales();
+    $("countBadge").textContent = `${items.length} ítems`;
     $("resultado").textContent = `$${money(total)}`;
 
-    // Totales detallados
-    const box = $("totalesBox");
-    box.innerHTML = `
+    $("totalesBox").innerHTML = `
       <div class="line"><span>Mano de obra</span><b>$${money(manoObra)}</b></div>
       <div class="line"><span>Materiales</span><b>$${money(materiales)}</b></div>
       <div class="line"><span>Adicionales</span><b>$${money(adicionales)}</b></div>
@@ -581,39 +574,27 @@
     setPill("Actualizado ✓");
   }
 
+  // ========= WhatsApp =========
   function armarTextoPresupuesto(){
     const cliente = ($("cliente").value || "").trim();
     const obra = ($("obra").value || "").trim();
     const fecha = ($("fecha").value || "").trim();
 
-    const items = leerItems();
-    let manoObra = 0;
-
-    const lineas = items.map(it=>{
-      const sub = (Number(it.cant)||0) * (Number(it.precio)||0);
-      manoObra += sub;
-      return `• ${it.nombre}  x${it.cant}  —  $${money(sub)}`;
-    });
-
-    const materiales = Number($("materiales").value) || 0;
-    const adicionales = Number($("adicionales").value) || 0;
-    const margenPct = Number($("margen").value) || 0;
-    const iva = $("iva").checked;
-
-    const base = manoObra + materiales + adicionales;
-    const ganancia = base * (margenPct/100);
-    const subtotal = base + ganancia;
-    const ivaMonto = iva ? subtotal * 0.21 : 0;
-    const total = subtotal + ivaMonto;
+    const { items, manoObra, materiales, adicionales, margenPct, ganancia, iva, ivaMonto, total } = calcularTotales();
 
     const header = [
-      `⚡ *Presupuesto Electricidad*`,
+      `⚡ *Cotizador Electricidad Vitt PRO 1.0*`,
+      `🏷️ *Soluciones Eléctricas*`,
       fecha ? `📅 Fecha: ${fecha}` : null,
       cliente ? `👤 Cliente: ${cliente}` : null,
       obra ? `📍 Obra: ${obra}` : null,
       ``,
-      `🧰 *Detalle de trabajos*`
+      `🧰 *Detalle*`
     ].filter(Boolean).join("\n");
+
+    const detalle = items.length
+      ? items.map(it => `• ${it.nombre}  x${it.cant}  —  $${money(it.cant * it.precio)}`).join("\n")
+      : "• (Sin ítems)";
 
     const footer = [
       ``,
@@ -626,66 +607,120 @@
       `✅ *TOTAL: $${money(total)}*`
     ].join("\n");
 
-    return `${header}\n${lineas.join("\n")}\n${footer}`;
+    return `${header}\n${detalle}\n${footer}`;
   }
 
   async function copiarWhatsApp(){
     const txt = armarTextoPresupuesto();
     try{
       await navigator.clipboard.writeText(txt);
-      setPill("Copiado para WhatsApp ✓");
-      alert("Listo ✅\nSe copió el presupuesto.\nPegalo en WhatsApp.");
+      setPill("Copiado ✓");
+      alert("Listo ✅\nCopiado para WhatsApp.\nPegalo y enviá.");
     }catch(e){
-      // fallback para algunos teléfonos
       const ta = document.createElement("textarea");
       ta.value = txt;
       document.body.appendChild(ta);
       ta.select();
       document.execCommand("copy");
       ta.remove();
-      setPill("Copiado (modo compat) ✓");
-      alert("Listo ✅\nSe copió el presupuesto.\nPegalo en WhatsApp.");
+      setPill("Copiado (compat) ✓");
+      alert("Listo ✅\nCopiado para WhatsApp.\nPegalo y enviá.");
     }
   }
 
+  // ========= PDF PRO (mismo estilo) =========
   function abrirPDF(){
     const txt = armarTextoPresupuesto();
-    const lines = txt.split("\n").map(l => `<div>${escapeHtml(l)}</div>`).join("");
-    const total = $("resultado").textContent;
+    const { total } = calcularTotales();
+    const lines = txt.split("\n").map(l => `<div class="lineText">${escapeHtml(l)}</div>`).join("");
 
     const html = `
-      <!doctype html>
-      <html lang="es">
-      <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Presupuesto</title>
-        <style>
-          body{font-family: Arial, sans-serif; padding:24px; color:#111}
-          .box{border:1px solid #ddd; padding:18px; border-radius:12px}
-          .top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px}
-          h1{font-size:18px;margin:0}
-          .muted{color:#555; font-size:12px}
-          .total{font-size:20px; font-weight:800; margin-top:10px}
-          .lines{margin-top:14px; font-size:13px; line-height:1.45}
-          .btn{margin-top:14px; padding:10px 12px; border:1px solid #ddd; background:#f6f6f6; border-radius:10px}
-          @media print { .btn{display:none} body{padding:0} .box{border:none} }
-        </style>
-      </head>
-      <body>
-        <div class="box">
-          <div class="top">
-            <div>
-              <h1>Presupuesto Electricidad</h1>
-              <div class="muted">Generado desde Cotizador</div>
-            </div>
-            <div class="total">${total}</div>
-          </div>
-          <div class="lines">${lines}</div>
-          <button class="btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
-        </div>
-      </body>
-      </html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PDF - Cotizador Electricidad Vitt PRO 1.0</title>
+  <style>
+    :root{
+      --bg:#0b1220; --text:#e8eefc; --muted:#a9b6d3; --line:rgba(255,255,255,.10);
+      --accent:#4da3ff; --accent2:#00d4ff; --ok:#2cff88;
+    }
+    body{
+      margin:0; padding:24px;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 20% -10%, rgba(77,163,255,.20), transparent 55%),
+                  radial-gradient(900px 600px at 90% 0%, rgba(0,212,255,.16), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    .box{
+      max-width:900px; margin:0 auto;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(255,255,255,.04);
+      padding:18px;
+    }
+    .top{
+      display:flex; justify-content:space-between; gap:14px; align-items:flex-start; flex-wrap:wrap;
+      border-bottom:1px solid var(--line);
+      padding-bottom:14px;
+      margin-bottom:14px;
+    }
+    .brand{
+      font-weight:900;
+      font-size:16px;
+      letter-spacing:.2px;
+    }
+    .tag{color:var(--muted); font-size:12px; margin-top:4px}
+    .total{
+      font-size:22px;
+      font-weight:900;
+      color:var(--ok);
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(44,255,136,.25);
+      background: rgba(44,255,136,.08);
+      min-width: 220px;
+      text-align:right;
+    }
+    .lines{font-size:13px; line-height:1.45; color:var(--text)}
+    .lineText{padding:2px 0}
+    .btn{
+      margin-top:14px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#061021;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .hint{color:var(--muted); font-size:12px; margin-top:10px}
+    @media print{
+      body{padding:0}
+      .btn,.hint{display:none}
+      .box{border:none; border-radius:0}
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="top">
+      <div>
+        <div class="brand">⚡ Cotizador Electricidad Vitt PRO 1.0</div>
+        <div class="tag">Soluciones Eléctricas</div>
+      </div>
+      <div class="total">TOTAL: $${Number(total).toLocaleString("es-AR")}</div>
+    </div>
+
+    <div class="lines">${lines}</div>
+
+    <button class="btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
+    <div class="hint">En el visor: menú ⋮ → “Imprimir” → Guardar como PDF.</div>
+  </div>
+</body>
+</html>
     `;
 
     const w = window.open("", "_blank");
@@ -704,26 +739,15 @@
       .replaceAll("'","&#039;");
   }
 
-  // =========================
-  // 6) INIT
-  // =========================
+  // ========= Init =========
   renderCategorias();
   loadDefaults();
   agregarTrabajoVacio();
   actualizar();
 
-  document.addEventListener("input", () => {
-    actualizar();
-  });
-
-  $("search").addEventListener("input", () => {
-    setPill(`${trabajosFiltrados().length} resultado(s)`);
-  });
-
-  $("categoria").addEventListener("change", () => {
-    setPill(`${trabajosFiltrados().length} resultado(s)`);
-  });
-
+  document.addEventListener("input", () => actualizar());
+  $("search").addEventListener("input", () => setPill(`${trabajosFiltrados().length} resultado(s)`));
+  $("categoria").addEventListener("change", () => setPill(`${trabajosFiltrados().length} resultado(s)`));
 </script>
 </body>
 </html>
