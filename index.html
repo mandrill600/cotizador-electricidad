@@ -1,753 +1,314 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cotizador Electricidad Vitt PRO 1.0</title>
 
-<meta name="theme-color" content="#0b1220" />
-<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#0b1220">
+<link rel="manifest" href="/manifest.json">
 
 <style>
-  :root{
-    --bg:#0b1220;
-    --card:#0f1a33;
-    --card2:#101f3d;
-    --text:#e8eefc;
-    --muted:#a9b6d3;
-    --line:rgba(255,255,255,.10);
-    --accent:#4da3ff;
-    --accent2:#00d4ff;
-    --danger:#ff4d5a;
-    --ok:#2cff88;
-    --shadow: 0 10px 30px rgba(0,0,0,.35);
-    --radius:14px;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: radial-gradient(1200px 700px at 20% -10%, rgba(77,163,255,.20), transparent 55%),
-                radial-gradient(900px 600px at 90% 0%, rgba(0,212,255,.16), transparent 55%),
-                var(--bg);
-    color:var(--text);
-    padding:18px;
-  }
-  .wrap{max-width:980px;margin:0 auto}
-  .topbar{
-    display:flex; gap:12px; align-items:center; justify-content:space-between;
-    margin: 6px 0 14px;
-  }
-  .title{display:flex; flex-direction:column; gap:4px;}
-  h1{font-size:20px;margin:0}
-  .subtitle{font-size:12px;color:var(--muted)}
-  .pill{
-    display:inline-flex; align-items:center; gap:8px;
-    background: rgba(255,255,255,.06);
-    border:1px solid var(--line);
-    padding:8px 10px;
-    border-radius:999px;
-    font-size:12px;
-    color:var(--muted);
-  }
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-    border:1px solid var(--line);
-    border-radius: var(--radius);
-    padding:14px;
-    box-shadow: var(--shadow);
-    margin-bottom:12px;
-  }
-  .card h2{font-size:14px;margin:0 0 10px}
-  .row{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap}
-  label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
-  input, select{
-    width:100%;
-    padding:10px 10px;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,.04);
-    color: var(--text);
-    outline:none;
-  }
-  input::placeholder{color:rgba(232,238,252,.45)}
-  .col{flex:1; min-width:160px}
-  .col-sm{width:170px; min-width:170px}
-  .col-xs{width:120px; min-width:120px}
-  .btn{
-    border:none; cursor:pointer;
-    padding:10px 12px;
-    border-radius: 12px;
-    font-weight:700;
-    color: #061021;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    box-shadow: 0 10px 22px rgba(77,163,255,.18);
-  }
-  .btn:active{transform:translateY(1px)}
-  .btn.secondary{
-    background: rgba(255,255,255,.06);
-    color: var(--text);
-    border:1px solid var(--line);
-    box-shadow:none;
-  }
-  .btn.danger{
-    background: rgba(255,77,90,.15);
-    color: #ffd9dc;
-    border:1px solid rgba(255,77,90,.35);
-    box-shadow:none;
-  }
-  .btn.ok{
-    background: rgba(44,255,136,.12);
-    color:#c9ffe2;
-    border:1px solid rgba(44,255,136,.35);
-    box-shadow:none;
-  }
-  .mini{font-size:12px; padding:9px 10px; border-radius: 10px;}
-  .divider{height:1px;background:var(--line);margin:12px 0}
-  .work-item{
-    background: rgba(255,255,255,.03);
-    border:1px solid var(--line);
-    border-radius: 14px;
-    padding:12px;
-    margin-bottom:10px;
-  }
-  .work-head{
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-    margin-bottom:10px;
-  }
-  .badge{
-    font-size:11px;
-    padding:6px 8px;
-    border-radius:999px;
-    border:1px solid var(--line);
-    background: rgba(255,255,255,.05);
-    color: var(--muted);
-  }
-  .totals{
-    display:grid;
-    grid-template-columns: 1fr;
-    gap:8px;
-  }
-  .totals .line{
-    display:flex; justify-content:space-between; gap:12px;
-    font-size:13px;
-    color: var(--muted);
-  }
-  .totals .line b{color:var(--text)}
-  .grand{
-    margin-top:8px;
-    font-size:22px;
-    font-weight:850;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-  }
-  .grand span:last-child{color: var(--ok);}
-  .switch{
-    display:flex; align-items:center; gap:10px; user-select:none;
-    padding:10px 12px;
-    border-radius: 12px;
-    border:1px solid var(--line);
-    background: rgba(255,255,255,.03);
-  }
-  .switch input{width:auto; transform:scale(1.15)}
-  .actions{display:flex; gap:10px; flex-wrap:wrap}
-  .hint{font-size:12px; color:var(--muted); line-height:1.35}
-  .small{font-size:12px}
-  .right{margin-left:auto}
-  @media (max-width:520px){
-    .topbar{flex-direction:column; align-items:flex-start}
-    .pill{width:100%}
-    .col-sm,.col-xs{width:100%; min-width:unset}
-  }
+:root{
+--bg:#0b1220;
+--card:#111c34;
+--text:#e8eefc;
+--muted:#94a3b8;
+--accent:#4da3ff;
+--accent2:#00d4ff;
+--ok:#00e676;
+--danger:#ff5252;
+--radius:14px;
+}
+
+body{
+margin:0;
+padding:20px;
+background:linear-gradient(180deg,#0b1220,#101a2f);
+color:var(--text);
+font-family:Arial, sans-serif;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+h1{
+margin:0;
+font-size:20px;
+}
+
+.subtitle{
+font-size:12px;
+color:var(--muted);
+margin-bottom:20px;
+}
+
+.card{
+background:var(--card);
+padding:15px;
+border-radius:var(--radius);
+margin-bottom:15px;
+}
+
+label{
+font-size:12px;
+color:var(--muted);
+display:block;
+margin-bottom:4px;
+}
+
+input,select{
+width:100%;
+padding:8px;
+border-radius:8px;
+border:none;
+background:#1b2945;
+color:white;
+}
+
+button{
+padding:10px;
+border-radius:10px;
+border:none;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btn{
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+color:black;
+}
+
+.btn-danger{
+background:var(--danger);
+color:white;
+}
+
+.btn-ok{
+background:var(--ok);
+color:black;
+}
+
+.row{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.col{
+flex:1;
+min-width:150px;
+}
+
+.work-item{
+background:#16233f;
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+.total{
+font-size:22px;
+font-weight:bold;
+text-align:right;
+margin-top:10px;
+color:var(--ok);
+}
+
+.small{
+font-size:12px;
+color:var(--muted);
+}
 </style>
 </head>
 
 <body>
-<div class="wrap">
 
-  <div class="topbar">
-    <div class="title">
-      <h1>⚡ Cotizador Electricidad Vitt PRO 1.0</h1>
-      <div class="subtitle">Soluciones Eléctricas • WhatsApp • PDF • Offline • Instalación tipo App</div>
-    </div>
-    <div class="pill" id="statusPill">Listo</div>
-  </div>
+<div class="container">
 
-  <div class="card">
-    <h2>Datos del presupuesto</h2>
-    <div class="row">
-      <div class="col">
-        <label>Cliente (opcional)</label>
-        <input id="cliente" placeholder="Ej: Juan Pérez" />
-      </div>
-      <div class="col">
-        <label>Dirección / Obra (opcional)</label>
-        <input id="obra" placeholder="Ej: Pilar, B° ..." />
-      </div>
-      <div class="col-sm">
-        <label>Fecha</label>
-        <input id="fecha" />
-      </div>
-    </div>
-    <div class="hint" style="margin-top:10px">
-      Estos datos salen en el WhatsApp y en el PDF.
-    </div>
-  </div>
+<h1>⚡ Cotizador Electricidad Vitt PRO 1.0</h1>
+<div class="subtitle">Soluciones Eléctricas</div>
 
-  <div class="card">
-    <h2>Buscar trabajos (AAIERIC Enero 2026)</h2>
-    <div class="row">
-      <div class="col">
-        <label>Buscar</label>
-        <input id="search" placeholder="Escribí: visita, boca, cableado, jornales, certificados..." />
-      </div>
-      <div class="col-sm">
-        <label>Categoría</label>
-        <select id="categoria"></select>
-      </div>
-      <div class="col-sm">
-        <button class="btn" onclick="agregarTrabajoDesdeFiltro()">+ Agregar</button>
-      </div>
-    </div>
-    <div class="hint" style="margin-top:10px">
-      Elegís categoría + buscás por nombre y agregás. Después ponés cantidad y listo.
-    </div>
-  </div>
+<div class="card">
+<div class="row">
+<div class="col">
+<label>Buscar trabajo</label>
+<input id="search">
+</div>
+<div class="col">
+<label>Categoría</label>
+<select id="categoria"></select>
+</div>
+<div class="col">
+<button class="btn" onclick="agregarTrabajo()">Agregar</button>
+</div>
+</div>
+</div>
 
-  <div class="card">
-    <div class="row" style="align-items:center">
-      <h2 style="margin:0">Trabajos agregados</h2>
-      <span class="badge right" id="countBadge">0 ítems</span>
-    </div>
+<div class="card">
+<h3>Trabajos agregados</h3>
+<div id="lista"></div>
+<button class="btn-danger" onclick="limpiar()">Vaciar todo</button>
+</div>
 
-    <div id="trabajosContainer" style="margin-top:12px"></div>
+<div class="card">
+<h3>Extras</h3>
+<div class="row">
+<div class="col">
+<label>Materiales</label>
+<input type="number" id="materiales" value="0">
+</div>
+<div class="col">
+<label>Adicionales</label>
+<input type="number" id="adicionales" value="0">
+</div>
+<div class="col">
+<label>Margen (%)</label>
+<input type="number" id="margen" value="0">
+</div>
+<div class="col">
+<label>IVA 21%</label>
+<input type="checkbox" id="iva">
+</div>
+</div>
+<div class="total">
+Total: $ <span id="total">0</span>
+</div>
+</div>
 
-    <div class="actions">
-      <button class="btn secondary" onclick="agregarTrabajoVacio()">+ Agregar otro</button>
-      <button class="btn danger" onclick="limpiarTodo()">Vaciar todo</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Extras</h2>
-    <div class="row">
-      <div class="col">
-        <label>Materiales ($)</label>
-        <input type="number" id="materiales" value="0" min="0" />
-      </div>
-      <div class="col">
-        <label>Adicionales ($)</label>
-        <input type="number" id="adicionales" value="0" min="0" />
-      </div>
-      <div class="col-xs">
-        <label>Margen (%)</label>
-        <input type="number" id="margen" value="0" min="0" />
-      </div>
-    </div>
-
-    <div class="row" style="margin-top:10px">
-      <div class="col">
-        <div class="switch">
-          <input type="checkbox" id="iva" />
-          <div>
-            <div style="font-weight:800">Aplicar IVA 21%</div>
-            <div class="small" style="color:var(--muted)">Queda como lo configures</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="switch">
-          <input type="checkbox" id="guardarDefaults" checked />
-          <div>
-            <div style="font-weight:800">Guardar valores por defecto</div>
-            <div class="small" style="color:var(--muted)">Margen / IVA / materiales / adicionales</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="totals" id="totalesBox"></div>
-
-    <div class="grand">
-      <span>TOTAL</span>
-      <span id="resultado">$0</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Acciones</h2>
-    <div class="actions">
-      <button class="btn ok" onclick="copiarWhatsApp()">📲 Copiar para WhatsApp</button>
-      <button class="btn" onclick="abrirPDF()">🧾 PDF (estilo PRO)</button>
-    </div>
-    <div class="hint" style="margin-top:10px">
-      El PDF abre una vista premium lista para imprimir/guardar como PDF.
-    </div>
-  </div>
+<div class="card">
+<button class="btn-ok" onclick="copiar()">Copiar para WhatsApp</button>
+<button class="btn" onclick="pdf()">PDF PRO</button>
+</div>
 
 </div>
 
 <script>
-  // ========= PWA (Service Worker) =========
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/service-worker.js").catch(()=>{});
-  }
 
-  // ========= Helpers =========
-  const $ = (id) => document.getElementById(id);
+const TRABAJOS = [
+{cat:"Básicos",nombre:"Visita técnica",precio:45324},
+{cat:"Básicos",nombre:"Boca completa",precio:90490},
+{cat:"Básicos",nombre:"Hora de trabajo",precio:45324},
 
-  function setPill(msg){ $("statusPill").textContent = msg; }
+{cat:"Tableros",nombre:"TP Monofásico + PAT",precio:267314},
+{cat:"Tableros",nombre:"TP Trifásico + PAT",precio:361993},
 
-  function hoyISO(){
-    const d = new Date();
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth()+1).padStart(2,"0");
-    const dd = String(d.getDate()).padStart(2,"0");
-    return `${yyyy}-${mm}-${dd}`;
-  }
+{cat:"Certificados",nombre:"Certificado T1 Monofásico",precio:347490},
+{cat:"Certificados",nombre:"Certificado T1 Trifásico",precio:521235},
 
-  function money(n){ return (Number(n)||0).toLocaleString("es-AR"); }
+{cat:"Jornales",nombre:"Jornal Oficial Electricista (8hs)",precio:67523},
+{cat:"Jornales",nombre:"Jornal Ayudante (8hs)",precio:57151}
+];
 
-  // ========= AAIERIC Enero 2026 (extraído del PDF) =========
-  const TRABAJOS = [
-    { cat:"Amurado de cañeria a la vista", nombre:"Metal, PVC, Cablecanal (14x30)", precio:41611 },
-    { cat:"Amurado de cañeria en mampostería", nombre:"Ladrillo común (por boca)", precio:52061 },
-    { cat:"Amurado de cañeria en mampostería", nombre:"Ladrillo común (por metro)", precio:12442 },
-    { cat:"Amurado de cañeria en mampostería", nombre:"Ladrillo hueco (por boca)", precio:50824 },
-    { cat:"Amurado de cañeria en mampostería", nombre:"Ladrillo hueco (por metro)", precio:12199 },
+let items=[];
 
-    { cat:"Automatismos", nombre:"Contactores", precio:113148 },
-    { cat:"Automatismos", nombre:"Sensores (se debe agregar costo cableado)", precio:99540 },
+const categoriaSelect=document.getElementById("categoria");
+const searchInput=document.getElementById("search");
 
-    { cat:"Básicos", nombre:"Visita técnica", precio:45324 },
-    { cat:"Básicos", nombre:"Urgencia (mínimo)", precio:108660 },
-    { cat:"Básicos", nombre:"Boca completa (unidad básica)", precio:90490 },
-    { cat:"Básicos", nombre:"Service - Instalación (mínimo)", precio:90490 },
-    { cat:"Básicos", nombre:"Hora de trabajo (mínimo)", precio:45324 },
-    { cat:"Básicos", nombre:"Hora de trabajo (promedio)", precio:45324 },
+function cargarCategorias(){
+let cats=["Todas"];
+TRABAJOS.forEach(t=>{
+if(!cats.includes(t.cat)) cats.push(t.cat);
+});
+categoriaSelect.innerHTML="";
+cats.forEach(c=>{
+let opt=document.createElement("option");
+opt.textContent=c;
+opt.value=c;
+categoriaSelect.appendChild(opt);
+});
+}
 
-    { cat:"Cable subterráneo", nombre:"Cable subterráneo (Tierra) - por 1m", precio:45282 },
-    { cat:"Cable subterráneo", nombre:"Cable subterráneo (Piso) - por 1m", precio:48318 },
-    { cat:"Cable subterráneo", nombre:"Adicional por caja de paso (Tierra)", precio:49728 },
-    { cat:"Cable subterráneo", nombre:"Adicional por caja de paso (Piso)", precio:53101 },
+function trabajosFiltrados(){
+let q=searchInput.value.toLowerCase();
+let cat=categoriaSelect.value;
+return TRABAJOS.filter(t=>{
+let okCat=(cat==="Todas"||t.cat===cat);
+let okQ=t.nombre.toLowerCase().includes(q);
+return okCat&&okQ;
+});
+}
 
-    { cat:"Canalización de cañería en losa", nombre:"En losa con caño metálico", precio:45811 },
-    { cat:"Canalización de cañería en losa", nombre:"En loseta con caño metálico", precio:48101 },
+function agregarTrabajo(){
+let lista=trabajosFiltrados();
+if(lista.length===0)return;
+let t=lista[0];
+items.push({nombre:t.nombre,precio:t.precio,cant:1});
+render();
+}
 
-    { cat:"Cableado en obra nueva - Opción 1", nombre:"Canalización realizada por el profesional", precio:22265 },
+function eliminar(i){
+items.splice(i,1);
+render();
+}
 
-    { cat:"Cableado en obra nueva - Opción 2", nombre:"Canalización realizada por otro profesional", precio:31002 },
-    { cat:"Cableado en obra nueva - Opción 2", nombre:"Recableado con artefactos (1)", precio:46490 },
-    { cat:"Cableado en obra nueva - Opción 2", nombre:"Recableado sin artefactos (1)", precio:31002 },
+function limpiar(){
+items=[];
+render();
+}
 
-    { cat:"Documentación", nombre:"Proyecto eléctrico (mínimo) - referencia", precio:460817 },
-    { cat:"Documentación", nombre:"Proyecto eléctrico (mínimo por m2) - referencia", precio:13270 },
-    { cat:"Documentación", nombre:"Plano eléctrico (mínimo por m2) - referencia", precio:12251 },
-    { cat:"Documentación", nombre:"Plano eléctrico - costo por boca", precio:10601 },
-    { cat:"Documentación", nombre:"Plano eléctrico - tableros", precio:27071 },
-    { cat:"Documentación", nombre:"Plano eléctrico - acometida", precio:27071 },
-    { cat:"Documentación", nombre:"Plano eléctrico - mínimo 30 bocas", precio:549840 },
-    { cat:"Documentación", nombre:"Lista de materiales (mínimo para 30m2)", precio:54233 },
+function render(){
+let div=document.getElementById("lista");
+div.innerHTML="";
+items.forEach((it,i)=>{
+let w=document.createElement("div");
+w.className="work-item";
+w.innerHTML=`
+<b>${it.nombre}</b><br>
+$${it.precio} x 
+<input type="number" value="${it.cant}" min="1" onchange="cambiar(${i},this.value)">
+<button class="btn-danger" onclick="eliminar(${i})">Eliminar</button>
+`;
+div.appendChild(w);
+});
+calcular();
+}
 
-    { cat:"Certificados", nombre:"Certificado T1 - Residencial/Comercial Monofásico", precio:347490 },
-    { cat:"Certificados", nombre:"Certificado T1 - Residencial Trifásico", precio:521235 },
-    { cat:"Certificados", nombre:"Certificado T1 - Comercial Trifásico", precio:521235 },
-    { cat:"Certificados", nombre:"Certificado T2 (según potencia instalada)", precio:27215 },
-    { cat:"Certificados", nombre:"Certificado T3 (según potencia instalada)", precio:27215 },
-    { cat:"Certificados", nombre:"Protocolo puesta a tierra (residencial/comercial)", precio:555984 },
-    { cat:"Certificados", nombre:"Protocolo puesta a tierra (industrial)", precio:555984 },
+function cambiar(i,val){
+items[i].cant=parseInt(val)||1;
+calcular();
+}
 
-    { cat:"Jornales", nombre:"Jornal Oficial Especializado (8hs)", precio:79239 },
-    { cat:"Jornales", nombre:"Jornal Oficial Electricista (8hs)", precio:67523 },
-    { cat:"Jornales", nombre:"Jornal Medio Oficial Electricista (8hs)", precio:62285 },
-    { cat:"Jornales", nombre:"Jornal Ayudante (8hs)", precio:57151 },
+function calcular(){
+let subtotal=0;
+items.forEach(it=>{
+subtotal+=it.precio*it.cant;
+});
+let materiales=parseFloat(materiales.value)||0;
+let adicionales=parseFloat(adicionales.value)||0;
+let margen=parseFloat(margen.value)||0;
+let ivaChk=iva.checked;
 
-    { cat:"Pase de viga y/o columna", nombre:"A razón de 1 boca en viga/columna", precio:48318 }
-  ];
+let total=subtotal+materiales+adicionales;
+total+=total*(margen/100);
+if(ivaChk) total*=1.21;
 
-  // ========= Defaults =========
-  function loadDefaults(){
-    $("fecha").value = hoyISO();
-    const saved = JSON.parse(localStorage.getItem("cotizador_defaults") || "{}");
-    if (saved && typeof saved === "object"){
-      if (saved.materiales != null) $("materiales").value = saved.materiales;
-      if (saved.adicionales != null) $("adicionales").value = saved.adicionales;
-      if (saved.margen != null) $("margen").value = saved.margen;
-      if (saved.iva != null) $("iva").checked = !!saved.iva;
-      if (saved.cliente != null) $("cliente").value = saved.cliente;
-      if (saved.obra != null) $("obra").value = saved.obra;
-    }
-  }
+document.getElementById("total").textContent=total.toLocaleString();
+}
 
-  function saveDefaults(){
-    if (!$("guardarDefaults").checked) return;
-    const saved = {
-      materiales: $("materiales").value,
-      adicionales: $("adicionales").value,
-      margen: $("margen").value,
-      iva: $("iva").checked,
-      cliente: $("cliente").value,
-      obra: $("obra").value
-    };
-    localStorage.setItem("cotizador_defaults", JSON.stringify(saved));
-  }
+function copiar(){
+let texto="⚡ Cotizador Electricidad Vitt PRO 1.0\nSoluciones Eléctricas\n\n";
+items.forEach(it=>{
+texto+=`${it.nombre} x${it.cant} - $${(it.precio*it.cant).toLocaleString()}\n`;
+});
+texto+=`\nTOTAL: $${total.textContent}`;
+navigator.clipboard.writeText(texto);
+alert("Copiado");
+}
 
-  // ========= Categorías / filtros =========
-  function categorias(){
-    const set = new Set(TRABAJOS.map(t=>t.cat));
-    return ["Todas", ...Array.from(set).sort((a,b)=>a.localeCompare(b, "es"))];
-  }
+function pdf(){
+window.print();
+}
 
-  function renderCategorias(){
-    const sel = $("categoria");
-    sel.innerHTML = "";
-    categorias().forEach(c=>{
-      const opt = document.createElement("option");
-      opt.value = c;
-      opt.textContent = c;
-      sel.appendChild(opt);
-    });
-  }
+searchInput.addEventListener("input",render);
+categoriaSelect.addEventListener("change",render);
 
-  function trabajosFiltrados(){
-    const q = ($("search").value || "").toLowerCase().trim();
-    const cat = $("categoria").value;
-    return TRABAJOS.filter(t=>{
-      const okCat = (cat === "Todas") || (t.cat === cat);
-      const okQ = !q || t.nombre.toLowerCase().includes(q);
-      return okCat && okQ;
-    });
-  }
+cargarCategorias();
+render();
 
-  // ========= Items agregados =========
-  function workCardTemplate(item){
-    const div = document.createElement("div");
-    div.className = "work-item";
-
-    const options = TRABAJOS.map(t =>
-      `<option value="${t.precio}" data-cat="${t.cat}" ${t.nombre===item.nombre ? "selected":""}>
-        ${t.cat} • ${t.nombre} - $${money(t.precio)}
-      </option>`
-    ).join("");
-
-    div.innerHTML = `
-      <div class="work-head">
-        <div class="badge">${item.cat || "Sin categoría"}</div>
-        <button class="btn danger mini" type="button">Eliminar</button>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <label>Trabajo</label>
-          <select class="trabajoSel">${options}</select>
-        </div>
-        <div class="col-xs">
-          <label>Cantidad</label>
-          <input class="cantidad" type="number" min="1" value="${item.cant || 1}" />
-        </div>
-        <div class="col-xs">
-          <label>Precio unitario ($)</label>
-          <input class="precio" type="number" min="0" value="${item.precio || 0}" />
-        </div>
-      </div>
-
-      <div class="row" style="margin-top:10px">
-        <div class="col">
-          <div class="hint">Podés ajustar el precio unitario si querés (caso especial).</div>
-        </div>
-        <div class="col-sm">
-          <div class="badge" style="text-align:center; width:100%">
-            Subtotal: $<span class="subline">0</span>
-          </div>
-        </div>
-      </div>
-    `;
-
-    const delBtn = div.querySelector("button.btn.danger");
-    delBtn.addEventListener("click", () => {
-      div.remove();
-      actualizar();
-    });
-
-    const sel = div.querySelector(".trabajoSel");
-    const precioInput = div.querySelector(".precio");
-    const badge = div.querySelector(".work-head .badge");
-
-    sel.addEventListener("change", () => {
-      const selectedOpt = sel.options[sel.selectedIndex];
-      const cat = selectedOpt.getAttribute("data-cat") || "Sin categoría";
-      badge.textContent = cat;
-      precioInput.value = Number(sel.value) || 0;
-      actualizar();
-    });
-
-    div.querySelector(".cantidad").addEventListener("input", actualizar);
-    div.querySelector(".precio").addEventListener("input", actualizar);
-
-    return div;
-  }
-
-  function agregarTrabajoVacio(){
-    const first = TRABAJOS[0];
-    const item = { cat:first.cat, nombre:first.nombre, precio:first.precio, cant:1 };
-    $("trabajosContainer").appendChild(workCardTemplate(item));
-    actualizar();
-  }
-
-  function agregarTrabajoDesdeFiltro(){
-    const list = trabajosFiltrados();
-    if (list.length === 0){
-      setPill("No hay resultados");
-      return;
-    }
-    const first = list[0];
-    const item = { cat:first.cat, nombre:first.nombre, precio:first.precio, cant:1 };
-    $("trabajosContainer").appendChild(workCardTemplate(item));
-    actualizar();
-  }
-
-  function limpiarTodo(){
-    if (!confirm("¿Vaciar todos los trabajos agregados?")) return;
-    $("trabajosContainer").innerHTML = "";
-    actualizar();
-  }
-
-  function leerItems(){
-    const cards = Array.from(document.querySelectorAll(".work-item"));
-    return cards.map(c=>{
-      const sel = c.querySelector(".trabajoSel");
-      const selectedOpt = sel.options[sel.selectedIndex];
-      const cat = selectedOpt.getAttribute("data-cat") || "Sin categoría";
-      const nombreTxt = selectedOpt.textContent.split(" - $")[0].replace(/^.*•\s*/,"").trim();
-      const cant = Number(c.querySelector(".cantidad").value) || 0;
-      const precio = Number(c.querySelector(".precio").value) || 0;
-      return { cat, nombre:nombreTxt, cant, precio };
-    });
-  }
-
-  // ========= Totales =========
-  function calcularTotales(){
-    const items = leerItems();
-    let manoObra = 0;
-
-    document.querySelectorAll(".work-item").forEach((c)=>{
-      const cant = Number(c.querySelector(".cantidad").value) || 0;
-      const precio = Number(c.querySelector(".precio").value) || 0;
-      const sub = cant * precio;
-      c.querySelector(".subline").textContent = money(sub);
-      manoObra += sub;
-    });
-
-    const materiales = Number($("materiales").value) || 0;
-    const adicionales = Number($("adicionales").value) || 0;
-    const margenPct = Number($("margen").value) || 0;
-    const iva = $("iva").checked;
-
-    const base = manoObra + materiales + adicionales;
-    const ganancia = base * (margenPct/100);
-    const subtotal = base + ganancia;
-    const ivaMonto = iva ? subtotal * 0.21 : 0;
-    const total = subtotal + ivaMonto;
-
-    return { items, manoObra, materiales, adicionales, margenPct, ganancia, iva, ivaMonto, total };
-  }
-
-  function actualizar(){
-    saveDefaults();
-
-    const { items, manoObra, materiales, adicionales, margenPct, ganancia, ivaMonto, total } = calcularTotales();
-    $("countBadge").textContent = `${items.length} ítems`;
-    $("resultado").textContent = `$${money(total)}`;
-
-    $("totalesBox").innerHTML = `
-      <div class="line"><span>Mano de obra</span><b>$${money(manoObra)}</b></div>
-      <div class="line"><span>Materiales</span><b>$${money(materiales)}</b></div>
-      <div class="line"><span>Adicionales</span><b>$${money(adicionales)}</b></div>
-      <div class="line"><span>Margen (${margenPct}%)</span><b>$${money(ganancia)}</b></div>
-      <div class="line"><span>IVA (21%)</span><b>$${money(ivaMonto)}</b></div>
-    `;
-
-    setPill("Actualizado ✓");
-  }
-
-  // ========= WhatsApp =========
-  function armarTextoPresupuesto(){
-    const cliente = ($("cliente").value || "").trim();
-    const obra = ($("obra").value || "").trim();
-    const fecha = ($("fecha").value || "").trim();
-
-    const { items, manoObra, materiales, adicionales, margenPct, ganancia, iva, ivaMonto, total } = calcularTotales();
-
-    const header = [
-      `⚡ *Cotizador Electricidad Vitt PRO 1.0*`,
-      `🏷️ *Soluciones Eléctricas*`,
-      fecha ? `📅 Fecha: ${fecha}` : null,
-      cliente ? `👤 Cliente: ${cliente}` : null,
-      obra ? `📍 Obra: ${obra}` : null,
-      ``,
-      `🧰 *Detalle*`
-    ].filter(Boolean).join("\n");
-
-    const detalle = items.length
-      ? items.map(it => `• ${it.nombre}  x${it.cant}  —  $${money(it.cant * it.precio)}`).join("\n")
-      : "• (Sin ítems)";
-
-    const footer = [
-      ``,
-      `📌 Mano de obra: $${money(manoObra)}`,
-      `📦 Materiales: $${money(materiales)}`,
-      `➕ Adicionales: $${money(adicionales)}`,
-      `💼 Margen (${margenPct}%): $${money(ganancia)}`,
-      iva ? `🧾 IVA (21%): $${money(ivaMonto)}` : `🧾 IVA: (no aplicado)`,
-      ``,
-      `✅ *TOTAL: $${money(total)}*`
-    ].join("\n");
-
-    return `${header}\n${detalle}\n${footer}`;
-  }
-
-  async function copiarWhatsApp(){
-    const txt = armarTextoPresupuesto();
-    try{
-      await navigator.clipboard.writeText(txt);
-      setPill("Copiado ✓");
-      alert("Listo ✅\nCopiado para WhatsApp.\nPegalo y enviá.");
-    }catch(e){
-      const ta = document.createElement("textarea");
-      ta.value = txt;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand("copy");
-      ta.remove();
-      setPill("Copiado (compat) ✓");
-      alert("Listo ✅\nCopiado para WhatsApp.\nPegalo y enviá.");
-    }
-  }
-
-  // ========= PDF PRO (mismo estilo) =========
-  function abrirPDF(){
-    const txt = armarTextoPresupuesto();
-    const { total } = calcularTotales();
-    const lines = txt.split("\n").map(l => `<div class="lineText">${escapeHtml(l)}</div>`).join("");
-
-    const html = `
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PDF - Cotizador Electricidad Vitt PRO 1.0</title>
-  <style>
-    :root{
-      --bg:#0b1220; --text:#e8eefc; --muted:#a9b6d3; --line:rgba(255,255,255,.10);
-      --accent:#4da3ff; --accent2:#00d4ff; --ok:#2cff88;
-    }
-    body{
-      margin:0; padding:24px;
-      font-family: Arial, sans-serif;
-      background: radial-gradient(1200px 700px at 20% -10%, rgba(77,163,255,.20), transparent 55%),
-                  radial-gradient(900px 600px at 90% 0%, rgba(0,212,255,.16), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-    }
-    .box{
-      max-width:900px; margin:0 auto;
-      border:1px solid var(--line);
-      border-radius:14px;
-      background: rgba(255,255,255,.04);
-      padding:18px;
-    }
-    .top{
-      display:flex; justify-content:space-between; gap:14px; align-items:flex-start; flex-wrap:wrap;
-      border-bottom:1px solid var(--line);
-      padding-bottom:14px;
-      margin-bottom:14px;
-    }
-    .brand{
-      font-weight:900;
-      font-size:16px;
-      letter-spacing:.2px;
-    }
-    .tag{color:var(--muted); font-size:12px; margin-top:4px}
-    .total{
-      font-size:22px;
-      font-weight:900;
-      color:var(--ok);
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid rgba(44,255,136,.25);
-      background: rgba(44,255,136,.08);
-      min-width: 220px;
-      text-align:right;
-    }
-    .lines{font-size:13px; line-height:1.45; color:var(--text)}
-    .lineText{padding:2px 0}
-    .btn{
-      margin-top:14px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color:#061021;
-      font-weight:800;
-      cursor:pointer;
-    }
-    .hint{color:var(--muted); font-size:12px; margin-top:10px}
-    @media print{
-      body{padding:0}
-      .btn,.hint{display:none}
-      .box{border:none; border-radius:0}
-    }
-  </style>
-</head>
-<body>
-  <div class="box">
-    <div class="top">
-      <div>
-        <div class="brand">⚡ Cotizador Electricidad Vitt PRO 1.0</div>
-        <div class="tag">Soluciones Eléctricas</div>
-      </div>
-      <div class="total">TOTAL: $${Number(total).toLocaleString("es-AR")}</div>
-    </div>
-
-    <div class="lines">${lines}</div>
-
-    <button class="btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
-    <div class="hint">En el visor: menú ⋮ → “Imprimir” → Guardar como PDF.</div>
-  </div>
-</body>
-</html>
-    `;
-
-    const w = window.open("", "_blank");
-    w.document.open();
-    w.document.write(html);
-    w.document.close();
-    setPill("PDF listo ✓");
-  }
-
-  function escapeHtml(str){
-    return str
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
-
-  // ========= Init =========
-  renderCategorias();
-  loadDefaults();
-  agregarTrabajoVacio();
-  actualizar();
-
-  document.addEventListener("input", () => actualizar());
-  $("search").addEventListener("input", () => setPill(`${trabajosFiltrados().length} resultado(s)`));
-  $("categoria").addEventListener("change", () => setPill(`${trabajosFiltrados().length} resultado(s)`));
 </script>
+
 </body>
 </html>
