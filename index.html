@@ -22,7 +22,6 @@
   --accent:#48b4ff;
   --ok:#22c55e;
   --danger:#ef4444;
-  --warn:#fbbf24;
   --shadow:0 18px 40px rgba(0,0,0,.45);
   --radius:18px;
 }
@@ -44,17 +43,17 @@ body{
   body::before{
     content:"Vitt PRO — Presupuesto eléctrico profesional";
     position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    padding:14px;
+    top:0; left:0; right:0;
+    padding:12px;
     text-align:center;
     font-weight:800;
     font-size:14px;
     border-bottom:1px solid #ccc;
+    background:#fff;
+    color:#000;
   }
   body{padding-top:60px}
-  .bottomBar,.topbar{display:none!important}
+  .topbar,.bottomBar{display:none!important}
 }
 
 /* App shell */
@@ -74,38 +73,40 @@ body{
   backdrop-filter: blur(10px);
   border-bottom:1px solid var(--stroke);
 }
-.brand{
-  display:flex; align-items:center; justify-content:space-between;
-}
+.brand{display:flex;justify-content:space-between}
 .brand h1{margin:0;font-size:16px;font-weight:800}
-.brand .ver{font-size:12px;color:var(--muted);font-weight:600}
-.sub{font-size:12px;color:var(--muted);margin-top:4px}
+.brand .ver{font-size:12px;color:var(--muted)}
+.sub{margin-top:4px;font-size:12px;color:var(--muted)}
 
 /* Buttons */
 .btn{
-  border:none;border-radius:14px;padding:12px 14px;
-  font-weight:800;font-size:13px;cursor:pointer;
+  border:none;border-radius:14px;
+  padding:12px 14px;
+  font-weight:800;font-size:13px;
+  cursor:pointer;
 }
 .btnPrimary{
   background:linear-gradient(180deg,#62c3ff,var(--accent));
   color:#06101f;
-  box-shadow:0 14px 30px rgba(72,180,255,.25);
-}
-.btnDanger{
-  background:linear-gradient(180deg,#ff7b7b,var(--danger));
-  color:#1a0707;
+  box-shadow:0 14px 30px rgba(72,180,255,.2);
 }
 .btnGhost{
-  background:transparent;border:1px solid var(--stroke);color:var(--text);
+  background:transparent;
+  border:1px solid var(--stroke);
+  color:var(--text);
+}
+.btnOk{
+  background:linear-gradient(180deg,#4ade80,var(--ok));
+  color:#06101f;
 }
 
-/* 3D DELETE BUTTON */
+/* 3D Borrar Todo */
 .btnReset{
-  background:linear-gradient(180deg,#ffb3b3,#ef4444);
+  background:linear-gradient(180deg,#ff9a9a,#ef4444);
   color:#2a0606;
   box-shadow:
     inset 0 2px 0 rgba(255,255,255,.35),
-    0 10px 26px rgba(239,68,68,.45);
+    0 12px 26px rgba(239,68,68,.45);
 }
 .btnReset:active{
   transform:translateY(2px);
@@ -130,9 +131,9 @@ body{
   cursor:pointer;
   box-shadow:0 10px 26px rgba(0,0,0,.25);
 }
-.sectionBtn span{
-  font-size:20px;
-  display:block;
+.sectionIcon{
+  font-size:22px;
+  margin-bottom:4px;
 }
 .sectionTitle{font-weight:800;font-size:13px}
 .sectionMeta{font-size:12px;color:var(--muted)}
@@ -155,21 +156,14 @@ body{
   font-weight:800;
 }
 
-/* Bottom */
+/* Bottom bar */
 .bottomBar{
-  position:sticky;bottom:0;
+  position:sticky;
+  bottom:0;
   padding:12px 14px;
-  background:linear-gradient(180deg, rgba(7,11,22,.2), rgba(7,11,22,.95));
+  background:linear-gradient(180deg, rgba(7,11,22,.15), rgba(7,11,22,.92));
   border-top:1px solid var(--stroke);
-}
-.bottomInner{display:flex;gap:10px}
-.bottomBtn{
-  flex:1;
-  background:linear-gradient(180deg,#4ade80,var(--ok));
-  border:none;
-  border-radius:16px;
-  font-weight:900;
-  cursor:pointer;
+  margin-top:auto;
 }
 </style>
 </head>
@@ -186,34 +180,30 @@ body{
 </div>
 
 <div id="serviciosScreen" class="screen">
-  <div class="sectionGrid" id="homeSections"></div>
+  <div id="homeSections" class="sectionGrid"></div>
+  <div id="servicesList" class="hidden"></div>
 </div>
 
 <div id="presupuestoScreen" class="screen hidden">
   <div id="budgetList"></div>
 
   <div class="card">
-    <div class="cardHead">
-      <b>Total</b>
-    </div>
-    <h2 id="total">$ 0</h2>
-
-    <div class="actions" style="display:flex;gap:10px;margin-top:12px">
-      <button class="btn btnPrimary" onclick="window.print()">PDF</button>
+    <div class="actions" style="display:flex;gap:10px">
+      <button class="btn btnOk" onclick="copiar()">Copiar WhatsApp</button>
+      <button class="btn btnGhost" onclick="window.print()">PDF</button>
       <button class="btn btnReset" onclick="borrarTodo()">🗑️ Borrar todo</button>
     </div>
   </div>
 </div>
 
-<div class="bottomBar">
-  <div class="bottomInner">
-    <button class="bottomBtn" onclick="goPresupuesto()">Ver Presupuesto</button>
-  </div>
+<div class="bottomBar" id="bottomBar" style="display:none;">
+  <button class="btn btnOk" id="openBudgetBtn">Ver</button>
 </div>
 
 </div>
 
 <script>
+/* ===== ICONOS (SOLO VISUAL) ===== */
 const ICONS={
   "Inspección / Diagnóstico":"🧪",
   "Iluminación Interior":"💡",
@@ -231,33 +221,34 @@ const ICONS={
   "Pileta / Riego (eléctrico)":"🏊"
 };
 
+/* ===== BORRAR TODO (SIN TOCAR LO EXISTENTE) ===== */
 function borrarTodo(){
-  if(!confirm("¿Borrar toda la cotización?"))return;
-  items=[];
-  document.getElementById("total").textContent="$ 0";
+  if(!confirm("¿Borrar toda la cotización?")) return;
+  items.length = 0;
+  materiales.value = 0;
+  adicionales.value = 0;
+  margen.value = 0;
+  iva.checked = false;
   goServiciosHome();
 }
 
-const homeSections=document.getElementById("homeSections");
-function goServiciosHome(){
-  document.getElementById("serviciosScreen").classList.remove("hidden");
-  document.getElementById("presupuestoScreen").classList.add("hidden");
-  renderSections();
-}
-function goPresupuesto(){
-  document.getElementById("serviciosScreen").classList.add("hidden");
-  document.getElementById("presupuestoScreen").classList.remove("hidden");
-}
-function renderSections(){
+/* ===== SOLO SE AGREGA ICONO VISUAL ===== */
+const _renderSections = renderSections;
+renderSections = function(){
   homeSections.innerHTML="";
-  Object.keys(ICONS).forEach(k=>{
-    const d=document.createElement("div");
-    d.className="sectionBtn";
-    d.innerHTML=`<span>${ICONS[k]}</span><div class="sectionTitle">${k}</div>`;
-    homeSections.appendChild(d);
+  Object.keys(DATA).forEach(sec=>{
+    const count = DATA[sec].length;
+    const b = document.createElement("div");
+    b.className="sectionBtn";
+    b.innerHTML=`
+      <div class="sectionIcon">${ICONS[sec]||"⚡"}</div>
+      <div class="sectionTitle">${sec}</div>
+      <div class="sectionMeta">${count} servicios</div>
+    `;
+    b.onclick=()=>goServiciosList(sec);
+    homeSections.appendChild(b);
   });
-}
-goServiciosHome();
+};
 </script>
 </body>
 </html>
