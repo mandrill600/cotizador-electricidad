@@ -10,47 +10,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* =========================================================
-   🎨 NUEVA ESTÉTICA INDUSTRIAL / PREMIUM (3D REAL)
-   👉 NO se toca HTML ni JS
-   ========================================================= */
 :root{
-  --bg:#05070d;
-  --bg2:#0a0f1c;
-
-  --panel:#0e1a2f;
-  --panel2:#122545;
-
-  --stroke:rgba(255,255,255,.08);
-
-  --text:#f1f5f9;
-  --muted:#a8b3cc;
-
-  --accent:#3fd0ff;   /* cian eléctrico */
-  --ok:#2ee6a6;       /* verde técnico */
-  --danger:#ff5f5f;
-  --warn:#facc15;
-
+  --bg:#070b16;
+  --bg2:#0b1020;
+  --panel:#0f1730;
+  --panel2:#121d3a;
+  --card:#101a35;
+  --stroke:rgba(255,255,255,.07);
+  --text:#eef2ff;
+  --muted:#a6b0cf;
+  --accent:#48b4ff;
+  --ok:#22c55e;
+  --danger:#ef4444;
+  --warn:#fbbf24;
+  --shadow:0 18px 40px rgba(0,0,0,.45);
   --radius:18px;
-
-  --shadow-soft:0 8px 18px rgba(0,0,0,.35);
-  --shadow-deep:0 22px 50px rgba(0,0,0,.65);
 }
 
 *{box-sizing:border-box}
 html,body{height:100%}
-
 body{
   margin:0;
   font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:
-    radial-gradient(900px 500px at 50% -120px, rgba(63,208,255,.22), transparent 60%),
-    radial-gradient(700px 420px at 15% 20%, rgba(46,230,166,.12), transparent 55%),
-    linear-gradient(180deg,var(--bg),var(--bg2));
+    radial-gradient(900px 500px at 50% -50px, rgba(72,180,255,.20), transparent 60%),
+    radial-gradient(900px 500px at 10% 15%, rgba(34,197,94,.10), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg2));
   color:var(--text);
 }
 
-/* APP */
+/* App shell */
 .app{
   max-width:520px;
   margin:0 auto;
@@ -59,25 +48,27 @@ body{
   flex-direction:column;
 }
 
-/* TOP BAR */
+/* Top bar */
 .topbar{
   position:sticky; top:0; z-index:50;
   padding:14px 14px 10px;
-  background:linear-gradient(180deg, rgba(5,7,13,.96), rgba(5,7,13,.78));
-  backdrop-filter: blur(12px);
+  background:linear-gradient(180deg, rgba(7,11,22,.96), rgba(7,11,22,.75));
+  backdrop-filter: blur(10px);
   border-bottom:1px solid var(--stroke);
-  box-shadow:var(--shadow-soft);
+}
+.brand{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
 }
 .brand h1{
   margin:0;
   font-size:16px;
-  font-weight:900;
-  letter-spacing:-.02em;
+  font-weight:800;
+  letter-spacing:-.01em;
 }
 .brand .ver{
   font-size:12px;
   color:var(--muted);
-  font-weight:700;
+  font-weight:600;
 }
 .sub{
   margin-top:4px;
@@ -85,97 +76,281 @@ body{
   color:var(--muted);
 }
 
-/* SEARCH + TABS */
-.search,
-.tab,
-.sectionBtn,
-.card,
-.bottomInfo{
-  background:linear-gradient(180deg,var(--panel2),var(--panel));
+/* Search + tabs row */
+.tools{
+  margin-top:10px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.search{
+  flex:1;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:linear-gradient(180deg, rgba(18,29,58,.9), rgba(15,23,48,.9));
   border:1px solid var(--stroke);
-  box-shadow:var(--shadow-soft);
+  border-radius:14px;
+  padding:10px 12px;
+}
+.search input{
+  width:100%;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:var(--text);
+  font-size:14px;
+}
+.search input::placeholder{color:rgba(166,176,207,.75)}
+.clearBtn{
+  border:none;
+  background:transparent;
+  color:rgba(166,176,207,.9);
+  font-weight:800;
+  font-size:14px;
+  padding:0 6px;
+  cursor:pointer;
 }
 
+/* Tabs */
+.tabs{
+  display:flex;
+  gap:8px;
+}
+.tab{
+  border:1px solid var(--stroke);
+  background:linear-gradient(180deg, rgba(18,29,58,.9), rgba(15,23,48,.9));
+  color:var(--text);
+  padding:10px 12px;
+  border-radius:14px;
+  font-weight:700;
+  font-size:12px;
+  cursor:pointer;
+}
 .tab.active{
-  border-color:rgba(63,208,255,.6);
-  box-shadow:0 0 0 1px rgba(63,208,255,.35), 0 14px 34px rgba(63,208,255,.25);
+  border-color:rgba(72,180,255,.55);
+  box-shadow:0 10px 26px rgba(72,180,255,.14);
 }
 
-/* HOVER 3D */
-.sectionBtn:hover{
-  transform:translateY(-3px);
-  box-shadow:var(--shadow-deep);
+/* Screens */
+.screen{
+  padding:14px;
+}
+.hidden{display:none}
+
+/* Section chips */
+.sectionGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.sectionBtn{
+  background:linear-gradient(180deg, rgba(18,29,58,.95), rgba(15,23,48,.95));
+  border:1px solid var(--stroke);
+  border-radius:var(--radius);
+  padding:14px 12px;
+  cursor:pointer;
+  box-shadow:0 10px 26px rgba(0,0,0,.25);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.sectionBtn:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
+.sectionTitle{
+  font-weight:800;
+  font-size:13px;
+  letter-spacing:-.01em;
+}
+.sectionMeta{
+  margin-top:6px;
+  font-size:12px;
+  color:var(--muted);
 }
 
-/* FIELDS */
+/* Cards */
+.card{
+  background:linear-gradient(180deg, rgba(18,29,58,.94), rgba(15,23,48,.94));
+  border:1px solid var(--stroke);
+  border-radius:var(--radius);
+  padding:14px;
+  margin-bottom:12px;
+  box-shadow:0 10px 26px rgba(0,0,0,.22);
+}
+.cardHead{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+.cardHead b{
+  font-size:14px;
+  font-weight:800;
+}
+.small{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:600;
+}
+
+/* Service row controls */
+.controls{
+  margin-top:10px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
 .field{
-  background:linear-gradient(180deg, rgba(5,7,13,.55), rgba(5,7,13,.35));
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(7,11,22,.45);
+  border:1px solid var(--stroke);
+  border-radius:14px;
+  padding:8px 10px;
 }
+.field span{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:700;
+}
+.field input{
+  width:86px;
+  border:none;
+  outline:none;
+  background:transparent;
+  color:var(--text);
+  font-size:14px;
+  font-weight:800;
+  text-align:right;
+}
+.field input::-webkit-outer-spin-button,
+.field input::-webkit-inner-spin-button { -webkit-appearance: none; margin:0; }
+.field input[type=number]{ appearance:textfield; }
 
-/* BUTTONS */
-.btnPrimary{
-  background:linear-gradient(180deg,#6be7ff,var(--accent));
-  box-shadow:0 18px 40px rgba(63,208,255,.35);
+.actions{
+  margin-top:10px;
+  display:flex;
+  gap:10px;
 }
-.btnOk{
-  background:linear-gradient(180deg,#6fffd6,var(--ok));
-  box-shadow:0 18px 40px rgba(46,230,166,.35);
+.btn{
+  border:none;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:800;
+  cursor:pointer;
+  font-size:13px;
+}
+.btnPrimary{
+  background:linear-gradient(180deg, #62c3ff, var(--accent));
+  color:#06101f;
+  box-shadow:0 14px 30px rgba(72,180,255,.20);
 }
 .btnDanger{
-  background:linear-gradient(180deg,#ff7b7b,var(--danger));
+  background:linear-gradient(180deg, #ff7b7b, var(--danger));
+  color:#1a0707;
+}
+.btnGhost{
+  background:transparent;
+  border:1px solid var(--stroke);
+  color:var(--text);
+}
+.btnOk{
+  background:linear-gradient(180deg, #4ade80, var(--ok));
+  color:#06101f;
+  box-shadow:0 14px 30px rgba(34,197,94,.18);
 }
 
-/* BOTTOM BAR */
+/* Budget */
+.lineRow{
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+.badge{
+  font-size:12px;
+  font-weight:800;
+  color:#06101f;
+  background:rgba(72,180,255,.85);
+  border-radius:999px;
+  padding:6px 10px;
+}
+.subtotal{
+  margin-top:10px;
+  font-size:12px;
+  color:var(--muted);
+  font-weight:700;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+.totalBox{
+  margin-top:12px;
+  padding:14px;
+  border-radius:18px;
+  border:1px solid rgba(34,197,94,.25);
+  background:linear-gradient(180deg, rgba(34,197,94,.10), rgba(15,23,48,.94));
+}
+.totalValue{
+  font-size:22px;
+  font-weight:900;
+  color:#4ade80;
+  text-align:right;
+  letter-spacing:-.01em;
+}
+
+/* Bottom bar */
 .bottomBar{
-  background:linear-gradient(180deg, rgba(5,7,13,.15), rgba(5,7,13,.95));
-  box-shadow:0 -14px 30px rgba(0,0,0,.55);
+  position:sticky;
+  bottom:0;
+  padding:12px 14px 16px;
+  background:linear-gradient(180deg, rgba(7,11,22,.15), rgba(7,11,22,.92));
+  backdrop-filter: blur(10px);
+  border-top:1px solid var(--stroke);
+  margin-top:auto;
+}
+.bottomInner{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.bottomInfo{
+  flex:1;
+  background:linear-gradient(180deg, rgba(18,29,58,.92), rgba(15,23,48,.92));
+  border:1px solid var(--stroke);
+  border-radius:16px;
+  padding:10px 12px;
+}
+.bottomInfo .row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+}
+.bottomInfo .row strong{
+  color:var(--text);
+  font-size:13px;
+}
+.bottomBtn{
+  width:140px;
+  padding:12px 12px;
+  border-radius:16px;
+  border:none;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(180deg, #4ade80, var(--ok));
+  color:#06101f;
+  box-shadow:0 14px 30px rgba(34,197,94,.20);
 }
 
-/* =========================================================
-   🖨️ PDF / IMPRESIÓN
-   ========================================================= */
-@media print{
-  body{
-    background:white !important;
-    color:black !important;
-  }
-  .topbar,
-  .bottomBar,
-  .tabs,
-  .search{
-    display:none !important;
-  }
-  .print-header{
-    display:block !important;
-  }
-}
-
-/* Encabezado PDF */
-.print-header{
-  display:none;
-  border-bottom:2px solid #000;
-  padding-bottom:10px;
-  margin-bottom:20px;
-  font-size:14px;
+/* Responsive tweaks */
+@media (max-width:360px){
+  .sectionGrid{grid-template-columns:1fr}
+  .bottomBtn{width:125px}
 }
 </style>
 </head>
 
 <body>
-
-<!-- ENCABEZADO SOLO PARA PDF -->
-<div class="print-header">
-  <strong>⚡ Vitt PRO</strong><br>
-  Cotizador eléctrico profesional<br>
-  Fecha: <script>document.write(new Date().toLocaleDateString())</script>
-</div>
-
-<!-- ======================================================
-     A PARTIR DE ACÁ: 
-     TODO ES EXACTAMENTE TU CÓDIGO ORIGINAL
-     (HTML + JS + DATA SIN TOCAR)
-     ====================================================== -->
-
 <div class="app">
 
   <!-- TOP BAR -->
@@ -189,7 +364,7 @@ body{
     <div class="tools">
       <div class="search">
         <input id="searchInput" type="text" placeholder="Buscar servicio… (ej: disyuntor, cableado, cámara)" />
-        <button class="clearBtn" id="clearSearch">✕</button>
+        <button class="clearBtn" id="clearSearch" title="Limpiar">✕</button>
       </div>
       <div class="tabs">
         <button class="tab active" id="tabServicios">Servicios</button>
@@ -198,7 +373,7 @@ body{
     </div>
   </div>
 
-  <!-- SERVICIOS -->
+  <!-- SERVICIOS (Home + Lista) -->
   <div id="serviciosScreen" class="screen">
     <div id="homeSections" class="sectionGrid"></div>
     <div id="servicesList" class="hidden"></div>
@@ -227,9 +402,9 @@ body{
           <span>Margen %</span>
           <input type="number" id="margen" value="0" />
         </div>
-        <div class="field">
+        <div class="field" style="gap:10px;">
           <span>IVA</span>
-          <input type="checkbox" id="iva" />
+          <input type="checkbox" id="iva" style="width:auto; transform:scale(1.2);" />
         </div>
       </div>
 
@@ -263,18 +438,489 @@ body{
 
 <script>
 /* =========================
-   TODO EL SCRIPT + DATA
-   ES EL MISMO QUE PEGASTE
-   (SIN MODIFICACIONES)
+   DATA COMPLETO (MUCHOS MENÚS + MUCHOS SERVICIOS)
+   Precios redondeados (base estilo AAIERIC).
    ========================= */
+const DATA = {
+  "Inspección / Diagnóstico": [
+    { n:"Visita técnica", p:45000 },
+    { n:"Visita diagnóstico", p:60000 },
+    { n:"Urgencia 24 hs", p:110000 },
+    { n:"Relevamiento para obra", p:85000 },
+    { n:"Informe técnico escrito", p:120000 },
+    { n:"Inspección de tablero", p:55000 },
+    { n:"Mediciones eléctricas (básico)", p:70000 },
+    { n:"Detección de fallas", p:75000 }
+  ],
+  "Iluminación Interior": [
+    { n:"Aplique simple", p:20000 },
+    { n:"Aplique doble", p:28000 },
+    { n:"Plafón LED", p:32000 },
+    { n:"Spot LED embutido", p:25000 },
+    { n:"Spot LED sobrepuesto", p:27000 },
+    { n:"Cambio de luminaria existente", p:18000 },
+    { n:"Artefacto colgante (colocación)", p:35000 }
+  ],
+  "Iluminación Exterior / Jardín": [
+    { n:"Reflector exterior", p:42000 },
+    { n:"Iluminación exterior decorativa", p:55000 },
+    { n:"Iluminación arquitectónica", p:68000 },
+    { n:"Iluminación de jardín (punto)", p:52000 },
+    { n:"Fotocélula / Crepuscular", p:38000 },
+    { n:"Temporizador / Programador", p:42000 }
+  ],
+  "Ventiladores": [
+    { n:"Instalación ventilador de techo", p:95000 },
+    { n:"Instalación ventilador con luz", p:110000 },
+    { n:"Reemplazo ventilador existente", p:75000 },
+    { n:"Balanceo / ajuste ventilador", p:42000 }
+  ],
+  "Tomas / Llaves / Bocas": [
+    { n:"Boca simple", p:42000 },
+    { n:"Boca doble", p:52000 },
+    { n:"Tomacorriente simple", p:28000 },
+    { n:"Tomacorriente doble", p:36000 },
+    { n:"Llave simple", p:26000 },
+    { n:"Llave doble", p:34000 },
+    { n:"Llave combinada", p:38000 },
+    { n:"Cambio de toma / llave existente", p:22000 },
+    { n:"Toma USB", p:45000 },
+    { n:"Toma exterior estanco", p:52000 }
+  ],
+  "Cableado / Canalización": [
+    { n:"Cableado por metro", p:12500 },
+    { n:"Canalización por metro", p:14500 },
+    { n:"Tendido cable exterior", p:28000 },
+    { n:"Reemplazo de cableado existente (punto)", p:35000 },
+    { n:"Canalización embutida (punto)", p:38000 },
+    { n:"Canalización a la vista (punto)", p:26000 },
+    { n:"Cableado subterráneo (metro)", p:42000 }
+  ],
+  "Tableros Eléctricos": [
+    { n:"Tablero principal monofásico", p:260000 },
+    { n:"Tablero principal trifásico", p:360000 },
+    { n:"Subtablero", p:180000 },
+    { n:"Reordenamiento de tablero", p:95000 },
+    { n:"Cambio de térmica", p:38000 },
+    { n:"Cambio de disyuntor", p:52000 },
+    { n:"Instalación protector de tensión", p:65000 },
+    { n:"Diferencial adicional (instalación)", p:52000 },
+    { n:"Etiquetado / Orden / Prolijidad (servicio)", p:45000 }
+  ],
+  "Puesta a Tierra": [
+    { n:"Puesta a tierra (PAT) completa", p:180000 },
+    { n:"Medición de puesta a tierra", p:65000 },
+    { n:"Mejora de PAT existente", p:120000 },
+    { n:"Jabalina adicional", p:75000 }
+  ],
+  "Instalaciones / Obras": [
+    { n:"Instalación eléctrica vivienda (base)", p:380000 },
+    { n:"Instalación eléctrica local comercial (base)", p:520000 },
+    { n:"Montaje de cañerías (servicio)", p:95000 },
+    { n:"Montaje de bandejas portacables", p:140000 },
+    { n:"Gabinete medidor (instalación)", p:190000 },
+    { n:"Pilar monofásico completo", p:740000 },
+    { n:"Pilar trifásico completo", p:980000 }
+  ],
+  "Domótica / Automatización": [
+    { n:"Automatización de iluminación (básico)", p:95000 },
+    { n:"Control por app (configuración)", p:85000 },
+    { n:"Sensor movimiento (instalación)", p:22000 },
+    { n:"Sensor magnético (instalación)", p:18000 },
+    { n:"Timer inteligente (instalación)", p:52000 }
+  ],
+  "Cámaras / Seguridad": [
+    { n:"Cámara IP interior (instalación)", p:48000 },
+    { n:"Cámara IP exterior (instalación)", p:65000 },
+    { n:"Cámara analógica (instalación)", p:42000 },
+    { n:"Instalación DVR / NVR", p:90000 },
+    { n:"Configuración monitoreo remoto", p:38000 },
+    { n:"Mantenimiento sistema", p:65000 },
+    { n:"Cableado para cámaras (punto)", p:32000 }
+  ],
+  "Porteros / Accesos": [
+    { n:"Portero eléctrico (instalación)", p:120000 },
+    { n:"Videoportero (instalación)", p:180000 },
+    { n:"Cerradura eléctrica (instalación)", p:85000 },
+    { n:"Control de acceso básico", p:160000 }
+  ],
+  "Energía / Grupo electrógeno": [
+    { n:"Tablero para grupo electrógeno", p:220000 },
+    { n:"Transferencia manual (instalación)", p:180000 },
+    { n:"Transferencia automática (instalación)", p:320000 },
+    { n:"Revisión de instalación y carga", p:95000 }
+  ],
+  "Pileta / Riego (eléctrico)": [
+    { n:"Luminaria pileta (instalación)", p:120000 },
+    { n:"Transformador pileta (instalación)", p:110000 },
+    { n:"Reparación iluminación pileta", p:95000 },
+    { n:"Bomba pileta (conexión eléctrica)", p:85000 },
+    { n:"Tablero riego (básico)", p:190000 }
+  ]
+};
 
-/* ……………………  PEGADO TAL CUAL  …………………… */
+/* =========================
+   Estado + utilidades
+   ========================= */
+let items = []; // {id, n, p, q}
+let currentSection = null;
+let currentMode = "home"; // home | list | budget
+let searchQuery = "";
 
-/* (por brevedad visual acá en el chat,
-   este bloque ES EXACTAMENTE el que vos enviaste.
-   No hay ni una línea distinta.) */
+const round100 = n => Math.round(n/100)*100;
 
+const serviciosScreen = document.getElementById("serviciosScreen");
+const presupuestoScreen = document.getElementById("presupuestoScreen");
+const homeSections = document.getElementById("homeSections");
+const servicesList = document.getElementById("servicesList");
+const budgetList = document.getElementById("budgetList");
+
+const tabServicios = document.getElementById("tabServicios");
+const tabPresupuesto = document.getElementById("tabPresupuesto");
+
+const bottomBar = document.getElementById("bottomBar");
+const openBudgetBtn = document.getElementById("openBudgetBtn");
+const miniItems = document.getElementById("miniItems");
+const miniTotal = document.getElementById("miniTotal");
+
+const searchInput = document.getElementById("searchInput");
+const clearSearch = document.getElementById("clearSearch");
+
+const materiales = document.getElementById("materiales");
+const adicionales = document.getElementById("adicionales");
+const margen = document.getElementById("margen");
+const iva = document.getElementById("iva");
+const totalEl = document.getElementById("total");
+const itemsBadge = document.getElementById("itemsBadge");
+
+function setTab(active){
+  if(active==="servicios"){
+    tabServicios.classList.add("active");
+    tabPresupuesto.classList.remove("active");
+  }else{
+    tabPresupuesto.classList.add("active");
+    tabServicios.classList.remove("active");
+  }
+}
+
+function goServiciosHome(){
+  currentMode = "home";
+  setTab("servicios");
+  presupuestoScreen.classList.add("hidden");
+  serviciosScreen.classList.remove("hidden");
+
+  servicesList.classList.add("hidden");
+  homeSections.classList.remove("hidden");
+
+  renderSections();
+  updateBottom();
+}
+
+function goServiciosList(section){
+  currentMode = "list";
+  setTab("servicios");
+  presupuestoScreen.classList.add("hidden");
+  serviciosScreen.classList.remove("hidden");
+
+  homeSections.classList.add("hidden");
+  servicesList.classList.remove("hidden");
+
+  currentSection = section;
+  renderServices();
+  updateBottom();
+}
+
+function goPresupuesto(){
+  currentMode = "budget";
+  setTab("presupuesto");
+  serviciosScreen.classList.add("hidden");
+  presupuestoScreen.classList.remove("hidden");
+  renderBudget();
+  updateBottom();
+}
+
+/* Render: sections */
+function renderSections(){
+  homeSections.innerHTML = "";
+  const keys = Object.keys(DATA);
+
+  keys.forEach(sec=>{
+    const count = DATA[sec].length;
+    const b = document.createElement("div");
+    b.className = "sectionBtn";
+    b.innerHTML = `
+      <div class="sectionTitle">${sec}</div>
+      <div class="sectionMeta">${count} servicios</div>
+    `;
+    b.onclick = ()=> goServiciosList(sec);
+    homeSections.appendChild(b);
+  });
+}
+
+/* Render: services list (with search) */
+function renderServices(){
+  const list = DATA[currentSection] || [];
+  const q = (searchQuery || "").trim().toLowerCase();
+
+  servicesList.innerHTML = `
+    <div class="card">
+      <div class="cardHead">
+        <b>${currentSection}</b>
+        <div class="small">${list.length} servicios</div>
+      </div>
+      <div class="small" style="margin-top:8px;">
+        Tip: escribí arriba para filtrar. Tocá “Agregar” y seguí.
+      </div>
+      <div class="actions" style="margin-top:12px;">
+        <button class="btn btnGhost" onclick="goServiciosHome()">← Secciones</button>
+        <button class="btn btnPrimary" onclick="goPresupuesto()">Ver presupuesto</button>
+      </div>
+    </div>
+  `;
+
+  let shown = 0;
+
+  list.forEach((s, idx)=>{
+    if(q && !s.n.toLowerCase().includes(q)) return;
+    shown++;
+
+    const sid = makeServiceId(currentSection, idx);
+    const c = document.createElement("div");
+    c.className = "card";
+    c.innerHTML = `
+      <div class="cardHead">
+        <b>${escapeHtml(s.n)}</b>
+        <div class="badge">$ ${round100(s.p).toLocaleString("es-AR")}</div>
+      </div>
+
+      <div class="controls">
+        <div class="field">
+          <span>Precio</span>
+          <input type="number" id="p_${sid}" value="${round100(s.p)}" />
+        </div>
+        <div class="field">
+          <span>Cant.</span>
+          <input type="number" id="q_${sid}" value="1" min="1" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btnPrimary" onclick="agregar('${sid}','${escapeJs(s.n)}')">Agregar</button>
+        <button class="btn btnGhost" onclick="quickAdd('${sid}','${escapeJs(s.n)}')">+1</button>
+      </div>
+    `;
+    servicesList.appendChild(c);
+  });
+
+  // if search yields nothing
+  if(q && shown===0){
+    const empty = document.createElement("div");
+    empty.className = "card";
+    empty.innerHTML = `
+      <div class="cardHead">
+        <b>Sin resultados</b>
+        <div class="small">Probá otra palabra</div>
+      </div>
+      <div class="small" style="margin-top:8px;">Ejemplos: “disyuntor”, “cable”, “cámara”, “PAT”, “tablero”.</div>
+    `;
+    servicesList.appendChild(empty);
+  }
+}
+
+/* Items */
+function agregar(sid, name){
+  const pEl = document.getElementById("p_"+sid);
+  const qEl = document.getElementById("q_"+sid);
+  const p = parseFloat(pEl?.value)||0;
+  const q = parseInt(qEl?.value)||1;
+
+  items.push({ id:sid+"_"+Date.now(), n:name, p, q });
+  updateBottom();
+}
+
+function quickAdd(sid, name){
+  const pEl = document.getElementById("p_"+sid);
+  const p = parseFloat(pEl?.value)||0;
+
+  // if service already exists, just +1 on last matching
+  for(let i=items.length-1;i>=0;i--){
+    if(items[i].n===name && round100(items[i].p)===round100(p)){
+      items[i].q = (parseInt(items[i].q)||1) + 1;
+      updateBottom();
+      return;
+    }
+  }
+  items.push({ id:sid+"_"+Date.now(), n:name, p, q:1 });
+  updateBottom();
+}
+
+/* Budget */
+function renderBudget(){
+  budgetList.innerHTML = "";
+
+  if(items.length===0){
+    const e = document.createElement("div");
+    e.className = "card";
+    e.innerHTML = `
+      <div class="cardHead">
+        <b>Presupuesto vacío</b>
+        <div class="small">Agregá servicios desde “Servicios”</div>
+      </div>
+      <div class="actions" style="margin-top:12px;">
+        <button class="btn btnPrimary" onclick="goServiciosHome()">Ir a servicios</button>
+      </div>
+    `;
+    budgetList.appendChild(e);
+    calcular();
+    updateBottom();
+    return;
+  }
+
+  items.forEach((it, i)=>{
+    const sub = round100((parseFloat(it.p)||0) * (parseInt(it.q)||0));
+    const c = document.createElement("div");
+    c.className = "card";
+    c.innerHTML = `
+      <div class="cardHead">
+        <b>${escapeHtml(it.n)}</b>
+        <div class="badge">$ ${sub.toLocaleString("es-AR")}</div>
+      </div>
+
+      <div class="controls">
+        <div class="field">
+          <span>Precio</span>
+          <input type="number" value="${round100(it.p)}" onchange="items[${i}].p=this.value; renderBudget();" />
+        </div>
+        <div class="field">
+          <span>Cant.</span>
+          <input type="number" value="${it.q}" min="1" onchange="items[${i}].q=this.value; renderBudget();" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btnDanger" onclick="items.splice(${i},1); renderBudget();">Eliminar</button>
+        <button class="btn btnGhost" onclick="goServiciosHome()">Agregar más</button>
+      </div>
+    `;
+    budgetList.appendChild(c);
+  });
+
+  calcular();
+  updateBottom();
+}
+
+function calcular(){
+  let t = 0;
+  items.forEach(it=>{
+    t += round100((parseFloat(it.p)||0) * (parseInt(it.q)||0));
+  });
+  t += parseFloat(materiales.value)||0;
+  t += parseFloat(adicionales.value)||0;
+  t += t*(parseFloat(margen.value)||0)/100;
+  if(iva.checked) t *= 1.21;
+
+  const final = round100(t);
+  totalEl.textContent = final.toLocaleString("es-AR");
+  miniTotal.textContent = final.toLocaleString("es-AR");
+  itemsBadge.textContent = `${items.length} ítems`;
+}
+
+/* WhatsApp copy */
+function copiar(){
+  const totalTxt = totalEl.textContent || "0";
+  let txt = `Vitt PRO — Presupuesto eléctrico\n\n`;
+
+  items.forEach(it=>{
+    const sub = round100((parseFloat(it.p)||0) * (parseInt(it.q)||0));
+    txt += `${it.n} x${it.q} — $${sub.toLocaleString("es-AR")}\n`;
+  });
+
+  const mat = parseFloat(materiales.value)||0;
+  const adi = parseFloat(adicionales.value)||0;
+  const mar = parseFloat(margen.value)||0;
+
+  txt += `\nMateriales: $${round100(mat).toLocaleString("es-AR")}`;
+  txt += `\nAdicionales: $${round100(adi).toLocaleString("es-AR")}`;
+  txt += `\nMargen: ${mar}%`;
+  txt += `\nIVA: ${iva.checked ? "Sí" : "No"}`;
+
+  txt += `\n\nTOTAL: $${totalTxt}`;
+
+  navigator.clipboard.writeText(txt);
+  alert("Copiado");
+}
+
+/* Bottom bar */
+function updateBottom(){
+  const count = items.length;
+  miniItems.textContent = String(count);
+  calcular();
+
+  if(count>0){
+    bottomBar.style.display = "block";
+    openBudgetBtn.textContent = (currentMode==="budget") ? "Listo" : "Ver";
+  }else{
+    bottomBar.style.display = "none";
+  }
+}
+
+/* Search handlers */
+searchInput.addEventListener("input", (e)=>{
+  searchQuery = e.target.value || "";
+  if(currentMode==="list") renderServices();
+});
+clearSearch.addEventListener("click", ()=>{
+  searchInput.value = "";
+  searchQuery = "";
+  if(currentMode==="list") renderServices();
+  searchInput.focus();
+});
+
+/* Tabs handlers */
+tabServicios.addEventListener("click", ()=>{
+  if(currentMode==="budget") goServiciosHome();
+});
+tabPresupuesto.addEventListener("click", ()=>{
+  goPresupuesto();
+});
+
+openBudgetBtn.addEventListener("click", ()=>{
+  if(currentMode==="budget"){
+    goServiciosHome();
+  }else{
+    goPresupuesto();
+  }
+});
+
+/* Helpers */
+function makeServiceId(section, idx){
+  // ID seguro (no depende del texto del servicio)
+  const s = section.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+  return `${s}_${idx}`;
+}
+function escapeHtml(str){
+  return String(str)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function escapeJs(str){
+  // para meter en onclick sin romper comillas
+  return String(str).replaceAll("\\","\\\\").replaceAll("'","\\'");
+}
+
+/* Recalcular si cambian extras */
+["input","change"].forEach(ev=>{
+  materiales.addEventListener(ev, ()=>{calcular(); updateBottom();});
+  adicionales.addEventListener(ev, ()=>{calcular(); updateBottom();});
+  margen.addEventListener(ev, ()=>{calcular(); updateBottom();});
+  iva.addEventListener(ev, ()=>{calcular(); updateBottom();});
+});
+
+/* Init */
+goServiciosHome();
 </script>
-
 </body>
 </html>
