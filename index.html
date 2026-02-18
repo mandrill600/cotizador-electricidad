@@ -10,34 +10,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* =========================
-   🎨 PALETA NUEVA + 3D
-   ========================= */
+/* ====== PALETA + 3D ====== */
 :root{
   --bg:#070c14;
   --bg2:#0b1220;
-
   --panel:#0f1a2b;
   --panel2:#14233d;
-
-  --card:#101e34;
-  --cardGlow:0 18px 40px rgba(0,0,0,.55);
-
   --stroke:rgba(255,255,255,.08);
-
   --text:#f1f5f9;
   --muted:#a3b2cc;
-
-  --accent:#4fd1ff;   /* cyan eléctrico */
-  --ok:#2ce6a2;       /* verde técnico */
+  --accent:#4fd1ff;
+  --ok:#2ce6a2;
   --danger:#ff5b5b;
-
   --radius:18px;
+  --shadow:0 18px 40px rgba(0,0,0,.55);
 }
 
 *{box-sizing:border-box}
-html,body{height:100%}
-
 body{
   margin:0;
   font-family:'Inter',system-ui,sans-serif;
@@ -48,321 +37,114 @@ body{
   color:var(--text);
 }
 
-/* =========================
-   APP SHELL
-   ========================= */
 .app{
   max-width:520px;
   margin:0 auto;
-  min-height:100%;
+  min-height:100vh;
   display:flex;
   flex-direction:column;
 }
 
-/* =========================
-   TOP BAR
-   ========================= */
+/* ====== TOP ====== */
 .topbar{
-  position:sticky; top:0; z-index:50;
-  padding:14px 14px 10px;
+  position:sticky; top:0; z-index:10;
+  padding:14px;
   background:linear-gradient(180deg, rgba(7,12,20,.96), rgba(7,12,20,.75));
-  backdrop-filter: blur(10px);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--stroke);
 }
-
-.brand{
-  display:flex; justify-content:space-between; align-items:center;
-}
-.brand h1{
+.topbar h1{
   margin:0;
   font-size:16px;
   font-weight:800;
-  letter-spacing:-.02em;
 }
-.brand .ver{
-  font-size:12px;
-  color:var(--muted);
-  font-weight:700;
-}
-.sub{
-  margin-top:4px;
+.topbar .sub{
   font-size:12px;
   color:var(--muted);
 }
 
-/* =========================
-   SEARCH + TABS
-   ========================= */
-.tools{
-  margin-top:10px;
-  display:flex;
-  gap:10px;
-}
-
-.search{
-  flex:1;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:linear-gradient(180deg,var(--panel2),var(--panel));
-  border:1px solid var(--stroke);
-  border-radius:14px;
-  padding:10px 12px;
-  box-shadow:var(--cardGlow);
-}
-.search input{
-  width:100%;
-  border:none;
-  outline:none;
-  background:transparent;
-  color:var(--text);
-  font-size:14px;
-}
-.search input::placeholder{color:rgba(163,178,204,.75)}
-.clearBtn{
-  border:none;
-  background:none;
-  color:var(--muted);
-  font-weight:900;
-  cursor:pointer;
-}
-
-.tabs{
-  display:flex;
-  gap:8px;
-}
-.tab{
-  border:1px solid var(--stroke);
-  background:linear-gradient(180deg,var(--panel2),var(--panel));
-  color:var(--text);
-  padding:10px 12px;
-  border-radius:14px;
-  font-weight:800;
-  font-size:12px;
-  cursor:pointer;
-}
-.tab.active{
-  border-color:rgba(79,209,255,.6);
-  box-shadow:0 12px 28px rgba(79,209,255,.25);
-}
-
-/* =========================
-   SCREENS
-   ========================= */
+/* ====== SCREENS ====== */
 .screen{padding:14px}
 .hidden{display:none}
 
-/* =========================
-   SECTION GRID
-   ========================= */
-.sectionGrid{
+/* ====== GRID ====== */
+.grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
 }
-.sectionBtn{
+.section{
   background:linear-gradient(180deg,var(--panel2),var(--panel));
   border:1px solid var(--stroke);
   border-radius:var(--radius);
-  padding:14px 12px;
+  padding:14px;
+  box-shadow:var(--shadow);
   cursor:pointer;
-  box-shadow:var(--cardGlow);
-  transition:.15s;
 }
-.sectionBtn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 22px 45px rgba(0,0,0,.6);
-}
-.sectionTitle{
-  font-weight:800;
-  font-size:13px;
-}
-.sectionMeta{
-  margin-top:6px;
-  font-size:12px;
-  color:var(--muted);
-}
+.section b{font-size:13px}
 
-/* =========================
-   CARDS
-   ========================= */
+/* ====== CARD ====== */
 .card{
   background:linear-gradient(180deg,var(--panel2),var(--panel));
   border:1px solid var(--stroke);
   border-radius:var(--radius);
   padding:14px;
   margin-bottom:12px;
-  box-shadow:var(--cardGlow);
+  box-shadow:var(--shadow);
 }
-.cardHead{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-.cardHead b{
-  font-size:14px;
-  font-weight:800;
-}
-.small{
-  font-size:12px;
-  color:var(--muted);
-  font-weight:600;
-}
+.small{font-size:12px;color:var(--muted)}
 
-/* =========================
-   CONTROLS
-   ========================= */
-.controls{
-  margin-top:10px;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.field{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:rgba(7,12,20,.55);
+input{
+  width:90px;
+  padding:8px;
+  border-radius:12px;
   border:1px solid var(--stroke);
-  border-radius:14px;
-  padding:8px 10px;
-}
-.field span{
-  font-size:12px;
-  color:var(--muted);
-  font-weight:700;
-}
-.field input{
-  width:86px;
-  border:none;
-  background:transparent;
+  background:#070c14;
   color:var(--text);
-  font-size:14px;
-  font-weight:800;
-  text-align:right;
+  text-align:center;
 }
 
-/* =========================
-   BUTTONS
-   ========================= */
-.btn{
+button{
   border:none;
   border-radius:14px;
-  padding:12px 14px;
-  font-weight:900;
+  padding:10px 14px;
+  font-weight:800;
   cursor:pointer;
-  font-size:13px;
 }
-.btnPrimary{
-  background:linear-gradient(180deg,#6be3ff,var(--accent));
-  color:#031018;
-  box-shadow:0 14px 32px rgba(79,209,255,.35);
-}
-.btnGhost{
-  background:transparent;
-  border:1px solid var(--stroke);
-  color:var(--text);
-}
-.btnDanger{
-  background:linear-gradient(180deg,#ff7b7b,var(--danger));
-  color:#180707;
-}
-.btnOk{
-  background:linear-gradient(180deg,#6fffd3,var(--ok));
-  color:#04130c;
-  box-shadow:0 14px 32px rgba(44,230,162,.35);
-}
+.btn{background:linear-gradient(180deg,#6be3ff,var(--accent));color:#031018}
+.btnOk{background:linear-gradient(180deg,#6fffd3,var(--ok));color:#04130c}
+.btnDanger{background:linear-gradient(180deg,#ff7b7b,var(--danger));color:#180707}
 
-/* =========================
-   TOTAL
-   ========================= */
-.totalBox{
-  margin-top:12px;
+/* ====== BOTTOM ====== */
+.bottom{
+  position:sticky; bottom:0;
   padding:14px;
-  border-radius:18px;
-  border:1px solid rgba(44,230,162,.35);
-  background:linear-gradient(180deg, rgba(44,230,162,.12), var(--panel));
-}
-.totalValue{
-  font-size:22px;
-  font-weight:900;
-  color:var(--ok);
-  text-align:right;
-}
-
-/* =========================
-   BOTTOM BAR
-   ========================= */
-.bottomBar{
-  position:sticky;
-  bottom:0;
-  padding:12px 14px 16px;
-  background:linear-gradient(180deg, rgba(7,12,20,.15), rgba(7,12,20,.92));
-  backdrop-filter: blur(10px);
+  background:linear-gradient(180deg, rgba(7,12,20,.2), rgba(7,12,20,.95));
   border-top:1px solid var(--stroke);
 }
-.bottomInner{
-  display:flex;
-  gap:10px;
-}
-.bottomInfo{
-  flex:1;
-  background:linear-gradient(180deg,var(--panel2),var(--panel));
-  border:1px solid var(--stroke);
-  border-radius:16px;
-  padding:10px 12px;
-}
-.bottomInfo .row{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  color:var(--muted);
-  font-weight:800;
-}
-.bottomBtn{
-  width:140px;
-  border:none;
-  border-radius:16px;
+.total{
+  font-size:20px;
   font-weight:900;
-  cursor:pointer;
-  background:linear-gradient(180deg,#6fffd3,var(--ok));
-  color:#04130c;
-  box-shadow:0 14px 32px rgba(44,230,162,.35);
+  color:var(--ok);
 }
 
-/* =========================
-   🖨️ PRINT / PDF
-   ========================= */
+/* ====== PRINT ====== */
 @media print{
-  body{
-    background:white;
-    color:black;
-  }
-  .topbar,
-  .bottomBar,
-  .tabs,
-  .search{
-    display:none !important;
-  }
-  .app{
-    max-width:100%;
-  }
-  .print-header{
-    display:block !important;
-    margin-bottom:20px;
-    border-bottom:2px solid #000;
-    padding-bottom:10px;
-  }
+  .topbar,.bottom{display:none}
+  body{background:white;color:black}
+  .print-header{display:block}
 }
-
-/* Encabezado PDF (oculto en pantalla) */
 .print-header{
   display:none;
+  border-bottom:2px solid #000;
+  padding-bottom:10px;
+  margin-bottom:20px;
 }
 </style>
 </head>
 
 <body>
+
 <div class="print-header">
   <strong>⚡ Vitt PRO</strong><br>
   Cotizador eléctrico profesional<br>
@@ -370,17 +152,124 @@ body{
 </div>
 
 <div class="app">
-  <!-- TODO EL CONTENIDO FUNCIONAL PERMANECE IGUAL -->
-  <!-- JS Y DATA SE MANTIENEN EXACTAMENTE COMO EN TU VERSIÓN ACTUAL -->
+
+  <div class="topbar">
+    <h1>Vitt PRO</h1>
+    <div class="sub">Cotizador eléctrico profesional</div>
+  </div>
+
+  <!-- HOME -->
+  <div id="home" class="screen">
+    <div class="grid" id="sections"></div>
+  </div>
+
+  <!-- SERVICES -->
+  <div id="services" class="screen hidden">
+    <button class="btn" onclick="volver()">← Volver</button>
+    <h3 id="title"></h3>
+    <div id="list"></div>
+  </div>
+
+  <!-- BUDGET -->
+  <div id="budget" class="screen hidden">
+    <button class="btn" onclick="volverHome()">← Inicio</button>
+    <div id="budgetList"></div>
+    <div class="card">
+      Materiales <input type="number" id="materiales" value="0"><br><br>
+      Adicionales <input type="number" id="adicionales" value="0"><br><br>
+      Margen % <input type="number" id="margen" value="0"><br><br>
+      IVA <input type="checkbox" id="iva">
+      <div class="total">$ <span id="total">0</span></div>
+    </div>
+    <button class="btnOk" onclick="copiar()">Copiar WhatsApp</button>
+    <button class="btn" onclick="window.print()">PDF</button>
+  </div>
+
+  <div class="bottom" id="bottom" style="display:none">
+    <button class="btnOk" onclick="verPresupuesto()">Ver presupuesto (<span id="count">0</span>)</button>
+  </div>
+
 </div>
 
-<!-- ⚠️ IMPORTANTE -->
-<!--
-A partir de aquí va EXACTAMENTE el mismo <script> que ya estás usando
-(el de la versión que te encanta).
-NO se toca.
-Pegalo tal cual debajo de este comentario.
--->
+<script>
+const DATA={
+  "Inspección":[{n:"Visita técnica",p:45000},{n:"Diagnóstico",p:60000}],
+  "Iluminación":[{n:"Plafón LED",p:32000},{n:"Spot LED",p:25000}],
+  "Tableros":[{n:"Tablero monofásico",p:260000},{n:"Cambio térmica",p:38000}]
+};
+
+let items=[];
+
+function render(){
+  const s=document.getElementById("sections");
+  s.innerHTML="";
+  Object.keys(DATA).forEach(k=>{
+    const d=document.createElement("div");
+    d.className="section";
+    d.innerHTML="<b>"+k+"</b><div class='small'>"+DATA[k].length+" servicios</div>";
+    d.onclick=()=>open(k);
+    s.appendChild(d);
+  });
+}
+
+function open(k){
+  home.classList.add("hidden");
+  services.classList.remove("hidden");
+  title.textContent=k;
+  list.innerHTML="";
+  DATA[k].forEach(s=>{
+    const c=document.createElement("div");
+    c.className="card";
+    c.innerHTML=`<b>${s.n}</b><br><br>
+      Precio <input type="number" value="${s.p}"><br><br>
+      <button class="btn" onclick="add('${s.n}',${s.p})">Agregar</button>`;
+    list.appendChild(c);
+  });
+}
+
+function add(n,p){
+  items.push({n,p});
+  bottom.style.display="block";
+  count.textContent=items.length;
+}
+
+function volver(){
+  services.classList.add("hidden");
+  home.classList.remove("hidden");
+}
+
+function verPresupuesto(){
+  home.classList.add("hidden");
+  services.classList.add("hidden");
+  budget.classList.remove("hidden");
+  renderBudget();
+}
+
+function volverHome(){
+  budget.classList.add("hidden");
+  home.classList.remove("hidden");
+}
+
+function renderBudget(){
+  budgetList.innerHTML="";
+  let t=0;
+  items.forEach(it=>{
+    t+=it.p;
+    budgetList.innerHTML+=`<div class="card">${it.n} - $${it.p}</div>`;
+  });
+  total.textContent=t;
+}
+
+function copiar(){
+  let txt="Vitt PRO\n\n";
+  items.forEach(i=>txt+=i.n+" $"+i.p+"\n");
+  txt+="\nTOTAL $"+total.textContent;
+  navigator.clipboard.writeText(txt);
+  alert("Copiado");
+}
+
+render();
+</script>
 
 </body>
 </html>
