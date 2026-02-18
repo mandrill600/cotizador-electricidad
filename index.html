@@ -3,17 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cotizador Electricidad Vitt PRO 3.3</title>
+<title>Cotizador Electricidad Vitt PRO 3.4</title>
 
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0b1220">
+<!-- FUENTE MODERNA -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --bg:#0b1220;
-  --bg-grad:#111a2e;
+  --bg2:#111a2e;
   --card:#16213a;
-  --card-soft:#1b2945;
+  --card2:#1b2945;
   --accent:#4da3ff;
   --ok:#00e676;
   --danger:#ff5252;
@@ -26,42 +28,40 @@
 
 body{
   margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:linear-gradient(180deg,var(--bg),var(--bg-grad));
+  font-family:'Inter',system-ui,Segoe UI,Arial,sans-serif;
+  background:linear-gradient(180deg,var(--bg),var(--bg2));
   color:var(--text);
 }
 
-/* CONTENEDOR */
 .screen{
   padding:20px;
   max-width:1000px;
   margin:auto;
 }
 
-/* TITULOS */
 h1{
   margin:0 0 4px;
-  font-size:20px;
-  font-weight:600;
+  font-size:22px;
+  font-weight:700;
 }
 
 .subtitle{
-  font-size:12px;
+  font-size:13px;
   color:var(--muted);
   margin-bottom:20px;
 }
 
-/* GRID HOME */
+/* HOME GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:12px;
+  gap:14px;
 }
 
 .section-btn{
-  background:var(--card-soft);
-  padding:18px;
-  border-radius:14px;
+  background:var(--card2);
+  padding:20px;
+  border-radius:16px;
   text-align:center;
   cursor:pointer;
   font-weight:600;
@@ -70,24 +70,24 @@ h1{
 }
 
 .section-btn:hover{
-  transform:translateY(-2px);
+  transform:translateY(-3px);
   background:#22325a;
 }
 
 /* CARDS */
 .card{
   background:var(--card);
-  padding:14px;
-  border-radius:14px;
-  margin-bottom:12px;
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:14px;
   border:1px solid var(--line);
 }
 
 /* INPUTS */
 input{
   width:90px;
-  padding:7px;
-  border-radius:8px;
+  padding:8px;
+  border-radius:10px;
   border:1px solid var(--line);
   background:#0b1220;
   color:var(--text);
@@ -101,8 +101,8 @@ input:focus{
 
 /* BOTONES */
 button{
-  padding:7px 14px;
-  border-radius:10px;
+  padding:8px 16px;
+  border-radius:12px;
   border:none;
   cursor:pointer;
   font-weight:600;
@@ -125,11 +125,11 @@ button{
 
 /* TOTAL */
 .total{
-  font-size:22px;
+  font-size:24px;
   font-weight:700;
   text-align:right;
   color:var(--ok);
-  margin-top:12px;
+  margin-top:14px;
 }
 
 /* FLOATING */
@@ -140,173 +140,123 @@ button{
   transform:translateX(-50%);
   background:var(--ok);
   color:#020617;
-  padding:14px 22px;
-  border-radius:30px;
+  padding:16px 26px;
+  border-radius:32px;
   font-weight:700;
   cursor:pointer;
   box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 </style>
-
 </head>
 
 <body>
 
 <div id="home" class="screen">
-<h1>⚡ Cotizador Electricidad Vitt PRO 3.3</h1>
-<div class="subtitle">Soluciones Eléctricas</div>
-<div class="grid" id="sections"></div>
+  <h1>⚡ Cotizador Electricidad Vitt PRO 3.4</h1>
+  <div class="subtitle">Soluciones Eléctricas Profesionales</div>
+  <div class="grid" id="sections"></div>
 </div>
 
 <div id="servicesScreen" class="screen" style="display:none;">
-<button class="btn" onclick="volver()">← Volver</button>
-<h2 id="sectionTitle"></h2>
-<div id="servicesList"></div>
+  <button class="btn" onclick="volver()">← Volver</button>
+  <h2 id="sectionTitle"></h2>
+  <div id="servicesList"></div>
 </div>
 
 <div id="budgetScreen" class="screen" style="display:none;">
-<button class="btn" onclick="volverHome()">← Volver</button>
-<h2>Presupuesto</h2>
-<div id="budgetList"></div>
+  <button class="btn" onclick="volverHome()">← Volver</button>
+  <h2>Presupuesto</h2>
+  <div id="budgetList"></div>
 
-<div class="card">
-Materiales: <input type="number" id="materiales" value="0">
-Adicionales: <input type="number" id="adicionales" value="0">
-Margen %: <input type="number" id="margen" value="0">
-IVA <input type="checkbox" id="iva">
-<div class="total">Total: $ <span id="total">0</span></div>
-</div>
+  <div class="card">
+    Materiales: <input type="number" id="materiales" value="0">
+    Adicionales: <input type="number" id="adicionales" value="0">
+    Margen %: <input type="number" id="margen" value="0">
+    IVA <input type="checkbox" id="iva">
+    <div class="total">Total: $ <span id="total">0</span></div>
+  </div>
 
-<button class="btn-ok" onclick="copiar()">Copiar WhatsApp</button>
-<button class="btn" onclick="window.print()">PDF</button>
+  <button class="btn-ok" onclick="copiar()">Copiar WhatsApp</button>
+  <button class="btn" onclick="window.print()">PDF</button>
 </div>
 
 <div id="floatingBtn" class="floating" onclick="verPresupuesto()" style="display:none;">
-Ver presupuesto (0)
+  Ver presupuesto (0)
 </div>
 
 <script>
 const DATA={
-
-"🔎 Inspección y visitas":[
-{n:"Visita técnica",p:45000},
-{n:"Visita diagnóstico",p:60000},
-{n:"Urgencia 24 hs",p:110000},
-{n:"Relevamiento para obra",p:85000},
-{n:"Informe técnico",p:120000}
+"🔎 Inspección":[
+  {n:"Visita técnica",p:45000},
+  {n:"Visita diagnóstico",p:60000},
+  {n:"Urgencia 24 hs",p:110000},
+  {n:"Relevamiento para obra",p:85000},
+  {n:"Informe técnico",p:120000}
 ],
 
 "💡 Iluminación":[
-{n:"Aplique simple",p:20000},
-{n:"Aplique doble",p:28000},
-{n:"Plafón LED",p:32000},
-{n:"Spot LED embutido",p:25000},
-{n:"Spot LED sobrepuesto",p:27000},
-{n:"Reflector exterior",p:42000},
-{n:"Iluminación exterior decorativa",p:55000},
-{n:"Cambio de luminaria existente",p:18000}
+  {n:"Aplique simple",p:20000},
+  {n:"Plafón LED",p:32000},
+  {n:"Spot LED embutido",p:25000},
+  {n:"Reflector exterior",p:42000},
+  {n:"Cambio de luminaria",p:18000}
 ],
 
 "🌀 Ventiladores":[
-{n:"Instalación ventilador de techo",p:95000},
-{n:"Instalación ventilador con luz",p:110000},
-{n:"Reemplazo ventilador existente",p:75000},
-{n:"Balanceo / ajuste ventilador",p:42000}
+  {n:"Ventilador de techo",p:95000},
+  {n:"Ventilador con luz",p:110000},
+  {n:"Reemplazo ventilador",p:75000}
 ],
 
-"🔌 Tomas, llaves y bocas":[
-{n:"Boca simple",p:42000},
-{n:"Boca doble",p:52000},
-{n:"Tomacorriente simple",p:28000},
-{n:"Tomacorriente doble",p:36000},
-{n:"Llave simple",p:26000},
-{n:"Llave doble",p:34000},
-{n:"Llave combinada",p:38000},
-{n:"Cambio de toma / llave existente",p:22000}
-],
-
-"🧵 Cableado":[
-{n:"Cableado por metro",p:12500},
-{n:"Canalización por metro",p:14500},
-{n:"Reemplazo de cableado existente",p:35000},
-{n:"Tendido cable exterior",p:28000}
-],
-
-"⚡ Tableros eléctricos":[
-{n:"Tablero principal monofásico",p:260000},
-{n:"Tablero principal trifásico",p:360000},
-{n:"Subtablero",p:180000},
-{n:"Cambio de térmica",p:38000},
-{n:"Cambio de disyuntor",p:52000},
-{n:"Instalación protector de tensión",p:65000},
-{n:"Reordenamiento de tablero",p:95000},
-{n:"Puesta a tierra (PAT)",p:180000},
-{n:"Medición de puesta a tierra",p:65000}
-],
-
-"🏗 Instalaciones y montajes":[
-{n:"Instalación eléctrica vivienda",p:380000},
-{n:"Instalación eléctrica local",p:520000},
-{n:"Pilar monofásico completo",p:740000},
-{n:"Pilar trifásico completo",p:980000},
-{n:"Gabinete medidor",p:190000},
-{n:"Montaje de cañerías",p:95000},
-{n:"Montaje de bandejas",p:140000}
-],
-
-"📷 Seguridad":[
-{n:"Cámara IP interior",p:48000},
-{n:"Cámara IP exterior",p:65000},
-{n:"Cámara analógica",p:42000},
-{n:"Instalación DVR / NVR",p:90000},
-{n:"Configuración monitoreo remoto",p:38000},
-{n:"Sistema de alarma básica",p:180000},
-{n:"Sensor magnético",p:18000},
-{n:"Sensor de movimiento",p:22000},
-{n:"Sirena exterior",p:28000},
-{n:"Mantenimiento sistema",p:65000}
+"⚡ Tableros":[
+  {n:"Tablero monofásico",p:260000},
+  {n:"Tablero trifásico",p:360000},
+  {n:"Cambio térmica",p:38000},
+  {n:"Cambio disyuntor",p:52000}
 ]
 };
 
-let items=[],currentSection=null;
+let items=[];
 const floatingBtn=document.getElementById("floatingBtn");
 const round100=n=>Math.round(n/100)*100;
 
 function renderSections(){
-const s=document.getElementById("sections");
-Object.keys(DATA).forEach(sec=>{
-let b=document.createElement("div");
-b.className="section-btn";b.textContent=sec;
-b.onclick=()=>abrirSeccion(sec);s.appendChild(b);
-});
+  const s=document.getElementById("sections");
+  s.innerHTML="";
+  Object.keys(DATA).forEach(sec=>{
+    let b=document.createElement("div");
+    b.className="section-btn";
+    b.textContent=sec;
+    b.onclick=()=>abrirSeccion(sec);
+    s.appendChild(b);
+  });
 }
 
 function abrirSeccion(sec){
-currentSection=sec;
-home.style.display="none";
-servicesScreen.style.display="block";
-sectionTitle.textContent=sec;
-servicesList.innerHTML="";
-DATA[sec].forEach(s=>{
-let c=document.createElement("div");
-c.className="card";
-c.innerHTML=`
-<b>${s.n}</b><br>
-Precio: <input type="number" id="p_${s.n}" value="${s.p}">
-Cantidad: <input type="number" id="q_${s.n}" value="1" min="1">
-<br><br>
-<button class="btn" onclick="agregar('${s.n}')">Agregar</button>
-`;
-servicesList.appendChild(c);
-});
+  home.style.display="none";
+  servicesScreen.style.display="block";
+  sectionTitle.textContent=sec;
+  servicesList.innerHTML="";
+  DATA[sec].forEach(s=>{
+    let c=document.createElement("div");
+    c.className="card";
+    c.innerHTML=`
+      <b>${s.n}</b><br><br>
+      Precio: <input type="number" id="p_${s.n}" value="${s.p}">
+      Cantidad: <input type="number" id="q_${s.n}" value="1" min="1">
+      <br><br>
+      <button class="btn" onclick="agregar('${s.n}')">Agregar</button>
+    `;
+    servicesList.appendChild(c);
+  });
 }
 
 function agregar(n){
-let p=parseFloat(document.getElementById("p_"+n).value)||0;
-let q=parseInt(document.getElementById("q_"+n).value)||1;
-items.push({n,p,q});
-floatingBtn.style.display="block";
-floatingBtn.textContent=`Ver presupuesto (${items.length})`;
+  let p=parseFloat(document.getElementById("p_"+n).value)||0;
+  let q=parseInt(document.getElementById("q_"+n).value)||1;
+  items.push({n,p,q});
+  floatingBtn.style.display="block";
+  floatingBtn.textContent=`Ver presupuesto (${items.length})`;
 }
 
 function volver(){servicesScreen.style.display="none";home.style.display="block";}
@@ -314,42 +264,43 @@ function verPresupuesto(){servicesScreen.style.display="none";home.style.display
 function volverHome(){budgetScreen.style.display="none";home.style.display="block";}
 
 function renderBudget(){
-budgetList.innerHTML="";
-items.forEach((it,i)=>{
-let sub=round100(it.p*it.q);
-let d=document.createElement("div");
-d.className="card";
-d.innerHTML=`
-<b>${it.n}</b><br>
-Precio <input type="number" value="${it.p}" onchange="items[${i}].p=this.value;renderBudget()">
-Cantidad <input type="number" value="${it.q}" onchange="items[${i}].q=this.value;renderBudget()">
-<br>Subtotal: $${sub.toLocaleString()}
-<button class="btn-danger" onclick="items.splice(${i},1);renderBudget()">Eliminar</button>
-`;
-budgetList.appendChild(d);
-});
-calcular();
+  budgetList.innerHTML="";
+  items.forEach((it,i)=>{
+    let sub=round100(it.p*it.q);
+    let d=document.createElement("div");
+    d.className="card";
+    d.innerHTML=`
+      <b>${it.n}</b><br>
+      Precio <input type="number" value="${it.p}" onchange="items[${i}].p=this.value;renderBudget()">
+      Cantidad <input type="number" value="${it.q}" onchange="items[${i}].q=this.value;renderBudget()">
+      <br>Subtotal: $${sub.toLocaleString()}
+      <br><button class="btn-danger" onclick="items.splice(${i},1);renderBudget()">Eliminar</button>
+    `;
+    budgetList.appendChild(d);
+  });
+  calcular();
 }
 
 function calcular(){
-let t=0;
-items.forEach(it=>t+=round100(it.p*it.q));
-t+=parseFloat(materiales.value)||0;
-t+=parseFloat(adicionales.value)||0;
-t+=t*(parseFloat(margen.value)||0)/100;
-if(iva.checked) t*=1.21;
-document.getElementById("total").textContent=round100(t).toLocaleString();
+  let t=0;
+  items.forEach(it=>t+=round100(it.p*it.q));
+  t+=parseFloat(materiales.value)||0;
+  t+=parseFloat(adicionales.value)||0;
+  t+=t*(parseFloat(margen.value)||0)/100;
+  if(iva.checked) t*=1.21;
+  total.textContent=round100(t).toLocaleString();
 }
 
 function copiar(){
-let txt="⚡ Cotizador Electricidad Vitt PRO 3.3\nSoluciones Eléctricas\n\n";
-items.forEach(it=>txt+=`${it.n} x${it.q} - $${round100(it.p*it.q).toLocaleString()}\n`);
-txt+=`\nTOTAL: $${total.textContent}`;
-navigator.clipboard.writeText(txt);
-alert("Copiado");
+  let txt="⚡ Cotizador Electricidad Vitt PRO 3.4\n\n";
+  items.forEach(it=>txt+=`${it.n} x${it.q} - $${round100(it.p*it.q).toLocaleString()}\n`);
+  txt+=`\nTOTAL: $${total.textContent}`;
+  navigator.clipboard.writeText(txt);
+  alert("Copiado");
 }
 
 renderSections();
 </script>
+
 </body>
 </html>
