@@ -1,214 +1,235 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Cotizador Electricidad Vitt PRO 3.4</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotizador Electricidad Vitt PRO 3.3</title>
 
-  <!-- FUENTE -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0b1220">
 
-  <style>
-    :root {
-      --bg: #0f172a;
-      --panel: #111827;
-      --line: #1f2937;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #38bdf8;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', system-ui, sans-serif;
-    }
-
-    header {
-      padding: 20px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1.4rem;
-      font-weight: 600;
-    }
-
-    header span {
-      font-size: .9rem;
-      color: var(--muted);
-    }
-
-    main {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 16px;
-      transition: transform .15s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-2px);
-    }
-
-    .card h2 {
-      margin: 0 0 12px 0;
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      gap: 10px;
-    }
-
-    .row span {
-      flex: 1;
-    }
-
-    input[type="number"] {
-      width: 80px;
-      background: transparent;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 6px 8px;
-      color: var(--text);
-      text-align: right;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
-    .subtotal {
-      text-align: right;
-      font-size: .9rem;
-      color: var(--muted);
-      margin-top: 8px;
-    }
-
-    .total-box {
-      background: linear-gradient(135deg, #0ea5e9, #38bdf8);
-      color: #020617;
-      border-radius: 16px;
-      padding: 20px;
-      font-size: 1.8rem;
-      font-weight: 700;
-      text-align: right;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      font-size: .8rem;
-      color: var(--muted);
-    }
-  </style>
+<style>
+:root{
+--bg:#0b1220;--card:#16213a;--accent:#4da3ff;--ok:#00e676;
+--danger:#ff5252;--text:#ffffff;--muted:#94a3b8;
+}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(180deg,#0b1220,#111a2e);color:var(--text);}
+.screen{padding:20px;max-width:1000px;margin:auto;}
+h1{margin:0 0 5px;font-size:20px;}
+.subtitle{font-size:12px;color:var(--muted);margin-bottom:20px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;}
+.section-btn{background:#1b2945;padding:20px;border-radius:12px;text-align:center;cursor:pointer;font-weight:bold;}
+.card{background:#1b2945;padding:15px;border-radius:12px;margin-bottom:10px;}
+input{width:90px;padding:6px;border-radius:6px;border:none;background:#0b1220;color:white;text-align:center;}
+button{padding:6px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:bold;}
+.btn{background:var(--accent);color:black;}
+.btn-ok{background:var(--ok);color:black;}
+.btn-danger{background:var(--danger);color:white;}
+.floating{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ok);color:black;padding:12px 20px;border-radius:30px;font-weight:bold;cursor:pointer;}
+.total{font-size:22px;font-weight:bold;text-align:right;color:var(--ok);margin-top:10px;}
+</style>
 </head>
 
 <body>
 
-<header>
-  <h1>Cotizador Electricidad Vitt <span>PRO 3.4</span></h1>
-</header>
+<div id="home" class="screen">
+<h1>⚡ Cotizador Electricidad Vitt PRO 3.3</h1>
+<div class="subtitle">Soluciones Eléctricas</div>
+<div class="grid" id="sections"></div>
+</div>
 
-<main>
+<div id="servicesScreen" class="screen" style="display:none;">
+<button class="btn" onclick="volver()">← Volver</button>
+<h2 id="sectionTitle"></h2>
+<div id="servicesList"></div>
+</div>
 
-  <!-- ELECTRICIDAD -->
-  <div class="card">
-    <h2>Electricidad General</h2>
+<div id="budgetScreen" class="screen" style="display:none;">
+<button class="btn" onclick="volverHome()">← Volver</button>
+<h2>Presupuesto</h2>
+<div id="budgetList"></div>
 
-    <div class="row">
-      <span>Toma corriente adicional</span>
-      <input type="number" value="0" data-precio="8500">
-    </div>
+<div class="card">
+Materiales: <input type="number" id="materiales" value="0">
+Adicionales: <input type="number" id="adicionales" value="0">
+Margen %: <input type="number" id="margen" value="0">
+IVA <input type="checkbox" id="iva">
+<div class="total">Total: $ <span id="total">0</span></div>
+</div>
 
-    <div class="row">
-      <span>Punto de iluminación</span>
-      <input type="number" value="0" data-precio="9200">
-    </div>
+<button class="btn-ok" onclick="copiar()">Copiar WhatsApp</button>
+<button class="btn" onclick="window.print()">PDF</button>
+</div>
 
-    <div class="subtotal">Subtotal automático</div>
-  </div>
-
-  <!-- TABLEROS -->
-  <div class="card">
-    <h2>Tableros Eléctricos</h2>
-
-    <div class="row">
-      <span>Tablero vivienda básico</span>
-      <input type="number" value="0" data-precio="45000">
-    </div>
-
-    <div class="row">
-      <span>Reacondicionamiento de tablero</span>
-      <input type="number" value="0" data-precio="32000">
-    </div>
-
-    <div class="subtotal">Subtotal automático</div>
-  </div>
-
-  <!-- ILUMINACION -->
-  <div class="card">
-    <h2>Iluminación</h2>
-
-    <div class="row">
-      <span>Iluminación exterior</span>
-      <input type="number" value="0" data-precio="12000">
-    </div>
-
-    <div class="row">
-      <span>Iluminación decorativa</span>
-      <input type="number" value="0" data-precio="15000">
-    </div>
-
-    <div class="subtotal">Subtotal automático</div>
-  </div>
-
-  <!-- TOTAL -->
-  <div class="total-box">
-    Total estimado: $ <span id="total">0</span>
-  </div>
-
-</main>
-
-<footer>
-  Cotizador Electricidad Vitt – Uso profesional
-</footer>
+<div id="floatingBtn" class="floating" onclick="verPresupuesto()" style="display:none;">
+Ver presupuesto (0)
+</div>
 
 <script>
-  const inputs = document.querySelectorAll('input[data-precio]');
-  const totalEl = document.getElementById('total');
+const DATA={
 
-  function calcular() {
-    let total = 0;
-    inputs.forEach(input => {
-      const cantidad = Number(input.value);
-      const precio = Number(input.dataset.precio);
-      total += cantidad * precio;
-    });
-    totalEl.textContent = total.toLocaleString('es-AR');
-  }
+"🔎 Inspección y visitas":[
+{n:"Visita técnica",p:45000},
+{n:"Visita diagnóstico",p:60000},
+{n:"Urgencia 24 hs",p:110000},
+{n:"Relevamiento para obra",p:85000},
+{n:"Informe técnico",p:120000}
+],
 
-  inputs.forEach(input => input.addEventListener('input', calcular));
+"💡 Iluminación":[
+{n:"Aplique simple",p:20000},
+{n:"Aplique doble",p:28000},
+{n:"Plafón LED",p:32000},
+{n:"Spot LED embutido",p:25000},
+{n:"Spot LED sobrepuesto",p:27000},
+{n:"Reflector exterior",p:42000},
+{n:"Iluminación exterior decorativa",p:55000},
+{n:"Cambio de luminaria existente",p:18000}
+],
+
+"🌀 Ventiladores":[
+{n:"Instalación ventilador de techo",p:95000},
+{n:"Instalación ventilador con luz",p:110000},
+{n:"Reemplazo ventilador existente",p:75000},
+{n:"Balanceo / ajuste ventilador",p:42000}
+],
+
+"🔌 Tomas, llaves y bocas":[
+{n:"Boca simple",p:42000},
+{n:"Boca doble",p:52000},
+{n:"Tomacorriente simple",p:28000},
+{n:"Tomacorriente doble",p:36000},
+{n:"Llave simple",p:26000},
+{n:"Llave doble",p:34000},
+{n:"Llave combinada",p:38000},
+{n:"Cambio de toma / llave existente",p:22000}
+],
+
+"🧵 Cableado":[
+{n:"Cableado por metro",p:12500},
+{n:"Canalización por metro",p:14500},
+{n:"Reemplazo de cableado existente",p:35000},
+{n:"Tendido cable exterior",p:28000}
+],
+
+"⚡ Tableros eléctricos":[
+{n:"Tablero principal monofásico",p:260000},
+{n:"Tablero principal trifásico",p:360000},
+{n:"Subtablero",p:180000},
+{n:"Cambio de térmica",p:38000},
+{n:"Cambio de disyuntor",p:52000},
+{n:"Instalación protector de tensión",p:65000},
+{n:"Reordenamiento de tablero",p:95000},
+{n:"Puesta a tierra (PAT)",p:180000},
+{n:"Medición de puesta a tierra",p:65000}
+],
+
+"🏗 Instalaciones y montajes":[
+{n:"Instalación eléctrica vivienda",p:380000},
+{n:"Instalación eléctrica local",p:520000},
+{n:"Pilar monofásico completo",p:740000},
+{n:"Pilar trifásico completo",p:980000},
+{n:"Gabinete medidor",p:190000},
+{n:"Montaje de cañerías",p:95000},
+{n:"Montaje de bandejas",p:140000}
+],
+
+"📷 Seguridad":[
+{n:"Cámara IP interior",p:48000},
+{n:"Cámara IP exterior",p:65000},
+{n:"Cámara analógica",p:42000},
+{n:"Instalación DVR / NVR",p:90000},
+{n:"Configuración monitoreo remoto",p:38000},
+{n:"Sistema de alarma básica",p:180000},
+{n:"Sensor magnético",p:18000},
+{n:"Sensor de movimiento",p:22000},
+{n:"Sirena exterior",p:28000},
+{n:"Mantenimiento sistema",p:65000}
+]
+};
+
+let items=[],currentSection=null;
+const floatingBtn=document.getElementById("floatingBtn");
+const round100=n=>Math.round(n/100)*100;
+
+function renderSections(){
+const s=document.getElementById("sections");
+Object.keys(DATA).forEach(sec=>{
+let b=document.createElement("div");
+b.className="section-btn";b.textContent=sec;
+b.onclick=()=>abrirSeccion(sec);s.appendChild(b);
+});
+}
+
+function abrirSeccion(sec){
+currentSection=sec;
+home.style.display="none";
+servicesScreen.style.display="block";
+sectionTitle.textContent=sec;
+servicesList.innerHTML="";
+DATA[sec].forEach(s=>{
+let c=document.createElement("div");
+c.className="card";
+c.innerHTML=`
+<b>${s.n}</b><br>
+Precio: <input type="number" id="p_${s.n}" value="${s.p}">
+Cantidad: <input type="number" id="q_${s.n}" value="1" min="1">
+<br><br>
+<button class="btn" onclick="agregar('${s.n}')">Agregar</button>
+`;
+servicesList.appendChild(c);
+});
+}
+
+function agregar(n){
+let p=parseFloat(document.getElementById("p_"+n).value)||0;
+let q=parseInt(document.getElementById("q_"+n).value)||1;
+items.push({n,p,q});
+floatingBtn.style.display="block";
+floatingBtn.textContent=`Ver presupuesto (${items.length})`;
+}
+
+function volver(){servicesScreen.style.display="none";home.style.display="block";}
+function verPresupuesto(){servicesScreen.style.display="none";home.style.display="none";budgetScreen.style.display="block";renderBudget();}
+function volverHome(){budgetScreen.style.display="none";home.style.display="block";}
+
+function renderBudget(){
+budgetList.innerHTML="";
+items.forEach((it,i)=>{
+let sub=round100(it.p*it.q);
+let d=document.createElement("div");
+d.className="card";
+d.innerHTML=`
+<b>${it.n}</b><br>
+Precio <input type="number" value="${it.p}" onchange="items[${i}].p=this.value;renderBudget()">
+Cantidad <input type="number" value="${it.q}" onchange="items[${i}].q=this.value;renderBudget()">
+<br>Subtotal: $${sub.toLocaleString()}
+<button class="btn-danger" onclick="items.splice(${i},1);renderBudget()">Eliminar</button>
+`;
+budgetList.appendChild(d);
+});
+calcular();
+}
+
+function calcular(){
+let t=0;
+items.forEach(it=>t+=round100(it.p*it.q));
+t+=parseFloat(materiales.value)||0;
+t+=parseFloat(adicionales.value)||0;
+t+=t*(parseFloat(margen.value)||0)/100;
+if(iva.checked) t*=1.21;
+document.getElementById("total").textContent=round100(t).toLocaleString();
+}
+
+function copiar(){
+let txt="⚡ Cotizador Electricidad Vitt PRO 3.3\nSoluciones Eléctricas\n\n";
+items.forEach(it=>txt+=`${it.n} x${it.q} - $${round100(it.p*it.q).toLocaleString()}\n`);
+txt+=`\nTOTAL: $${total.textContent}`;
+navigator.clipboard.writeText(txt);
+alert("Copiado");
+}
+
+renderSections();
 </script>
-
 </body>
 </html>
