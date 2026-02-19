@@ -443,6 +443,83 @@ body{
 .totalValue{
   text-shadow:0 2px 10px rgba(34,197,94,.35);
 }
+/* =====================================================
+   SKIN VISUAL V2 – CAMBIO REAL (SEGURO)
+   ===================================================== */
+
+/* 🔹 Fondo de cards más claro (se nota) */
+.card{
+  background:
+    linear-gradient(180deg, rgba(28,42,90,.95), rgba(15,23,48,.95)) !important;
+  border:1px solid rgba(72,180,255,.18) !important;
+}
+
+/* 🔹 Secciones tipo “botón moderno” */
+.sectionBtn{
+  background:
+    linear-gradient(180deg, rgba(40,70,140,.95), rgba(18,29,58,.95)) !important;
+  border:1px solid rgba(72,180,255,.25) !important;
+}
+.sectionBtn:hover{
+  transform:translateY(-4px) scale(1.01);
+}
+
+/* 🔹 Barra superior más marcada */
+.topbar{
+  box-shadow:0 8px 30px rgba(0,0,0,.65) !important;
+}
+
+/* 🔹 Search MUCHO más visible */
+.search{
+  background:
+    linear-gradient(180deg, rgba(60,120,200,.25), rgba(18,29,58,.9)) !important;
+  border:1px solid rgba(72,180,255,.35) !important;
+}
+
+/* 🔹 Tabs tipo “pill” bien claras */
+.tab{
+  background:
+    linear-gradient(180deg, rgba(30,45,90,.9), rgba(15,23,48,.9)) !important;
+}
+.tab.active{
+  background:
+    linear-gradient(180deg, rgba(72,180,255,.45), rgba(72,180,255,.25)) !important;
+  color:#06101f !important;
+}
+
+/* 🔹 Botones MUY distintos */
+.btnPrimary{
+  background:
+    linear-gradient(180deg, #8fd3ff, #48b4ff) !important;
+  box-shadow:0 18px 40px rgba(72,180,255,.45) !important;
+}
+.btnOk{
+  background:
+    linear-gradient(180deg, #6ef2a6, #22c55e) !important;
+}
+.btnDanger{
+  background:
+    linear-gradient(180deg, #ff9b9b, #ef4444) !important;
+}
+
+/* 🔹 Íconos GRANDES (imposible no verlos) */
+.sectionTitle::before{
+  content:"⚡ ";
+  font-size:16px;
+}
+.btnPrimary::before{content:"➕ "; }
+.btnDanger::before{content:"🗑️ "; }
+.btnOk::before{content:"📤 "; }
+
+/* 🔹 Total MUY protagonista */
+.totalBox{
+  box-shadow:0 0 0 2px rgba(34,197,94,.25),
+             0 18px 40px rgba(34,197,94,.35) !important;
+}
+.totalValue{
+  font-size:26px !important;
+  letter-spacing:-.02em;
+}
 </style>
 </head>
 
