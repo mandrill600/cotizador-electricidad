@@ -371,6 +371,10 @@ body{
   .manual-editor{
     display:none !important;
   }
+  /* OCULTAR EDITOR DE SERVICIO MANUAL EN PDF */
+  #manualEditor{
+    display:none !important;
+  }
 }
 
   body{
@@ -564,7 +568,7 @@ body{
   <div id="presupuestoScreen" class="screen hidden">
     <div id="budgetList"></div>
 <!-- SERVICIO MANUAL -->
-<div class="card manual-editor">
+<div class="card manual-editor" id="manualEditor">
   <div class="cardHead">
     <b>Servicio manual</b>
     <div class="small">Carga personalizada</div>
