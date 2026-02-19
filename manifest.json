@@ -1,11 +1,17 @@
 {
-  "name": "Cotizador Electricidad Vitt PRO 3.1",
+  "name": "Vitt PRO – Cotizador Eléctrico",
   "short_name": "Vitt PRO",
-  "start_url": "/?v=31",
+  "start_url": ".",
   "display": "standalone",
-  "background_color": "#0b1220",
-  "theme_color": "#0b1220",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "orientation": "portrait",
   "icons": [
+    {
+      "src": "/file_000000001770720e8c9373cc20172a98.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
     {
       "src": "/file_000000001770720e8c9373cc20172a98.png",
       "sizes": "512x512",
