@@ -891,7 +891,7 @@ body{
 
       <div class="actions">
         <button class="btn btnOk" onclick="copiar()">Copiar WhatsApp</button>
-        <button class="btn btnGhost" onclick="printAndWhatsApp()">PDF</button>
+        <button class="btn btnGhost" onclick="window.print()">PDF</button>
       </div>
     </div>
   </div>
@@ -1484,27 +1484,6 @@ function closeSheet(){
 
   closeSheet();
   updateBottom();
-}
-function printAndWhatsApp(){
-  // 1) Abrir impresión
-  window.print();
-
-  // 2) Esperar un poco y abrir WhatsApp
-  setTimeout(() => {
-    let msg = "Vitt PRO — Presupuesto eléctrico%0A%0A";
-
-    items.forEach(it => {
-      const sub = round100((parseFloat(it.p)||0) * (parseInt(it.q)||0));
-      msg += `${it.n} x${it.q} — $${sub.toLocaleString("es-AR")}%0A`;
-    });
-
-    msg += `%0A TOTAL: $${totalEl.textContent}`;
-
-    const phone = "5491123344938"; // WhatsApp destino
-    const url = `https://wa.me/${phone}?text=${msg}`;
-
-    window.open(url, "_blank");
-  }, 800);
 }
 
 /* Init */
