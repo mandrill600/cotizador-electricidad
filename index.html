@@ -1491,6 +1491,12 @@ function closeSheet(){
 
 /* Init */
 goServiciosHome();
+  
+// ===== REGISTRAR APP INSTALABLE =====
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+
 /* ===== OCULTAR EDITOR MANUAL SOLO PARA IMPRESIÓN ===== */
 const manualEditor = document.getElementById("manualEditor");
 
