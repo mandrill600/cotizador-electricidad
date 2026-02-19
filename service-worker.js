@@ -1,27 +1,20 @@
-const CACHE = "cotizador-vitt-pro-v1";
-const ASSETS = ["/", "/index.html", "/manifest.json"];
+// ===============================
+// Service Worker – Vitt PRO
+// Versión mínima y estable
+// ===============================
 
+// Instala el service worker
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
-  );
+  self.skipWaiting();
 });
 
+// Activa el service worker
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.map((k) => (k !== CACHE ? caches.delete(k) : null)))
-    ).then(() => self.clients.claim())
-  );
+  self.clients.claim();
 });
 
+// (Opcional por ahora)
+// No cacheamos nada para evitar errores
 self.addEventListener("fetch", (event) => {
-  const req = event.request;
-  event.respondWith(
-    caches.match(req).then((cached) => cached || fetch(req).then((res) => {
-      const copy = res.clone();
-      caches.open(CACHE).then((cache) => cache.put(req, copy)).catch(()=>{});
-      return res;
-    }).catch(() => caches.match("/index.html")))
-  );
+  // Dejamos que el navegador maneje todo normalmente
 });
