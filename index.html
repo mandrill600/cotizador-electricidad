@@ -1156,6 +1156,20 @@ function agregarManual(){
 }
 /* Init */
 goServiciosHome();
+/* ===== OCULTAR EDITOR MANUAL SOLO PARA IMPRESIÓN ===== */
+const manualEditor = document.getElementById("manualEditor");
+
+window.addEventListener("beforeprint", () => {
+  if(manualEditor){
+    manualEditor.style.display = "none";
+  }
+});
+
+window.addEventListener("afterprint", () => {
+  if(manualEditor){
+    manualEditor.style.display = "";
+  }
+});
 </script>
 </body>
 </html>
