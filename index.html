@@ -351,6 +351,9 @@ body{
 #printHeader{
   display:none;
 }
+#printFooter{
+  display:none;
+}
 
 @media print{
   #printHeader{
@@ -373,7 +376,26 @@ body{
     /* ===== PIE DE PÁGINA PDF ===== */
   @page{
     margin-bottom:60px;
+    #printFooter{
+    display:block;
+    position:fixed;
+    bottom:10px;
+    left:0;
+    right:0;
+    text-align:center;
+    font-size:12px;
+    font-weight:700;
+    color:#000;
+    background:#fff;
+    padding:8px 0;
+    border-top:1px solid #000;
+    z-index:9999;
   }
+
+  body{
+    padding-bottom:60px;
+  }
+}
 
   body::after{
     content:"Contacto: \1F4F2 11 2334 4938 / 11 5832 2014";
@@ -754,6 +776,9 @@ body{
 <body>
   <div id="printHeader">
   Vitt PRO — Presupuesto eléctrico profesional
+</div>
+<div id="printFooter">
+  Contacto: 📲 11 2334 4938 / 11 5832 2014
 </div>
 
 <div class="app">
