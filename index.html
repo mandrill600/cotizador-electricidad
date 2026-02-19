@@ -1501,7 +1501,39 @@ window.addEventListener("afterprint", () => {
   if(manualEditor){
     manualEditor.style.display = "";
   }
+});let printFooterEl = null;
+
+window.addEventListener("beforeprint", () => {
+  if(printFooterEl) return;
+
+  printFooterEl = document.createElement("div");
+  printFooterEl.innerHTML = 'Contacto: 📲 11 2334 4938 / 11 5832 2014';
+
+  Object.assign(printFooterEl.style, {
+    position: "fixed",
+    bottom: "10px",
+    left: "0",
+    right: "0",
+    textAlign: "center",
+    fontSize: "12px",
+    fontWeight: "700",
+    color: "#000",
+    background: "#fff",
+    padding: "8px 0",
+    borderTop: "1px solid #000",
+    zIndex: "99999"
+  });
+
+  document.body.appendChild(printFooterEl);
 });
+
+window.addEventListener("afterprint", () => {
+  if(printFooterEl){
+    printFooterEl.remove();
+    printFooterEl = null;
+  }
+});
+
 </script>
 </body>
 </html>
