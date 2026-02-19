@@ -528,6 +528,87 @@ body{
   font-size:26px !important;
   letter-spacing:-.02em;
 }
+/* =====================================================
+   BOTTOM SHEET – LISTA DE SERVICIOS
+   ===================================================== */
+
+.sheet{
+  position:fixed;
+  inset:0;
+  z-index:999;
+}
+
+.sheet.hidden{
+  display:none;
+}
+
+/* Fondo oscuro */
+.sheetOverlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  backdrop-filter:blur(2px);
+}
+
+/* Panel */
+.sheetPanel{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  background:#ffffff;
+  border-radius:22px 22px 0 0;
+  max-height:85vh;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 -20px 50px rgba(0,0,0,.35);
+  animation:sheetUp .25s ease;
+}
+
+/* Manijita */
+.sheetHandle{
+  width:42px;
+  height:5px;
+  border-radius:999px;
+  background:#cbd5e1;
+  margin:10px auto 6px;
+}
+
+/* Header */
+.sheetHeader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:10px 14px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.sheetHeader strong{
+  font-size:15px;
+  font-weight:800;
+  color:#0f172a;
+}
+
+.sheetClose{
+  border:none;
+  background:transparent;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  color:#475569;
+}
+
+/* Contenido */
+.sheetContent{
+  padding:14px;
+  overflow:auto;
+}
+
+/* Animación */
+@keyframes sheetUp{
+  from{transform:translateY(100%);}
+  to{transform:translateY(0);}
+}
 </style>
 </head>
 
@@ -563,6 +644,23 @@ body{
     <div id="homeSections" class="sectionGrid"></div>
     <div id="servicesList" class="hidden"></div>
   </div>
+<!-- SHEET DESPLEGABLE DE SERVICIOS -->
+<div id="serviceSheet" class="sheet hidden">
+  <div class="sheetOverlay" onclick="closeSheet()"></div>
+
+  <div class="sheetPanel">
+    <div class="sheetHandle"></div>
+
+    <div class="sheetHeader">
+      <strong id="sheetTitle">Servicios</strong>
+      <button class="sheetClose" onclick="closeSheet()">✕</button>
+    </div>
+
+    <div class="sheetContent" id="sheetContent">
+      <!-- acá se va a cargar la lista de servicios -->
+    </div>
+  </div>
+</div>
 
   <!-- PRESUPUESTO -->
   <div id="presupuestoScreen" class="screen hidden">
