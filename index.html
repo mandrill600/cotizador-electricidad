@@ -1528,11 +1528,30 @@ window.addEventListener("beforeprint", () => {
 });
 
 window.addEventListener("afterprint", () => {
-  if(printFooterEl){
-    printFooterEl.remove();
-    printFooterEl = null;
+  // Ocultamos footer PDF
+  if(pdfFooterContacto){
+    pdfFooterContacto.style.display = "none";
   }
+
+  // Armamos mensaje WhatsApp
+  let msg = "Vitt PRO — Presupuesto eléctrico%0A%0A";
+
+  items.forEach(it => {
+    const sub = round100((parseFloat(it.p)||0) * (parseInt(it.q)||0));
+    msg += `${it.n} x${it.q} — $${sub.toLocaleString("es-AR")}%0A`;
+  });
+
+  msg += `%0A TOTAL: $${totalEl.textContent}`;
+
+  const phone = "5491123344938"; // WhatsApp destino
+  const url = `https://wa.me/${phone}?text=${msg}`;
+
+  // Abrir WhatsApp automáticamente
+  setTimeout(() => {
+    window.open(url, "_blank");
+  }, 300);
 });
+
 
 </script>
 </body>
