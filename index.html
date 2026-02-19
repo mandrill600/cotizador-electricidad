@@ -961,7 +961,7 @@ function renderSections(){
       <div class="sectionTitle">${sec}</div>
       <div class="sectionMeta">${count} servicios</div>
     `;
-    b.onclick = ()=> goServiciosList(sec);
+    b.onclick = ()=> openSheet(sec);
     homeSections.appendChild(b);
   });
 }
@@ -1251,6 +1251,59 @@ function agregarManual(){
 
   updateBottom();
   renderBudget();
+}
+/* =====================================================
+   BOTTOM SHEET – LÓGICA DE APERTURA
+   ===================================================== */
+
+const serviceSheet = document.getElementById("serviceSheet");
+const sheetTitle = document.getElementById("sheetTitle");
+const sheetContent = document.getElementById("sheetContent");
+
+function openSheet(section){
+  currentSection = section;
+  sheetTitle.textContent = section;
+  sheetContent.innerHTML = "";
+
+  const list = DATA[section] || [];
+
+  list.forEach((s, idx)=>{
+    const sid = makeServiceId(section, idx);
+
+    const item = document.createElement("div");
+    item.className = "card";
+    item.style.marginBottom = "10px";
+
+    item.innerHTML = `
+      <div class="cardHead">
+        <b>${escapeHtml(s.n)}</b>
+        <div class="badge">$ ${round100(s.p).toLocaleString("es-AR")}</div>
+      </div>
+
+      <div class="controls">
+        <div class="field">
+          <span>Precio</span>
+          <input type="number" id="sp_${sid}" value="${round100(s.p)}" />
+        </div>
+        <div class="field">
+          <span>Cant.</span>
+          <input type="number" id="sq_${sid}" value="1" min="1" />
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btnPrimary" onclick="addFromSheet('${sid}','${escapeJs(s.n)}')">Agregar</button>
+      </div>
+    `;
+
+    sheetContent.appendChild(item);
+  });
+
+  serviceSheet.classList.remove("hidden");
+}
+
+function closeSheet(){
+  serviceSheet.classList.add("hidden");
 }
 /* Init */
 goServiciosHome();
