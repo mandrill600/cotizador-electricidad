@@ -1304,7 +1304,24 @@ function openSheet(section){
 
 function closeSheet(){
   serviceSheet.classList.add("hidden");
+}function addFromSheet(sid, name){
+  const pEl = document.getElementById("sp_" + sid);
+  const qEl = document.getElementById("sq_" + sid);
+
+  const p = parseFloat(pEl?.value) || 0;
+  const q = parseInt(qEl?.value) || 1;
+
+  items.push({
+    id: sid + "_" + Date.now(),
+    n: name,
+    p,
+    q
+  });
+
+  closeSheet();
+  updateBottom();
 }
+
 /* Init */
 goServiciosHome();
 /* ===== OCULTAR EDITOR MANUAL SOLO PARA IMPRESIÓN ===== */
