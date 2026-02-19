@@ -609,6 +609,129 @@ body{
   from{transform:translateY(100%);}
   to{transform:translateY(0);}
 }
+/* =====================================================
+   ICONOS PROFESIONALES POR CATEGORÍA
+   ===================================================== */
+
+.sectionTitle{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* Estilo base del icono */
+.sectionTitle::before{
+  width:34px;
+  height:34px;
+  min-width:34px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  font-weight:700;
+  background:linear-gradient(180deg, #3b82f6, #2563eb);
+  color:#ffffff;
+  box-shadow:0 6px 16px rgba(59,130,246,.45);
+  content:"⚡";
+}
+
+/* ==== MAPEOS POR CATEGORÍA ==== */
+
+.sectionTitle:contains("Inspección")::before{
+  content:"🔍";
+}
+
+.sectionTitle:contains("Iluminación Interior")::before{
+  content:"💡";
+}
+
+.sectionTitle:contains("Iluminación Exterior")::before{
+  content:"🌙";
+}
+
+.sectionTitle:contains("Ventiladores")::before{
+  content:"🌀";
+}
+
+.sectionTitle:contains("Tomas")::before{
+  content:"🔌";
+}
+
+.sectionTitle:contains("Cableado")::before{
+  content:"🧵";
+}
+
+.sectionTitle:contains("Tableros")::before{
+  content:"🧰";
+}
+
+.sectionTitle:contains("Puesta a Tierra")::before{
+  content:"🌎";
+}
+
+.sectionTitle:contains("Instalaciones")::before{
+  content:"🏗️";
+}
+
+.sectionTitle:contains("Domótica")::before{
+  content:"📱";
+}
+
+.sectionTitle:contains("Cámaras")::before{
+  content:"📷";
+}
+
+.sectionTitle:contains("Porteros")::before{
+  content:"🚪";
+}
+
+.sectionTitle:contains("Energía")::before{
+  content:"🔋";
+}
+
+.sectionTitle:contains("Pileta")::before{
+  content:"💧";
+}
+/* =====================================================
+   ICONOS PROFESIONALES (FORMA CORRECTA)
+   ===================================================== */
+
+.sectionTitle{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.sectionTitle::before{
+  content:"⚡";
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg, #3b82f6, #2563eb);
+  color:#ffffff;
+  font-size:18px;
+  box-shadow:0 6px 16px rgba(59,130,246,.45);
+}
+
+/* Mapeo exacto por categoría */
+.sectionTitle[data-section="Inspección / Diagnóstico"]::before{content:"🔍";}
+.sectionTitle[data-section="Iluminación Interior"]::before{content:"💡";}
+.sectionTitle[data-section="Iluminación Exterior / Jardín"]::before{content:"🌙";}
+.sectionTitle[data-section="Ventiladores"]::before{content:"🌀";}
+.sectionTitle[data-section="Tomas / Llaves / Bocas"]::before{content:"🔌";}
+.sectionTitle[data-section="Cableado / Canalización"]::before{content:"🧵";}
+.sectionTitle[data-section="Tableros Eléctricos"]::before{content:"🧰";}
+.sectionTitle[data-section="Puesta a Tierra"]::before{content:"🌎";}
+.sectionTitle[data-section="Instalaciones / Obras"]::before{content:"🏗️";}
+.sectionTitle[data-section="Domótica / Automatización"]::before{content:"📱";}
+.sectionTitle[data-section="Cámaras / Seguridad"]::before{content:"📷";}
+.sectionTitle[data-section="Porteros / Accesos"]::before{content:"🚪";}
+.sectionTitle[data-section="Energía / Grupo electrógeno"]::before{content:"🔋";}
+.sectionTitle[data-section="Pileta / Riego (eléctrico)"]::before{content:"💧";}
 </style>
 </head>
 
@@ -958,8 +1081,8 @@ function renderSections(){
     const b = document.createElement("div");
     b.className = "sectionBtn";
     b.innerHTML = `
-      <div class="sectionTitle">${sec}</div>
-      <div class="sectionMeta">${count} servicios</div>
+  <div class="sectionTitle" data-section="${sec}">${sec}</div>
+  <div class="sectionMeta">${count} servicios</div>
     `;
     b.onclick = ()=> openSheet(sec);
     homeSections.appendChild(b);
