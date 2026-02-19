@@ -559,6 +559,32 @@ body{
   <!-- PRESUPUESTO -->
   <div id="presupuestoScreen" class="screen hidden">
     <div id="budgetList"></div>
+<!-- SERVICIO MANUAL -->
+<div class="card">
+  <div class="cardHead">
+    <b>Servicio manual</b>
+    <div class="small">Carga personalizada</div>
+  </div>
+
+  <div class="controls">
+    <div class="field" style="flex:1;">
+      <span>Descripción</span>
+      <input type="text" id="manualName" placeholder="Ej: Reparación especial" style="width:160px; text-align:left;" />
+    </div>
+    <div class="field">
+      <span>Precio</span>
+      <input type="number" id="manualPrice" value="0" />
+    </div>
+    <div class="field">
+      <span>Cant.</span>
+      <input type="number" id="manualQty" value="1" min="1" />
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btnPrimary" onclick="agregarManual()">Agregar manual</button>
+  </div>
+</div>
 
     <div class="card">
       <div class="cardHead">
@@ -1096,6 +1122,30 @@ function escapeJs(str){
   iva.addEventListener(ev, ()=>{calcular(); updateBottom();});
 });
 
+function agregarManual(){
+  const name = document.getElementById("manualName").value.trim();
+  const price = parseFloat(document.getElementById("manualPrice").value) || 0;
+  const qty = parseInt(document.getElementById("manualQty").value) || 1;
+
+  if(!name){
+    alert("Ingresá una descripción para el servicio manual");
+    return;
+  }
+
+  items.push({
+    id: "manual_" + Date.now(),
+    n: name,
+    p: price,
+    q: qty
+  });
+
+  document.getElementById("manualName").value = "";
+  document.getElementById("manualPrice").value = 0;
+  document.getElementById("manualQty").value = 1;
+
+  updateBottom();
+  renderBudget();
+}
 /* Init */
 goServiciosHome();
 </script>
